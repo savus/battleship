@@ -25,16 +25,27 @@ a {
   bottom: 0;
   left: 0;
   right: 0;
-  background-color: rgba(100, 100, 100, 0.6);
+  background-color: rgba(33, 33, 33, 0.8);
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  gap: 20px;
+}
+
+.loader-container .loader-text {
+  color: var(--text-primary);
+}
+
+.loader-container .loader-text span {
+  position: relative;
+  animation: elipsesBounce 1.6s linear infinite;
+  animation-delay: calc(0.3s * var(--i));
 }
 
 .loader-container .loader {
-  width: 100px;
-  height: 100px;
+  min-height: 100px;
+  min-width: 100px;
   position: relative;
   border-radius: 50%;
 }
@@ -54,7 +65,7 @@ a {
   position: absolute;
   top: 0;
   left: 0;
-  background-color: rgba(255, 255, 255, 1);
+  background-color: var(--text-primary);
   width: 20%;
   height: 20%;
   border-radius: 50%;
@@ -68,5 +79,17 @@ a {
   }
   100% {
     transform: scale(0);
+  }
+}
+
+@keyframes elipsesBounce {
+  0% {
+    top: 0;
+  }
+  25% {
+    top: -20px;
+  }
+  50% {
+    top: 0px;
   }
 }
