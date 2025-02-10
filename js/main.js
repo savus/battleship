@@ -1,7 +1,6 @@
-const loaderContainerClass = ".loader-container";
-const loaderContainer = document.querySelector(loaderContainerClass);
-
-console.log(loaderContainer);
+const active = "active";
+const loaderContainer = ".loader-container";
+const loader = document.querySelector(loaderContainer);
 
 const setActive = (target, selector) => {
   const activeSelector = document.querySelector(`${selector}.active`);
@@ -9,4 +8,18 @@ const setActive = (target, selector) => {
   target.classList.add("active");
 };
 
-setActive(loaderContainer, ".loader-container");
+const removeActive = (target) => target.classList.remove("active");
+
+const pause = (ms) =>
+  new Promise((resolve) => {
+    return setTimeout(resolve, ms);
+  });
+
+const beginLoading = async () => {
+  await pause(2000);
+  setActive(loader, loaderContainer);
+  await pause(5000);
+  removeActive(loader);
+};
+
+beginLoading();
