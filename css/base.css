@@ -13,6 +13,9 @@ body {
   line-height: 1.2;
   padding: 0;
   margin: 0;
+  background: linear-gradient(#00d2ff, #3a7bd5);
+  width: 100vw;
+  height: 100vh;
 }
 
 a {
@@ -23,6 +26,110 @@ li {
   list-style: none;
 }
 
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+}
+
+.modal.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal::before {
+  --overlay-opacity: 0.9;
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, var(--overlay-opacity));
+}
+
+.modal > * {
+  z-index: 10;
+}
+
+.loading-screen {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.loading-screen .loading-text {
+  color: #fff;
+}
+
+.loading-body {
+  font-size: 30px;
+  width: 3em;
+  height: 3em;
+  position: relative;
+}
+
+.loading-body::before,
+.loading-body::after {
+  content: "";
+}
+
+.loading-body::before {
+  --anim-delay: 1s;
+}
+.loading-body::after {
+  --anim-delay: 2s;
+}
+
+.loading-body .loading-ring {
+  --anim-delay: 3s;
+}
+
+.loading-body::after,
+.loading-body::before,
+.loading-body .loading-ring {
+  transform: scale(0);
+  opacity: 0;
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  border: 2px solid#fff;
+  border-radius: 50%;
+  animation: loadingAnim 3s linear var(--anim-delay) infinite;
+}
+
 .message-box {
-  display: none;
+  position: fixed;
+  left: 10%;
+  right: 20%;
+  background-color: #fff;
+  width: 1px;
+  height: 0;
+  overflow: hidden;
+  transition: height 0.3s ease-in-out 0.5s, width 0.3s ease-in-out;
+}
+
+.message-box.active {
+  width: 37.5rem;
+  height: 25rem;
+  transition: height 0.3s ease-in-out, width 0.3s ease-in-out 0.5s;
+}
+
+@keyframes loadingAnim {
+  0% {
+    opacity: 1;
+    transform: scale(0);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1);
+  }
 }
