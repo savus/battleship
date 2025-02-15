@@ -1,0 +1,28 @@
+@font-face {
+  font-family: playRegular;
+  src: url("../assets/fonts/Play-Regular.ttf");
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-size: 16px;
+  font-family: playRegular, Arial, Helvetica, sans-serif;
+  line-height: 1.2;
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+li {
+  list-style: none;
+}
+
+.message-box {
+  display: none;
+}
