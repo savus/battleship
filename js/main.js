@@ -29,7 +29,8 @@ const beginLoading = async () => {
   setActive(messageBox);
 };
 
-beginLoading();
+// beginLoading();
+setActive(messageBox);
 
 //DEBUGGING
 let testState = false;
