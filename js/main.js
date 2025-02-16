@@ -11,34 +11,23 @@ const messageBoxControls = document.querySelector(messageControls);
 const messageTextClass = ".message-box-text";
 const messageText = document.querySelector(messageTextClass);
 
-messageBoxControls.addEventListener("click", ({ target }) => {
-  if (target.dataset.button) {
-    console.log(target.dataset.button);
-  }
-});
+const messages = [
+  { dataState: "confirm", message: "This is going to be a confirm message" },
+  { dataState: "yes-no", message: "This is going to be a yes or no message" },
+  { dataState: "yes-no", message: "This is going to be a yes or no message" },
+  {
+    dataState: "prev-next",
+    message: "This is going to be a previous or next message",
+  },
+  {
+    dataState: "prev-next",
+    message: "This is going to be a previous or next message",
+  },
+  { dataState: "prompt", message: "This is going to be a prompt message" },
+  { dataState: "confirm", message: "This is going to be a confirm message" },
+];
 
-/* buttons */
-
-// const btnYes = "btn-yes";
-// const btnNo = "btn-no";
-// const btnPrompt = "btn-prompt";
-// const btnNext = "btn-next";
-// const btnConfirm = "btn-confirm";
-
-// const yesButton = document.querySelector(btnYes);
-// const noButton = document.querySelector(btnNo);
-// const promptButton = document.querySelector(btnPrompt);
-// const nextButton = document.querySelector(btnNext);
-// const confirmButton = document.querySelector(btnConfirm);
-
-/* 
-<div class="btn btn-prompt">Enter</div>
-<div class="btn btn-prev">Prev</div>
-<div class="btn btn-yes">Yes</div>
-<div class="btn btn-no">No</div>
-<div class="btn btn-next">Next</div>
-<div class="btn btn-confirm">Ok</div>
-*/
+let messageIndex = 0;
 
 const setActive = (target, selector = null) => {
   const selectedElement = document.querySelector(`${selector}.${active}`);
@@ -71,18 +60,63 @@ const beginLoading = async () => {
   setActive(messageBox);
 };
 
-// beginLoading();
-setActive(messageBox);
+const beginIntroduction = async () => {
+  await pause(1000);
+  messageHandler.displayMessage(messages[messageIndex]);
+};
+
+/* EVENT LISTENERS: CLICK */
+
+messageBoxControls.addEventListener("click", ({ target }) => {
+  if (target.dataset.button) {
+    console.log(target.dataset.button);
+  }
+});
+
+class MessageHandler {
+  constructor(messageBox, textField, messageControls) {
+    this.messageBox = messageBox;
+    this.textField = textField;
+    this.messageControls = messageControls;
+  }
+
+  typeMessage(messageObj) {
+    typeWords(this.textField, messageObj.message, 30);
+  }
+
+  setControlsState = (messageObj) => {
+    this.messageControls.setAttribute("data-state", messageObj.dataState);
+  };
+
+  displayMessage = (messageObj) => {
+    this.typeMessage(messageObj);
+    this.setControlsState(messageObj);
+  };
+}
+
+const messageHandler = new MessageHandler(
+  messageBox,
+  messageText,
+  messageBoxControls
+);
+
+beginLoading().then(beginIntroduction);
+
+// setActive(messageBox);
 
 //DEBUGGING
 let testState = false;
 let testMessage =
   "This is some text that I'm testing for the purposes of the text displayed to the user in my message box.";
 const testControls = () => {
-  // if (!testState) setActive(messageBox);
-  // else removeActive(messageBox);
-  // testState = !testState;
-  typeWords(messageText, testMessage);
+  if (!testState) setActive(messageBox);
+  else removeActive(messageBox);
+  testState = !testState;
+  // typeWords(messageText, testMessage);
+  // const currentMessageObj = messages[messageIndex];
+  // messageHandler.setControlsState(currentMessageObj);
+  // messageHandler.typeMessage(currentMessageObj);
+  // messageIndex++;
 };
 
 document.addEventListener("keyup", (e) => {
