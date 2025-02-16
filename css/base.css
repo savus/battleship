@@ -26,6 +26,13 @@ li {
   list-style: none;
 }
 
+.btn {
+  background: transparent;
+  border: transparent;
+  outline: none;
+  user-select: none;
+}
+
 .modal {
   position: fixed;
   top: 0;
@@ -135,6 +142,9 @@ li {
 .message-box .message-box-header {
   font-size: 1.5rem;
   border-bottom: 1px solid #fff;
+  height: 3rem;
+  display: flex;
+  align-items: center;
 }
 
 .message-box .message-box-body {
@@ -147,13 +157,59 @@ li {
   font-size: 1.2rem;
   height: 17rem;
   padding: 1rem;
+  overflow: hidden;
 }
 
 .message-box .message-box-controls {
+  --justify: flex-start;
   display: flex;
   align-items: center;
-  height: 6.25rem;
+  height: 5rem;
   border-top: 1px solid white;
+  justify-content: var(--justify);
+  gap: 20px;
+}
+
+.message-box-controls div {
+  display: none;
+}
+
+.message-box-controls .btn {
+  background-color: #fff;
+  color: #000;
+  box-shadow: rgba(255, 255, 255, 0.2) 0 3px 5px -1px,
+    rgba(255, 255, 255, 0.14) 0 6px 10px 0,
+    rgba(255, 255, 255, 0.12) 0 1px 18px 0;
+  cursor: pointer;
+  padding: 0.8em 2em;
+  border-radius: 30px;
+  position: relative;
+}
+
+.message-box-controls .btn:active {
+  top: 5px;
+}
+
+[data-state="prompt"] .user-input,
+[data-state="confirm"] .btn-confirm,
+[data-state="prev-next"] .btn-prev,
+[data-state="prev-next"] .btn-next,
+[data-state="yes-no"] .btn-yes,
+[data-state="yes-no"] .btn-no {
+  display: block;
+}
+
+.message-box-controls[data-state="prompt"],
+.message-box-controls[data-state="yes-no"] {
+  --justify: center;
+}
+
+.message-box-controls[data-state="confirm"] {
+  --justify: flex-end;
+}
+
+.message-box-controls[data-state="prev-next"] {
+  --justify: space-between;
 }
 
 @keyframes loadingAnim {
