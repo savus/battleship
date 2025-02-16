@@ -23,22 +23,27 @@
     <div class="message-box">
       <div class="message-box-header">Header</div>
       <div class="message-box-body">
-        <div class="message-box-text">This is text</div>
+        <div class="message-box-text">
+          This is some text that I am testing to be displayed to the user and
+          blah blah blah blah blah blah blah
+        </div>
         <div class="message-box-controls" data-state="yes-no">
           <div class="user-input">
-            <label for="user-input">Type something</label>
+            <label for="user-input">Type Your answer</label>
             <input
               type="text"
               id="user-input"
               name="user-input"
               placeholder=""
+              maxlength="10"
             />
+            <div class="btn btn-prompt" data-button="prompt">Enter</div>
           </div>
-          <div class="btn btn-prev">Prev</div>
-          <div class="btn btn-yes">Yes</div>
-          <div class="btn btn-no">No</div>
-          <div class="btn btn-next">Next</div>
-          <div class="btn btn-confirm">Ok</div>
+          <div class="btn btn-prev" data-button="prev">Prev</div>
+          <div class="btn btn-yes" data-button="yes">Yes</div>
+          <div class="btn btn-no" data-button="no">No</div>
+          <div class="btn btn-next" data-button="next">Next</div>
+          <div class="btn btn-confirm" data-button="confirm">Ok</div>
         </div>
       </div>
     </div>

@@ -26,11 +26,19 @@ li {
   list-style: none;
 }
 
+input,
 .btn {
-  background: transparent;
   border: transparent;
   outline: none;
+  border: none;
+  outline: none;
+  appearance: none;
+}
+
+.btn {
+  background: transparent;
   user-select: none;
+  appearance: none;
 }
 
 .modal {
@@ -63,6 +71,8 @@ li {
 .modal > * {
   z-index: 10;
 }
+
+/* LOADER */
 
 .loading-screen {
   display: flex;
@@ -113,6 +123,8 @@ li {
   animation: loadingAnim 3s linear var(--anim-delay) infinite;
 }
 
+/* MESSAGE BOX */
+
 .message-box {
   --left: 10%;
   --top: 20%;
@@ -158,6 +170,7 @@ li {
   height: 17rem;
   padding: 1rem;
   overflow: hidden;
+  max-width: 100%;
 }
 
 .message-box .message-box-controls {
@@ -170,7 +183,7 @@ li {
   gap: 20px;
 }
 
-.message-box-controls div {
+.message-box-controls > div {
   display: none;
 }
 
@@ -190,7 +203,6 @@ li {
   top: 5px;
 }
 
-[data-state="prompt"] .user-input,
 [data-state="confirm"] .btn-confirm,
 [data-state="prev-next"] .btn-prev,
 [data-state="prev-next"] .btn-next,
@@ -199,7 +211,14 @@ li {
   display: block;
 }
 
-.message-box-controls[data-state="prompt"],
+[data-state="prompt"] .user-input {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+}
+
 .message-box-controls[data-state="yes-no"] {
   --justify: center;
 }
@@ -211,6 +230,17 @@ li {
 .message-box-controls[data-state="prev-next"] {
   --justify: space-between;
 }
+
+.user-input input {
+  padding: 0 0.8rem;
+  line-height: 3;
+  border-radius: 20px;
+  letter-spacing: 1px;
+  font-size: 0.8rem;
+  width: 40%;
+}
+
+/* ANIMATIONS */
 
 @keyframes loadingAnim {
   0% {
