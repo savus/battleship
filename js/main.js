@@ -32,7 +32,20 @@ let userInput = "";
 let userSaidYes = false;
 let userSaidNo = false;
 
-const dataObjects = [
+class MessageData {
+  constructor(dataState, messageList) {
+    this.dataState = dataState;
+    this.messageList = messageList;
+  }
+
+  nextStep = () => {};
+  prevStep = () => {};
+  confirmStep = () => {};
+  promptStep = () => {};
+  yesNoStep = () => {};
+}
+
+const data = [
   {
     dataState: "prev-next",
     messageList: [
@@ -43,22 +56,17 @@ const dataObjects = [
       "Aint no one stopping the fifth message",
       "For programming purposes, this should be the last message",
     ],
-    prevStep: (messageHandler) => {
+    prevStep: () => {
       clearText(messageBox);
       removeActive(messageBox);
     },
-    nextStep: (messageHandler) => {
+    nextStep: () => {
       nextStep();
     },
-    promptStep: () => {},
-    confirmStep: () => {},
-    yesNoStep: () => {},
   },
   {
     dataState: "prompt",
     messageList: ["What do you like for breakfast in the morning?"],
-    prevStep: () => {},
-    nextStep: () => {},
     promptStep: () => {
       userInput = userInputField.value;
       console.log(`You like ${userInput}?`);
@@ -66,30 +74,20 @@ const dataObjects = [
       userInputField.value = "";
       nextStep();
     },
-    confirmStep: () => {},
-    yesNoStep: () => {},
   },
   {
     dataState: "confirm",
     messageList: [
       "This is a confirm message, like maybe for a warning or something",
     ],
-    prevStep: () => {},
-    nextStep: () => {},
-    promptStep: () => {},
     confirmStep: () => {
       clearText(messageText);
       nextStep();
     },
-    yesNoStep: () => {},
   },
   {
     dataState: "yes-no",
     messageList: ["Answer yes or no, do you like pancakes"],
-    prevStep: () => {},
-    nextStep: () => {},
-    promptStep: () => {},
-    confirmStep: () => {},
     yesNoStep: () => {
       if (userSaidNo) {
         console.log("You don't like pancakes!?");
@@ -101,6 +99,18 @@ const dataObjects = [
     },
   },
 ];
+
+const dataObjects = [];
+
+for (const obj of data) {
+  const dataObj = new MessageData(obj.dataState, obj.messageList);
+  dataObj.nextStep = obj.nextStep;
+  dataObj.prevStep = obj.prevStep;
+  dataObj.confirmStep = obj.confirmStep;
+  dataObj.yesNoStep = obj.yesNoStep;
+  dataObj.promptStep = obj.promptStep;
+  dataObjects.push(dataObj);
+}
 
 const setActive = (target, selector = null) => {
   const selectedElement = document.querySelector(`${selector}.${active}`);
