@@ -100,9 +100,9 @@ const messageHandler = new MessageHandler(
   messageBoxControls
 );
 
-beginLoading().then(beginIntroduction);
+// beginLoading().then(beginIntroduction);
 
-// setActive(messageBox);
+setActive(messageBox);
 
 //DEBUGGING
 let testState = false;

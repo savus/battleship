@@ -39,6 +39,23 @@ input,
   background: transparent;
   user-select: none;
   appearance: none;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn:disabled {
+  cursor: not-allowed;
+}
+
+.btn:disabled::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(255, 255, 255, 0.8);
 }
 
 .modal {
@@ -186,7 +203,8 @@ input,
   gap: 20px;
 }
 
-.message-box-controls > div {
+.message-box-controls > div,
+.message-box-controls > button {
   display: none;
 }
 
@@ -196,13 +214,12 @@ input,
   box-shadow: rgba(255, 255, 255, 0.2) 0 3px 5px -1px,
     rgba(255, 255, 255, 0.14) 0 6px 10px 0,
     rgba(255, 255, 255, 0.12) 0 1px 18px 0;
-  cursor: pointer;
   padding: 0.8em 2em;
   border-radius: 30px;
   position: relative;
 }
 
-.message-box-controls .btn:active {
+.message-box-controls .btn:active:not(:disabled) {
   top: 5px;
 }
 
