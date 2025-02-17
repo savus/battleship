@@ -10,6 +10,7 @@ const messageControls = ".message-box-controls";
 const messageBoxControls = document.querySelector(messageControls);
 const messageTextClass = ".message-box-text";
 const messageText = document.querySelector(messageTextClass);
+const userInputField = document.getElementById("user-input");
 
 const btnPrompt = ".btn-prompt";
 const btnPrev = ".btn-prev";
@@ -25,7 +26,13 @@ const noButton = document.querySelector(btnNo);
 const nextButton = document.querySelector(btnNext);
 const confirmButton = document.querySelector(btnConfirm);
 
-const messages = [
+let dataObjectIndex = 0;
+let messageListIndex = 0;
+let userInput = "";
+let userSaidYes = false;
+let userSaidNo = false;
+
+const dataObjects = [
   {
     dataState: "prev-next",
     messageList: [
@@ -36,10 +43,64 @@ const messages = [
       "Aint no one stopping the fifth message",
       "For programming purposes, this should be the last message",
     ],
+    prevStep: (messageHandler) => {
+      clearText(messageBox);
+      removeActive(messageBox);
+    },
+    nextStep: (messageHandler) => {
+      nextStep();
+    },
+    promptStep: () => {},
+    confirmStep: () => {},
+    yesNoStep: () => {},
+  },
+  {
+    dataState: "prompt",
+    messageList: ["What do you like for breakfast in the morning?"],
+    prevStep: () => {},
+    nextStep: () => {},
+    promptStep: () => {
+      userInput = userInputField.value;
+      console.log(`You like ${userInput}?`);
+      clearText(messageText);
+      userInputField.value = "";
+      nextStep();
+    },
+    confirmStep: () => {},
+    yesNoStep: () => {},
+  },
+  {
+    dataState: "confirm",
+    messageList: [
+      "This is a confirm message, like maybe for a warning or something",
+    ],
+    prevStep: () => {},
+    nextStep: () => {},
+    promptStep: () => {},
+    confirmStep: () => {
+      clearText(messageText);
+      nextStep();
+    },
+    yesNoStep: () => {},
+  },
+  {
+    dataState: "yes-no",
+    messageList: ["Answer yes or no, do you like pancakes"],
+    prevStep: () => {},
+    nextStep: () => {},
+    promptStep: () => {},
+    confirmStep: () => {},
+    yesNoStep: () => {
+      if (userSaidNo) {
+        console.log("You don't like pancakes!?");
+      }
+      if (userSaidYes) {
+        console.log("You actually DO like pancakes?!?!?!?");
+      }
+      removeActive(messageBox);
+    },
   },
 ];
-
-let messageIndex = 0;
 
 const setActive = (target, selector = null) => {
   const selectedElement = document.querySelector(`${selector}.${active}`);
@@ -72,6 +133,8 @@ const typeWords = async (textField, message, typeSpeed = 50) => {
   }
 };
 
+const clearText = (textField) => (textField.innerText = "");
+
 const beginLoading = async () => {
   setActive(loader);
   await pause(loadingScreenDuration);
@@ -82,84 +145,88 @@ const beginLoading = async () => {
 
 const beginIntroduction = async () => {
   await pause(1000);
-  messageHandler.displayMessage(messages[messageIndex]);
+};
+
+const resetYesAndNo = () => {
+  userSaidNo = false;
+  userSaidYes = false;
+};
+
+const resetUserInput = () => {
+  userInputField.value = "";
+  userInput = "";
 };
 
 /* EVENT LISTENERS: CLICK */
 
-messageBoxControls.addEventListener("click", ({ target }) => {
-  if (target.dataset.button) {
-    console.log(target.dataset.button);
-  }
-});
-
-class MessageHandler {
-  messageListIndex = 0;
-  constructor(messageBox, textField, messageBoxControls) {
-    this.messageBox = messageBox;
-    this.textField = textField;
-    this.messageBoxControls = messageBoxControls;
-  }
-
-  openMessageBox = () => {
-    setActive(this.messageBox, messageBoxClass);
-  };
-
-  setMessageBoxState = (dataState) => {
-    setMessageBoxControlsState(this.messageBoxControls, dataState);
-  };
-
-  typeMessage = (messageObj) => {
-    const isFirstMessage = this.messageListIndex === 0;
-    const isLastMessage =
-      this.messageListIndex === messageObj.messageList.length - 1;
-
-    typeWords(
-      this.textField,
-      messageObj.messageList[this.messageListIndex],
-      10
-    );
-
-    if (isFirstMessage) {
-      disableButton(prevButton);
-    } else {
-      enableButton(prevButton);
-    }
-
-    if (isLastMessage) {
-      disableButton(nextButton);
-    } else {
-      enableButton(nextButton);
-    }
-  };
-}
-
-const messageHandler = new MessageHandler(
-  messageBox,
-  messageText,
-  messageBoxControls
-);
+// messageBoxControls.addEventListener("click", ({ target }) => {
+//   if (target.dataset.button) {
+//     console.log(target.dataset.button);
+//   }
+// });
 
 // =========
 
 // RUN APPLICATION
 
 // beginLoading().then(beginIntroduction);
-const currentMessageObj = messages[messageIndex];
+let currentMessageObj = dataObjects[dataObjectIndex];
 
-messageHandler.openMessageBox();
-messageHandler.setMessageBoxState(currentMessageObj.dataState);
-messageHandler.typeMessage(currentMessageObj);
+const handleMessage = (messageObj) => {
+  typeWords(messageText, messageObj.messageList[messageListIndex], 10);
+};
+
+const nextStep = () => {
+  clearText(messageText);
+  dataObjectIndex += 1;
+  messageListIndex = 0;
+  currentMessageObj = dataObjects[dataObjectIndex];
+  setMessageBoxControlsState(messageBoxControls, currentMessageObj.dataState);
+  handleMessage(currentMessageObj);
+};
+
+setActive(messageBox, messageBoxClass);
+setMessageBoxControlsState(messageBoxControls, currentMessageObj.dataState);
+
+handleMessage(currentMessageObj);
 
 nextButton.addEventListener("click", () => {
-  messageHandler.messageListIndex += 1;
-  messageHandler.typeMessage(currentMessageObj);
+  const isLastMessage =
+    messageListIndex === currentMessageObj.messageList.length - 1;
+  if (isLastMessage) currentMessageObj.nextStep();
+  else {
+    messageListIndex += 1;
+    handleMessage(currentMessageObj);
+  }
 });
 
 prevButton.addEventListener("click", () => {
-  messageHandler.messageListIndex -= 1;
-  messageHandler.typeMessage(currentMessageObj);
+  const isFirstMessage = messageListIndex === 0;
+  if (isFirstMessage) currentMessageObj.prevStep();
+  else {
+    messageListIndex -= 1;
+    handleMessage(currentMessageObj);
+  }
 });
+
+promptButton.addEventListener("click", () => {
+  currentMessageObj.promptStep();
+});
+
+confirmButton.addEventListener("click", () => {
+  currentMessageObj.confirmStep();
+});
+
+yesButton.addEventListener("click", () => {
+  userSaidYes = true;
+  currentMessageObj.yesNoStep();
+});
+
+noButton.addEventListener("click", () => {
+  userSaidNo = true;
+  currentMessageObj.yesNoStep();
+});
+
 // messageHandler.setMessageBoxState("prev-next");
 /* ============= */
 
