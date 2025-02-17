@@ -26,19 +26,17 @@ const nextButton = document.querySelector(btnNext);
 const confirmButton = document.querySelector(btnConfirm);
 
 const messages = [
-  { dataState: "confirm", message: "This is going to be a confirm message" },
-  { dataState: "yes-no", message: "This is going to be a yes or no message" },
-  { dataState: "yes-no", message: "This is going to be a yes or no message" },
   {
     dataState: "prev-next",
-    message: "This is going to be a previous or next message",
+    messageList: [
+      "This is the first message",
+      "This is going to be the second message",
+      "And this here, hooooo boy, this is the third message",
+      "You still with me here? Fourth message up and comming",
+      "Aint no one stopping the fifth message",
+      "For programming purposes, this should be the last message",
+    ],
   },
-  {
-    dataState: "prev-next",
-    message: "This is going to be a previous or next message",
-  },
-  { dataState: "prompt", message: "This is going to be a prompt message" },
-  { dataState: "confirm", message: "This is going to be a confirm message" },
 ];
 
 let messageIndex = 0;
@@ -96,32 +94,12 @@ messageBoxControls.addEventListener("click", ({ target }) => {
 });
 
 class MessageHandler {
+  messageIndex = 0;
   constructor(messageBox, textField, messageControls) {
     this.messageBox = messageBox;
     this.textField = textField;
     this.messageControls = messageControls;
   }
-
-  activateMessageBox = () => {
-    setActive(this.messageBox, messageBoxClass);
-  };
-
-  deactivateMessageBox = () => {
-    removeActive(this.messageBox);
-  };
-
-  typeMessage = (messageObj) => {
-    typeWords(this.textField, messageObj.message, 30);
-  };
-
-  setControlsState = (messageObj) => {
-    setMessageBoxControlsState(this.messageControls, messageObj.dataState);
-  };
-
-  displayMessage = (messageObj) => {
-    this.typeMessage(messageObj);
-    this.setControlsState(messageObj);
-  };
 }
 
 const messageHandler = new MessageHandler(
