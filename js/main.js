@@ -94,12 +94,44 @@ messageBoxControls.addEventListener("click", ({ target }) => {
 });
 
 class MessageHandler {
-  messageIndex = 0;
-  constructor(messageBox, textField, messageControls) {
+  messageListIndex = 0;
+  constructor(messageBox, textField, messageBoxControls) {
     this.messageBox = messageBox;
     this.textField = textField;
-    this.messageControls = messageControls;
+    this.messageBoxControls = messageBoxControls;
   }
+
+  openMessageBox = () => {
+    setActive(this.messageBox, messageBoxClass);
+  };
+
+  setMessageBoxState = (dataState) => {
+    setMessageBoxControlsState(this.messageBoxControls, dataState);
+  };
+
+  typeMessage = (messageObj) => {
+    const isFirstMessage = this.messageListIndex === 0;
+    const isLastMessage =
+      this.messageListIndex === messageObj.messageList.length - 1;
+
+    typeWords(
+      this.textField,
+      messageObj.messageList[this.messageListIndex],
+      10
+    );
+
+    if (isFirstMessage) {
+      disableButton(prevButton);
+    } else {
+      enableButton(prevButton);
+    }
+
+    if (isLastMessage) {
+      disableButton(nextButton);
+    } else {
+      enableButton(nextButton);
+    }
+  };
 }
 
 const messageHandler = new MessageHandler(
@@ -113,7 +145,22 @@ const messageHandler = new MessageHandler(
 // RUN APPLICATION
 
 // beginLoading().then(beginIntroduction);
+const currentMessageObj = messages[messageIndex];
 
+messageHandler.openMessageBox();
+messageHandler.setMessageBoxState(currentMessageObj.dataState);
+messageHandler.typeMessage(currentMessageObj);
+
+nextButton.addEventListener("click", () => {
+  messageHandler.messageListIndex += 1;
+  messageHandler.typeMessage(currentMessageObj);
+});
+
+prevButton.addEventListener("click", () => {
+  messageHandler.messageListIndex -= 1;
+  messageHandler.typeMessage(currentMessageObj);
+});
+// messageHandler.setMessageBoxState("prev-next");
 /* ============= */
 
 //DEBUGGING
