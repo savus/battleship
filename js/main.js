@@ -5,12 +5,14 @@ const loader = document.querySelector(loadingClass);
 const loadingScreenDuration = 5000;
 
 const messageBoxClass = ".message-box";
-const messageBox = document.querySelector(messageBoxClass);
 const messageControls = ".message-box-controls";
-const messageBoxControls = document.querySelector(messageControls);
 const messageTextClass = ".message-box-text";
+const messageBox = document.querySelector(messageBoxClass);
+const messageBoxControls = document.querySelector(messageControls);
 const messageText = document.querySelector(messageTextClass);
-const userInputField = document.getElementById("user-input");
+
+const userInputID = "user-input";
+const userInputField = document.getElementById(userInputID);
 
 const btnPrompt = ".btn-prompt";
 const btnPrev = ".btn-prev";
@@ -232,12 +234,6 @@ const goToDataObject = (dataList, indexNum, messageHandler) => {
   messageHandler.readCurrentMessage(currentMessageObj);
 };
 
-const messageHandler = new MessageHandler(
-  messageBox,
-  messageBoxControls,
-  messageText
-);
-
 /* EVENT LISTENERS: CLICK */
 nextButton.addEventListener("click", () => {
   messageHandler.readNextMessage(currentMessageObj);
@@ -266,7 +262,13 @@ noButton.addEventListener("click", () => {
 });
 // =========
 
-/* APPLICATION FLOW */
+const messageHandler = new MessageHandler(
+  messageBox,
+  messageBoxControls,
+  messageText
+);
+
+/* APPLICATION ORDER */
 
 const beginLoading = async () => {
   setActive(loader);
@@ -291,19 +293,8 @@ messageHandler.readCurrentMessage(currentMessageObj);
 /* ============= */
 
 //DEBUGGING
-let testState = false;
-let testMessage =
-  "This is some text that I'm testing for the purposes of the text displayed to the user in my message box.";
-const testControls = () => {
-  if (!testState) setActive(messageBox);
-  else removeActive(messageBox);
-  testState = !testState;
-  // typeWords(messageText, testMessage);
-  // const currentMessageObj = messages[messageIndex];
-  // messageHandler.setControlsState(currentMessageObj);
-  // messageHandler.typeMessage(currentMessageObj);
-  // messageIndex++;
-};
+
+const testControls = () => {};
 
 document.addEventListener("keyup", (e) => {
   const key = e.key;
