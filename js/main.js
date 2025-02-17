@@ -39,11 +39,11 @@ const data = {
         "For programming purposes, this should be the last message",
       ],
       prevStep: () => {
-        clearText(messageBox);
-        removeActive(messageBox);
+        messageHandler.clearText();
+        messageHandler.closeMessageBox();
       },
       nextStep: () => {
-        nextStep();
+        goToNextDataObject(data.introductions, messageHandler);
       },
     },
     {
@@ -54,7 +54,21 @@ const data = {
         console.log(`You like ${userInput}?`);
         clearText(messageText);
         userInputField.value = "";
-        nextStep();
+        goToNextDataObject(data.introductions, messageHandler);
+      },
+    },
+    {
+      dataState: "prev-next",
+      messageList: [
+        "This is another prev-next message list, like maybe for a warning or something",
+        "Like before you should be able to click back and forth between the texts",
+        "This is number 3",
+      ],
+      prevStep: () => {
+        goToPrevDataObject(data.introductions, messageHandler);
+      },
+      nextStep: () => {
+        goToNextDataObject(data.introductions, messageHandler);
       },
     },
     {
@@ -63,21 +77,21 @@ const data = {
         "This is a confirm message, like maybe for a warning or something",
       ],
       confirmStep: () => {
-        clearText(messageText);
-        nextStep();
+        goToNextDataObject(data.introductions, messageHandler);
       },
     },
     {
       dataState: "yes-no",
       messageList: ["Answer yes or no, do you like pancakes"],
-      yesNoStep: () => {
-        if (userSaidNo) {
-          console.log("You don't like pancakes!?");
-        }
-        if (userSaidYes) {
-          console.log("You actually DO like pancakes?!?!?!?");
-        }
-        removeActive(messageBox);
+      noStep: () => {
+        console.log("You don't like pancakes!?");
+        messageHandler.clearText();
+        messageHandler.closeMessageBox();
+      },
+      yesStep: () => {
+        console.log("You actually DO like pancakes?!?!?!?");
+        messageHandler.clearText();
+        messageHandler.closeMessageBox();
       },
     },
   ],
@@ -88,6 +102,7 @@ let messageListIndex = 0;
 let userInput = "";
 let userSaidYes = false;
 let userSaidNo = false;
+let currentMessageObj = data.introductions[dataObjectIndex];
 
 const setActive = (target, selector = null) => {
   const selectedElement = document.querySelector(`${selector}.${active}`);
@@ -132,25 +147,6 @@ const resetUserInput = () => {
   userInput = "";
 };
 
-/* APPLICATION FLOW */
-
-const beginLoading = async () => {
-  setActive(loader);
-  await pause(loadingScreenDuration);
-  removeActive(loader);
-  await pause(300);
-  setActive(messageBox);
-};
-
-const beginIntroduction = async () => {
-  await pause(1000);
-};
-
-/* EVENT LISTENERS: CLICK */
-
-// =========
-
-// RUN APPLICATION
 class MessageHandler {
   messageListIndex = 0;
   constructor(messageBox, controls, textField) {
@@ -163,11 +159,25 @@ class MessageHandler {
     setActive(this.messageBox);
   };
 
+  closeMessageBox = () => {
+    removeActive(this.messageBox);
+  };
+
   updateControlState = (messageObj) => {
     setControlState(this.controls, messageObj.dataState);
   };
 
+  clearText = () => {
+    clearText(this.textField);
+  };
+
+  setMessageListIndex = (num) => (this.messageListIndex = num);
+
+  resetMessageListIndex = () => (this.messageListIndex = 0);
+
   readCurrentMessage = (messageObj) => {
+    this.clearText();
+    this.updateControlState(messageObj);
     typeWords(
       this.textField,
       messageObj.messageList[this.messageListIndex],
@@ -192,10 +202,35 @@ class MessageHandler {
     if (!isLastMessage) {
       this.readCurrentMessage(messageObj);
     } else {
+      this.resetMessageListIndex();
       messageObj.nextStep();
     }
   };
 }
+
+const goToPrevDataObject = (dataList, messageHandler) => {
+  const isFirstObject = dataObjectIndex === 0;
+  if (!isFirstObject) {
+    dataObjectIndex--;
+    currentMessageObj = dataList[dataObjectIndex];
+    messageHandler.readCurrentMessage(currentMessageObj);
+  }
+};
+
+const goToNextDataObject = (dataList, messageHandler) => {
+  const isLastObject = dataObjectIndex === dataList.length;
+  if (!isLastObject) {
+    dataObjectIndex++;
+    currentMessageObj = dataList[dataObjectIndex];
+    messageHandler.readCurrentMessage(currentMessageObj);
+  }
+};
+
+const goToDataObject = (dataList, indexNum, messageHandler) => {
+  dataObjectIndex = indexNum;
+  currentMessageObj = dataList[dataObjectIndex];
+  messageHandler.readCurrentMessage(currentMessageObj);
+};
 
 const messageHandler = new MessageHandler(
   messageBox,
@@ -203,64 +238,54 @@ const messageHandler = new MessageHandler(
   messageText
 );
 
-// beginLoading().then(beginIntroduction);
-let currentMessageObj = data.introductions[dataObjectIndex];
-
-const handleMessage = (messageObj) => {
-  typeWords(messageText, messageObj.messageList[messageListIndex], 10);
-};
-
-const nextStep = () => {
-  clearText(messageText);
-  dataObjectIndex += 1;
-  messageListIndex = 0;
-  currentMessageObj = dataObjects[dataObjectIndex];
-  setControlState(messageBoxControls, currentMessageObj.dataState);
-  handleMessage(currentMessageObj);
-};
-
-messageHandler.openMessageBox();
-messageHandler.updateControlState(currentMessageObj);
-messageHandler.readCurrentMessage(currentMessageObj);
-
+/* EVENT LISTENERS: CLICK */
 nextButton.addEventListener("click", () => {
   messageHandler.readNextMessage(currentMessageObj);
-  // const isLastMessage =
-  //   messageListIndex === currentMessageObj.messageList.length - 1;
-  // if (isLastMessage) currentMessageObj.nextStep();
-  // else {
-  //   messageListIndex += 1;
-  //   handleMessage(currentMessageObj);
-  // }
 });
 
 prevButton.addEventListener("click", () => {
   messageHandler.readPrevMessage(currentMessageObj);
-  // const isFirstMessage = messageListIndex === 0;
-  // if (isFirstMessage) currentMessageObj.prevStep();
-  // else {
-  //   messageListIndex -= 1;
-  //   handleMessage(currentMessageObj);
-  // }
 });
 
 promptButton.addEventListener("click", () => {
-  // currentMessageObj.promptStep();
+  currentMessageObj.promptStep();
 });
 
 confirmButton.addEventListener("click", () => {
-  // currentMessageObj.confirmStep();
+  currentMessageObj.confirmStep();
 });
 
 yesButton.addEventListener("click", () => {
-  // userSaidYes = true;
-  // currentMessageObj.yesNoStep();
+  userSaidYes = true;
+  currentMessageObj.yesStep();
 });
 
 noButton.addEventListener("click", () => {
-  // userSaidNo = true;
-  // currentMessageObj.yesNoStep();
+  userSaidNo = true;
+  currentMessageObj.noStep();
 });
+// =========
+
+/* APPLICATION FLOW */
+
+const beginLoading = async () => {
+  setActive(loader);
+  await pause(loadingScreenDuration);
+  removeActive(loader);
+  await pause(300);
+  setActive(messageBox);
+};
+
+const beginIntroduction = async () => {
+  await pause(1000);
+};
+
+// RUN APPLICATION
+
+// beginLoading().then(beginIntroduction);
+
+messageHandler.openMessageBox();
+messageHandler.readCurrentMessage(currentMessageObj);
 
 // messageHandler.setMessageBoxState("prev-next");
 /* ============= */
