@@ -11,6 +11,20 @@ const messageBoxControls = document.querySelector(messageControls);
 const messageTextClass = ".message-box-text";
 const messageText = document.querySelector(messageTextClass);
 
+const btnPrompt = ".btn-prompt";
+const btnPrev = ".btn-prev";
+const btnYes = ".btn-yes";
+const btnNo = ".btn-no";
+const btnNext = ".btn-next";
+const btnConfirm = ".btn-confirm";
+
+const promptButton = document.querySelector(btnPrompt);
+const prevButton = document.querySelector(btnPrev);
+const yesButton = document.querySelector(btnYes);
+const noButton = document.querySelector(btnNo);
+const nextButton = document.querySelector(btnNext);
+const confirmButton = document.querySelector(btnConfirm);
+
 const messages = [
   { dataState: "confirm", message: "This is going to be a confirm message" },
   { dataState: "yes-no", message: "This is going to be a yes or no message" },
@@ -36,6 +50,14 @@ const setActive = (target, selector = null) => {
 };
 
 const removeActive = (target) => target.classList.remove(active);
+
+const setMessageBoxControlsState = (element, dataState) => {
+  element.setAttribute("data-state", dataState);
+};
+
+const disableButton = (btn) => (btn.disabled = true);
+
+const enableButton = (btn) => (btn.disabled = false);
 
 const pause = (ms) =>
   new Promise((resolve) => {
@@ -80,12 +102,20 @@ class MessageHandler {
     this.messageControls = messageControls;
   }
 
-  typeMessage(messageObj) {
+  activateMessageBox = () => {
+    setActive(this.messageBox, messageBoxClass);
+  };
+
+  deactivateMessageBox = () => {
+    removeActive(this.messageBox);
+  };
+
+  typeMessage = (messageObj) => {
     typeWords(this.textField, messageObj.message, 30);
-  }
+  };
 
   setControlsState = (messageObj) => {
-    this.messageControls.setAttribute("data-state", messageObj.dataState);
+    setMessageBoxControlsState(this.messageControls, messageObj.dataState);
   };
 
   displayMessage = (messageObj) => {
@@ -100,9 +130,13 @@ const messageHandler = new MessageHandler(
   messageBoxControls
 );
 
+// =========
+
+// RUN APPLICATION
+
 // beginLoading().then(beginIntroduction);
 
-setActive(messageBox);
+/* ============= */
 
 //DEBUGGING
 let testState = false;
