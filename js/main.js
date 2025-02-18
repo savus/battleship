@@ -3,6 +3,7 @@ const active = "active";
 const loadingClass = ".loading-screen";
 const loader = document.querySelector(loadingClass);
 const loadingScreenDuration = 5000;
+const pauseBetweenAnimations = 500;
 
 const messageBoxClass = ".message-box";
 const messageControls = ".message-box-controls";
@@ -290,22 +291,19 @@ const beginLoading = async () => {
   setActive(loader);
   await pause(loadingScreenDuration);
   removeActive(loader);
-  await pause(300);
-  setActive(messageBox);
 };
 
 const beginIntroduction = async () => {
-  await pause(1000);
+  await pause(pauseBetweenAnimations);
+  messageHandler.openMessageBox();
+  await pause(pauseBetweenAnimations);
+  messageHandler.readCurrentMessage(currentMessageObj);
 };
 
 // RUN APPLICATION
 
 // beginLoading().then(beginIntroduction);
 
-// messageHandler.openMessageBox();
-// messageHandler.readCurrentMessage(currentMessageObj);
-
-// messageHandler.setMessageBoxState("prev-next");
 /* ============= */
 
 //DEBUGGING
