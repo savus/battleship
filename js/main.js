@@ -173,10 +173,12 @@ class MessageHandler {
 
   openMessageBox = () => {
     setActive(this.messageBox);
+    this.messageBox.classList.remove("close");
   };
 
   closeMessageBox = () => {
     removeActive(this.messageBox);
+    this.messageBox.classList.add("close");
   };
 
   updateControlState = (messageObj) => {
@@ -300,15 +302,21 @@ const beginIntroduction = async () => {
 
 // beginLoading().then(beginIntroduction);
 
-messageHandler.openMessageBox();
-messageHandler.readCurrentMessage(currentMessageObj);
+// messageHandler.openMessageBox();
+// messageHandler.readCurrentMessage(currentMessageObj);
 
 // messageHandler.setMessageBoxState("prev-next");
 /* ============= */
 
 //DEBUGGING
-
-const testControls = () => {};
+let controlsToggle = false;
+const testControls = () => {
+  if (!controlsToggle) messageHandler.openMessageBox();
+  else {
+    messageHandler.closeMessageBox();
+  }
+  controlsToggle = !controlsToggle;
+};
 
 document.addEventListener("keyup", (e) => {
   const key = e.key;
