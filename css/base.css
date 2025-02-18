@@ -283,17 +283,42 @@ input,
   flex-direction: column;
   padding: 20px;
   gap: 20px;
+  border: 3px solid black;
+}
+
+.game-board[data-size="large"] {
+  width: 524px;
 }
 
 .game-board .row {
   display: flex;
-  gap: 20px;
+  gap: 30px;
 }
 
 .game-board .tile {
+  --anim-name: none;
+  --anim-duration: 1s;
+  --anim-tf: linear;
+  --anim-delay: 0s;
+  --anim-count: infinite;
+  --anim-dir: forwards;
   width: 64px;
   height: 64px;
   background-color: rgba(44, 243, 216, 0.9);
+  box-shadow: 1px 12px 8px 0px rgba(0, 0, 0, 0.3);
+  position: relative;
+  animation: var(--anim-name) var(--anim-duration) var(--anim-tf)
+    var(--anim-delay) var(--anim-dir) var(--anim-count);
+}
+
+.game-board .tile:hover {
+  --anim-name: none;
+  box-shadow: 1px 12px 8px 0px rgba(0, 0, 0, 0.6);
+  transform: scale(1.2);
+}
+
+.game-board .row:nth-child(1) .tile:nth-child(1) {
+  /* animation: hoveringTile 3s ease-in-out infinite alternate; */
 }
 
 /* ANIMATIONS */
@@ -334,5 +359,27 @@ input,
   50%,
   100% {
     transform: scale(0, 0);
+  }
+}
+
+@keyframes hoveringTile {
+  0%,
+  100% {
+    transform: translateY(0);
+    box-shadow: 1px 12px 8px 0px rgba(0, 0, 0, 0.8);
+  }
+  50% {
+    transform: translateY(-8px);
+    box-shadow: 1px 22px 8px 0px rgba(0, 0, 0, 0.6);
+  }
+}
+
+@keyframes spinFallDown {
+  0% {
+    transform: rotate3d(0, 1, 0, 80deg) translate(-60px, -20px);
+  }
+
+  100% {
+    transform: rotate3d(0, 0, 0, 0deg) translate(0, 0);
   }
 }
