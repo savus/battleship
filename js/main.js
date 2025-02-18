@@ -20,6 +20,7 @@ const btnYes = ".btn-yes";
 const btnNo = ".btn-no";
 const btnNext = ".btn-next";
 const btnConfirm = ".btn-confirm";
+const dataButton = "[data-button]";
 
 const promptButton = document.querySelector(btnPrompt);
 const prevButton = document.querySelector(btnPrev);
@@ -99,6 +100,7 @@ const data = {
   ],
 };
 
+let textSpeed = 10;
 let dataObjectIndex = 0;
 let messageListIndex = 0;
 let userInput = "";
@@ -122,12 +124,23 @@ const disableButton = (btn) => (btn.disabled = true);
 
 const enableButton = (btn) => (btn.disabled = false);
 
+const disableAllControlButtons = () =>
+  document
+    .querySelectorAll(dataButton)
+    .forEach((button) => disableButton(button));
+
+const enableAllControlButtons = () =>
+  document
+    .querySelectorAll(dataButton)
+    .forEach((button) => enableButton(button));
+
 const pause = (ms) =>
   new Promise((resolve) => {
     return setTimeout(resolve, ms);
   });
 
 const typeWords = async (textField, message, typeSpeed = 50) => {
+  disableAllControlButtons();
   const letters = message.split("");
   let text = "";
   for (let i = 0; i < letters.length; i++) {
@@ -135,6 +148,7 @@ const typeWords = async (textField, message, typeSpeed = 50) => {
     textField.innerText = text;
     await pause(typeSpeed);
   }
+  enableAllControlButtons();
 };
 
 const clearText = (textField) => (textField.innerText = "");
@@ -183,7 +197,7 @@ class MessageHandler {
     typeWords(
       this.textField,
       messageObj.messageList[this.messageListIndex],
-      20
+      textSpeed
     );
   };
 
