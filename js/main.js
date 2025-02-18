@@ -252,31 +252,33 @@ const goToDataObject = (dataList, indexNum, messageHandler) => {
 };
 
 /* EVENT LISTENERS: CLICK */
-nextButton.addEventListener("click", () => {
-  messageHandler.readNextMessage(currentMessageObj);
+messageBoxControls.addEventListener("click", ({ target }) => {
+  if (target.dataset.button) {
+    switch (target.dataset.button) {
+      case "next":
+        messageHandler.readNextMessage(currentMessageObj);
+        break;
+      case "prev":
+        messageHandler.readPrevMessage(currentMessageObj);
+        break;
+      case "prompt":
+        currentMessageObj.promptStep();
+        break;
+      case "confirm":
+        currentMessageObj.confirmStep();
+        break;
+      case "yes":
+        userSaidYes = true;
+        currentMessageObj.yesStep();
+        break;
+      case "no":
+        userSaidNo = true;
+        currentMessageObj.noStep();
+        break;
+    }
+  }
 });
 
-prevButton.addEventListener("click", () => {
-  messageHandler.readPrevMessage(currentMessageObj);
-});
-
-promptButton.addEventListener("click", () => {
-  currentMessageObj.promptStep();
-});
-
-confirmButton.addEventListener("click", () => {
-  currentMessageObj.confirmStep();
-});
-
-yesButton.addEventListener("click", () => {
-  userSaidYes = true;
-  currentMessageObj.yesStep();
-});
-
-noButton.addEventListener("click", () => {
-  userSaidNo = true;
-  currentMessageObj.noStep();
-});
 // =========
 
 const messageHandler = new MessageHandler(
@@ -302,8 +304,7 @@ const beginIntroduction = async () => {
 
 // RUN APPLICATION
 
-// beginLoading().then(beginIntroduction);
-
+beginIntroduction();
 /* ============= */
 
 //DEBUGGING
