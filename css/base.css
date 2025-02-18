@@ -284,6 +284,7 @@ input,
   padding: 20px;
   gap: 20px;
   border: 3px solid black;
+  box-shadow: 0px 0px 12px 5px rgba(0, 0, 0, 0.3);
 }
 
 .game-board[data-size="large"] {
@@ -296,16 +297,19 @@ input,
 }
 
 .game-board .tile {
-  --anim-name: none;
-  --anim-duration: 1s;
-  --anim-tf: linear;
+  --anim-name: hoveringTile;
+  --anim-duration: 1.8s;
+  --anim-tf: ease-in-out;
   --anim-delay: 0s;
   --anim-count: infinite;
   --anim-dir: forwards;
   width: 64px;
   height: 64px;
-  background-color: rgba(44, 243, 216, 0.9);
-  box-shadow: 1px 12px 8px 0px rgba(0, 0, 0, 0.3);
+  background-color: #fff;
+  border-radius: 8px;
+  border: 2px solid black;
+  box-shadow: 1px 12px 8px 0px rgba(0, 0, 0, 0.3),
+    0px 0px 12px 1px rgb(0, 128, 124) inset;
   position: relative;
   animation: var(--anim-name) var(--anim-duration) var(--anim-tf)
     var(--anim-delay) var(--anim-dir) var(--anim-count);
@@ -313,8 +317,10 @@ input,
 
 .game-board .tile:hover {
   --anim-name: none;
-  box-shadow: 1px 12px 8px 0px rgba(0, 0, 0, 0.6);
+  box-shadow: 1px 12px 8px 0px rgba(0, 0, 0, 0.8),
+    0px 0px 12px 1px rgba(78, 247, 210, 0.8) inset;
   transform: scale(1.2);
+  cursor: pointer;
 }
 
 .game-board .row:nth-child(1) .tile:nth-child(1) {
@@ -366,17 +372,19 @@ input,
   0%,
   100% {
     transform: translateY(0);
-    box-shadow: 1px 12px 8px 0px rgba(0, 0, 0, 0.8);
+    box-shadow: 1px 12px 8px 0px rgba(0, 0, 0, 0.8),
+      0px 0px 12px 1px rgba(78, 247, 210, 0.8) inset;
   }
   50% {
     transform: translateY(-8px);
-    box-shadow: 1px 22px 8px 0px rgba(0, 0, 0, 0.6);
+    box-shadow: 1px 22px 8px 0px rgba(0, 0, 0, 0.6),
+      0px 0px 12px 1px rgba(78, 247, 210, 0.8) inset;
   }
 }
 
 @keyframes spinFallDown {
   0% {
-    transform: rotate3d(0, 1, 0, 80deg) translate(-60px, -20px);
+    transform: rotate3d(0, 1, 0, 50deg) translate(-60px, -20px);
   }
 
   100% {
