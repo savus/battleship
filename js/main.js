@@ -1,5 +1,6 @@
-const active = "active";
+const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
+const active = "active";
 const loadingClass = ".loading-screen";
 const loader = document.querySelector(loadingClass);
 const loadingScreenDuration = 5000;
@@ -287,6 +288,46 @@ const messageHandler = new MessageHandler(
   messageText
 );
 
+/* BOARD ELEMENTS */
+
+const createGrid = (size, controller) => {
+  const grid = {};
+  for (let i = 0; i < size; i++) {
+    grid[alphabet[i]] = [];
+    for (let j = 0; j < size; j++) {
+      grid[alphabet[i]][j] = createCell(controller, i + j, "empty");
+    }
+  }
+  return grid;
+};
+
+class Cell {
+  constructor(type, id, status) {
+    this.type = type;
+    this.id = id;
+    this.status = status;
+  }
+}
+
+const createCell = (type, id, status) => {
+  const cell = new Cell(type, id, status);
+  return cell;
+};
+
+class GameBoard {
+  constructor(size, type, controller) {
+    this.size = size;
+    this.type = type;
+    this.controller = controller;
+    this.grid = createGrid(size, controller);
+  }
+}
+
+const createBoard = (size, type, controller) => {
+  const board = new GameBoard(size, type, controller);
+  return board;
+};
+
 /* APPLICATION ORDER */
 
 const beginLoading = async () => {
@@ -303,8 +344,10 @@ const beginIntroduction = async () => {
 };
 
 // RUN APPLICATION
+const player1Board = createBoard(6, "large", "player");
 
-beginIntroduction();
+console.log(player1Board.grid["A"][0]);
+// beginIntroduction();
 /* ============= */
 
 //DEBUGGING
