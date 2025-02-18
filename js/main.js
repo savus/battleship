@@ -102,6 +102,10 @@ const data = {
   ],
 };
 
+const gameContainerClass = ".game-board-container";
+const gameContainer = document.querySelector(gameContainerClass);
+console.log(gameContainer);
+
 let textSpeed = 10;
 let dataObjectIndex = 0;
 let messageListIndex = 0;
@@ -252,7 +256,6 @@ const goToDataObject = (dataList, indexNum, messageHandler) => {
   messageHandler.readCurrentMessage(currentMessageObj);
 };
 
-/* EVENT LISTENERS: CLICK */
 messageBoxControls.addEventListener("click", ({ target }) => {
   if (target.dataset.button) {
     switch (target.dataset.button) {
@@ -280,8 +283,6 @@ messageBoxControls.addEventListener("click", ({ target }) => {
   }
 });
 
-// =========
-
 const messageHandler = new MessageHandler(
   messageBox,
   messageBoxControls,
@@ -289,17 +290,6 @@ const messageHandler = new MessageHandler(
 );
 
 /* BOARD ELEMENTS */
-
-const createGrid = (size, controller) => {
-  const grid = {};
-  for (let i = 0; i < size; i++) {
-    grid[alphabet[i]] = [];
-    for (let j = 0; j < size; j++) {
-      grid[alphabet[i]][j] = createCell(controller, i + j, "empty");
-    }
-  }
-  return grid;
-};
 
 class Cell {
   constructor(type, id, status) {
@@ -314,6 +304,17 @@ const createCell = (type, id, status) => {
   return cell;
 };
 
+const createGrid = (size, controller) => {
+  const grid = {};
+  for (let i = 0; i < size; i++) {
+    grid[alphabet[i]] = [];
+    for (let j = 0; j < size; j++) {
+      grid[alphabet[i]][j] = createCell(controller, i + j, "empty");
+    }
+  }
+  return grid;
+};
+
 class GameBoard {
   constructor(size, type, controller) {
     this.size = size;
@@ -326,6 +327,40 @@ class GameBoard {
 const createBoard = (size, type, controller) => {
   const board = new GameBoard(size, type, controller);
   return board;
+};
+
+const createBoardElement = (size, type, controller) => {
+  const boardHTML = document.createElement("div");
+  const board = { size: size, type: type, controller: controller, grid: {} };
+
+  boardHTML.id = controller;
+  boardHTML.setAttribute("data-size", type);
+  boardHTML.className = "game-board";
+
+  for (let i = 0; i < size; i++) {
+    const row = document.createElement("div");
+    row.className = "row";
+    board.grid[alphabet[i]] = [];
+    for (let j = 0; j < size; j++) {
+      const cell = {
+        type: controller,
+        id: `${alphabet[i]}:${j}`,
+        status: "empty",
+      };
+      const tile = document.createElement("div");
+      tile.className = "tile";
+      board.grid[alphabet[i]][j] = cell;
+      tile.addEventListener("click", () => {
+        tile.style.backgroundColor = cell.status === "empty" ? "red" : "white";
+        cell.status = cell.status === "empty" ? "clicked" : "empty";
+        console.log(`Tile: ${cell.id} was clicked!`);
+      });
+      row.appendChild(tile);
+    }
+    boardHTML.appendChild(row);
+  }
+
+  return { element: boardHTML, object: board };
 };
 
 /* APPLICATION ORDER */
@@ -344,9 +379,11 @@ const beginIntroduction = async () => {
 };
 
 // RUN APPLICATION
-const player1Board = createBoard(6, "large", "player");
+const boardData = createBoardElement(6, "large", "player");
+const player1Board = boardData.object;
+gameContainer.appendChild(boardData.element);
 
-console.log(player1Board.grid["A"][0]);
+// console.log(player1Board.grid["A"][0]);
 // beginIntroduction();
 /* ============= */
 
