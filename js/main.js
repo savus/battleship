@@ -418,8 +418,8 @@ const playerBoardElement = playerBoardData.element;
 const computerBoardData = createBoardElement(6, "large", "computer");
 const computerBoard = computerBoardData.object;
 const computerBoardElement = computerBoardData.element;
-gameContainer.appendChild(playerBoardElement);
-gameContainer.appendChild(computerBoardElement);
+// gameContainer.appendChild(playerBoardElement);
+// gameContainer.appendChild(computerBoardElement);
 
 // beginIntroduction();
 /* ============= */
