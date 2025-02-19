@@ -316,22 +316,17 @@ const createGrid = (size, controller) => {
 };
 
 class GameBoard {
+  grid = {};
   constructor(size, type, controller) {
     this.size = size;
     this.type = type;
     this.controller = controller;
-    this.grid = createGrid(size, controller);
   }
 }
 
-const createBoard = (size, type, controller) => {
-  const board = new GameBoard(size, type, controller);
-  return board;
-};
-
 const createBoardElement = (size, type, controller) => {
   const boardHTML = document.createElement("div");
-  const board = { size: size, type: type, controller: controller, grid: {} };
+  const board = new GameBoard(size, type, controller);
   let tileCount = 0;
 
   boardHTML.id = controller;
@@ -345,18 +340,20 @@ const createBoardElement = (size, type, controller) => {
     board.grid[alphabet[i]] = [];
     for (let j = 0; j < size; j++) {
       tileCount++;
-      const cell = {
-        type: controller,
-        id: `${alphabet[i]}:${j}`,
-        status: "empty",
-      };
+      const cell = new Cell(controller, `${alphabet[i]}:${j}`, "empty");
       const tile = document.createElement("div");
-      tile.className = "tile";
-      board.grid[alphabet[i]][j] = cell;
-      cell.htmlElement = tile;
-      tile.addEventListener("click", () => {});
-      tile.style.setProperty("--i", tileCount);
 
+      tile.className = "tile";
+      tile.style.setProperty("--i", tileCount);
+      if (controller === "computer") {
+        tile.addEventListener("click", () => {
+          setActive(tile, ".tile");
+        });
+      }
+
+      cell.htmlElement = tile;
+
+      board.grid[alphabet[i]][j] = cell;
       row.appendChild(tile);
     }
     boardHTML.appendChild(row);
@@ -397,10 +394,14 @@ const beginIntroduction = async () => {
 };
 
 // RUN APPLICATION
-const boardData = createBoardElement(6, "large", "player");
-const player1Board = boardData.object;
-const player1BoardElement = boardData.element;
-gameContainer.appendChild(boardData.element);
+const playerBoardData = createBoardElement(6, "large", "player");
+const playerBoard = playerBoardData.object;
+const playerBoardElement = playerBoardData.element;
+const computerBoardData = createBoardElement(6, "large", "computer");
+const computerBoard = computerBoardData.object;
+const computerBoardElement = computerBoardData.element;
+gameContainer.appendChild(playerBoardElement);
+gameContainer.appendChild(computerBoardElement);
 
 // beginIntroduction();
 /* ============= */
@@ -408,9 +409,9 @@ gameContainer.appendChild(boardData.element);
 //DEBUGGING
 let controlsToggle = false;
 const testControls = () => {
-  if (!controlsToggle) setAllBoardTilesClass("player", "set-up");
+  if (!controlsToggle) setAllBoardTilesClass("player", "hovering");
   else {
-    setAllBoardTilesClass("player", "set-up");
+    setAllBoardTilesClass("player", "hovering");
   }
   controlsToggle = !controlsToggle;
 };
@@ -423,5 +424,14 @@ document.addEventListener("keyup", (e) => {
       break;
     default:
       break;
+  }
+});
+
+document.addEventListener("click", (e) => {
+  const selectedElement = document.querySelector(".tile.active");
+  {
+    if (selectedElement !== null && !e.target.classList.contains("active")) {
+      selectedElement.classList.remove("active");
+    }
   }
 });
