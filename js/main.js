@@ -332,16 +332,19 @@ const createBoard = (size, type, controller) => {
 const createBoardElement = (size, type, controller) => {
   const boardHTML = document.createElement("div");
   const board = { size: size, type: type, controller: controller, grid: {} };
+  let tileCount = 0;
 
   boardHTML.id = controller;
   boardHTML.setAttribute("data-size", type);
   boardHTML.className = "game-board";
 
   for (let i = 0; i < size; i++) {
+    tileCount++;
     const row = document.createElement("div");
     row.className = "row";
     board.grid[alphabet[i]] = [];
     for (let j = 0; j < size; j++) {
+      tileCount++;
       const cell = {
         type: controller,
         id: `${alphabet[i]}:${j}`,
@@ -352,6 +355,7 @@ const createBoardElement = (size, type, controller) => {
       board.grid[alphabet[i]][j] = cell;
       cell.htmlElement = tile;
       tile.addEventListener("click", () => {});
+      tile.style.setProperty("--i", tileCount);
 
       row.appendChild(tile);
     }
@@ -390,10 +394,7 @@ const beginIntroduction = async () => {
 const boardData = createBoardElement(6, "large", "player");
 const player1Board = boardData.object;
 gameContainer.appendChild(boardData.element);
-const cellA0 = getCell(player1Board, "A0");
-const tileA0 = getTile(player1Board, "A0");
-tileA0.addEventListener("click", () => {});
-// console.log(player1Board.grid["A"][0]);
+boardData.element.classList.add("set-up");
 // beginIntroduction();
 /* ============= */
 

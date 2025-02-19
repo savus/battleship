@@ -327,6 +327,15 @@ input,
   /* animation: hoveringTile 3s ease-in-out infinite alternate; */
 }
 
+.game-board.set-up .tile {
+  --anim-name: flipFallDown;
+  --anim-duration: 0.5s;
+  --anim-delay: calc(var(--i) * 0.1s);
+  --anim-count: 1;
+  --anim-dir: forwards;
+  opacity: 0;
+}
+
 /* ANIMATIONS */
 
 @keyframes loadingAnim {
@@ -382,12 +391,13 @@ input,
   }
 }
 
-@keyframes spinFallDown {
+@keyframes flipFallDown {
   0% {
     transform: rotate3d(0, 1, 0, 50deg) translate(-60px, -20px);
+    opacity: 0;
   }
-
   100% {
     transform: rotate3d(0, 0, 0, 0deg) translate(0, 0);
+    opacity: 1;
   }
 }
