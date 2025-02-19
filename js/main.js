@@ -375,6 +375,12 @@ const getTile = (board, coords) => {
   const cell = getCell(board, coords);
   return cell.htmlElement;
 };
+
+const setAllBoardTilesClass = (boardID, className) => {
+  const tiles = Array.from(document.querySelectorAll(`#${boardID} .tile`));
+  tiles.map((tile) => tile.classList.toggle(className));
+};
+
 /* APPLICATION ORDER */
 
 const beginLoading = async () => {
@@ -393,17 +399,18 @@ const beginIntroduction = async () => {
 // RUN APPLICATION
 const boardData = createBoardElement(6, "large", "player");
 const player1Board = boardData.object;
+const player1BoardElement = boardData.element;
 gameContainer.appendChild(boardData.element);
-boardData.element.classList.add("set-up");
+
 // beginIntroduction();
 /* ============= */
 
 //DEBUGGING
 let controlsToggle = false;
 const testControls = () => {
-  if (!controlsToggle) messageHandler.openMessageBox();
+  if (!controlsToggle) setAllBoardTilesClass("player", "set-up");
   else {
-    messageHandler.closeMessageBox();
+    setAllBoardTilesClass("player", "set-up");
   }
   controlsToggle = !controlsToggle;
 };

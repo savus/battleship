@@ -297,7 +297,7 @@ input,
 }
 
 .game-board .tile {
-  --anim-name: hoveringTile;
+  --anim-name: none;
   --anim-duration: 1.8s;
   --anim-tf: ease-in-out;
   --anim-delay: 0s;
@@ -308,32 +308,37 @@ input,
   background-color: #fff;
   border-radius: 8px;
   border: 2px solid black;
-  box-shadow: 1px 12px 8px 0px rgba(0, 0, 0, 0.3),
+  box-shadow: 1px 12px 8px 0px rgba(0, 0, 0, 0.6),
     0px 0px 12px 1px rgb(0, 128, 124) inset;
   position: relative;
   animation: var(--anim-name) var(--anim-duration) var(--anim-tf)
     var(--anim-delay) var(--anim-dir) var(--anim-count);
 }
 
-.game-board .tile:hover {
+.game-board .tile.hovering {
+  --anim-name: hoveringTile;
+  --anim-duration: 1.8s;
+  --anim-tf: ease-in-out;
+  --anim-delay: 0s;
+  --anim-count: infinite;
+  --anim-dir: forwards;
+}
+
+.game-board .tile.set-up {
+  --anim-name: flipFallDown;
+  --anim-duration: 0.5s;
+  --anim-delay: calc(var(--i) * 0.06s);
+  --anim-count: 1;
+  --anim-dir: forwards;
+  opacity: 0;
+}
+
+.game-board .tile:not(.set-up):hover {
   --anim-name: none;
   box-shadow: 1px 12px 8px 0px rgba(0, 0, 0, 0.8),
     0px 0px 12px 1px rgba(78, 247, 210, 0.8) inset;
   transform: scale(1.2);
   cursor: pointer;
-}
-
-.game-board .row:nth-child(1) .tile:nth-child(1) {
-  /* animation: hoveringTile 3s ease-in-out infinite alternate; */
-}
-
-.game-board.set-up .tile {
-  --anim-name: flipFallDown;
-  --anim-duration: 0.5s;
-  --anim-delay: calc(var(--i) * 0.1s);
-  --anim-count: 1;
-  --anim-dir: forwards;
-  opacity: 0;
 }
 
 /* ANIMATIONS */
@@ -393,11 +398,11 @@ input,
 
 @keyframes flipFallDown {
   0% {
-    transform: rotate3d(0, 1, 0, 50deg) translate(-60px, -20px);
+    transform: translate(-60px, -20px);
     opacity: 0;
   }
   100% {
-    transform: rotate3d(0, 0, 0, 0deg) translate(0, 0);
+    transform: translate(0, 0);
     opacity: 1;
   }
 }
