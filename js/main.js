@@ -350,11 +350,9 @@ const createBoardElement = (size, type, controller) => {
       const tile = document.createElement("div");
       tile.className = "tile";
       board.grid[alphabet[i]][j] = cell;
-      tile.addEventListener("click", () => {
-        tile.style.backgroundColor = cell.status === "empty" ? "red" : "white";
-        cell.status = cell.status === "empty" ? "clicked" : "empty";
-        console.log(`Tile: ${cell.id} was clicked!`);
-      });
+      cell.htmlElement = tile;
+      tile.addEventListener("click", () => {});
+
       row.appendChild(tile);
     }
     boardHTML.appendChild(row);
@@ -363,6 +361,16 @@ const createBoardElement = (size, type, controller) => {
   return { element: boardHTML, object: board };
 };
 
+const getCell = (board, coords) => {
+  const letter = coords.slice(0, 1);
+  const number = coords.slice(1);
+  return board.grid[letter][number];
+};
+
+const getTile = (board, coords) => {
+  const cell = getCell(board, coords);
+  return cell.htmlElement;
+};
 /* APPLICATION ORDER */
 
 const beginLoading = async () => {
@@ -382,7 +390,9 @@ const beginIntroduction = async () => {
 const boardData = createBoardElement(6, "large", "player");
 const player1Board = boardData.object;
 gameContainer.appendChild(boardData.element);
-
+const cellA0 = getCell(player1Board, "A0");
+const tileA0 = getTile(player1Board, "A0");
+tileA0.addEventListener("click", () => {});
 // console.log(player1Board.grid["A"][0]);
 // beginIntroduction();
 /* ============= */
