@@ -115,9 +115,13 @@ let userSaidNo = false;
 let currentMessageObj = data.introductions[dataObjectIndex];
 
 const setActive = (target, selector = null) => {
+  removeSelectedActive(selector);
+  target.classList.add(active);
+};
+
+const removeSelectedActive = (selector) => {
   const selectedElement = document.querySelector(`${selector}.${active}`);
   if (selectedElement !== null) selectedElement.classList.remove(active);
-  target.classList.add(active);
 };
 
 const removeActive = (target) => target.classList.remove(active);
@@ -297,6 +301,8 @@ class Cell {
     this.id = id;
     this.status = status;
   }
+
+  getStatus = () => this.status;
 }
 
 const createCell = (type, id, status) => {
@@ -324,6 +330,24 @@ class GameBoard {
   }
 }
 
+const createTile = (tileCount) => {
+  const tile = document.createElement("div");
+
+  tile.className = "tile";
+  tile.style.setProperty("--i", tileCount);
+  return tile;
+};
+
+const createTileButton = (cell) => {
+  const button = document.createElement("button");
+  button.className = "btn tile-confirm";
+  button.innerText = "Confirm!";
+  button.addEventListener("click", () => {
+    console.log(cell.getStatus());
+  });
+  return button;
+};
+
 const createBoardElement = (size, type, controller) => {
   const boardHTML = document.createElement("div");
   const board = new GameBoard(size, type, controller);
@@ -340,17 +364,11 @@ const createBoardElement = (size, type, controller) => {
     board.grid[alphabet[i]] = [];
     for (let j = 0; j < size; j++) {
       tileCount++;
-      const cell = new Cell(controller, `${alphabet[i]}:${j}`, "empty");
-      const tile = document.createElement("div");
+      const cell = new Cell(controller, `${alphabet[i]}:${j}`, "occupied");
+      const tile = createTile(tileCount);
+      const button = createTileButton(cell);
 
-      tile.className = "tile";
-      tile.style.setProperty("--i", tileCount);
-      if (controller === "computer") {
-        tile.addEventListener("click", () => {
-          setActive(tile, ".tile");
-        });
-      }
-
+      tile.appendChild(button);
       cell.htmlElement = tile;
 
       board.grid[alphabet[i]][j] = cell;
@@ -428,10 +446,13 @@ document.addEventListener("keyup", (e) => {
 });
 
 document.addEventListener("click", (e) => {
-  const selectedElement = document.querySelector(".tile.active");
-  {
-    if (selectedElement !== null && !e.target.classList.contains("active")) {
-      selectedElement.classList.remove("active");
-    }
+  const isTile = e.target.matches(".tile");
+
+  if (!isTile) {
+    removeSelectedActive(".tile");
+  }
+
+  if (isTile) {
+    setActive(e.target, ".tile");
   }
 });
