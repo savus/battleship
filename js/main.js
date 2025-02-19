@@ -343,9 +343,15 @@ const createTileButton = (cell) => {
   button.className = "btn tile-confirm";
   button.innerText = "Confirm!";
   button.addEventListener("click", () => {
-    console.log(cell.getStatus());
+    cell.displayStatus();
   });
   return button;
+};
+
+const createTileStatus = () => {
+  const tileStatus = document.createElement("div");
+  tileStatus.className = "status";
+  return tileStatus;
 };
 
 const createBoardElement = (size, type, controller) => {
@@ -364,13 +370,21 @@ const createBoardElement = (size, type, controller) => {
     board.grid[alphabet[i]] = [];
     for (let j = 0; j < size; j++) {
       tileCount++;
-      const cell = new Cell(controller, `${alphabet[i]}:${j}`, "occupied");
+      const cell = new Cell(controller, `${alphabet[i]}:${j}`, "empty");
       const tile = createTile(tileCount);
       const button = createTileButton(cell);
+      const tileStatus = createTileStatus();
 
       tile.appendChild(button);
+      tile.appendChild(tileStatus);
+
       cell.htmlElement = tile;
 
+      cell.displayStatus = function () {
+        this.htmlElement.setAttribute("data-status", this.getStatus());
+      };
+
+      cell.displayStatus();
       board.grid[alphabet[i]][j] = cell;
       row.appendChild(tile);
     }
@@ -418,8 +432,8 @@ const playerBoardElement = playerBoardData.element;
 const computerBoardData = createBoardElement(6, "large", "computer");
 const computerBoard = computerBoardData.object;
 const computerBoardElement = computerBoardData.element;
-// gameContainer.appendChild(playerBoardElement);
-// gameContainer.appendChild(computerBoardElement);
+gameContainer.appendChild(playerBoardElement);
+gameContainer.appendChild(computerBoardElement);
 
 // beginIntroduction();
 /* ============= */
