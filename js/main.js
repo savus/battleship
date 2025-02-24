@@ -1,4 +1,6 @@
 import { createBoardElement } from "./board-elements.js";
+import data from "./data-objects.js";
+import { beginIntroduction, beginLoading } from "./gameplay-chapters.js";
 import MessageHandler, {
   goToNextDataObject,
   goToPrevDataObject,
@@ -8,98 +10,22 @@ export const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 const active = "active";
 
-const loadingClass = ".loading-screen";
-const loader = document.querySelector(loadingClass);
-const loadingScreenDuration = 5000;
-const pauseBetweenAnimations = 500;
-
 const messageBoxClass = ".message-box";
-const messageControls = ".message-box-controls";
-const messageTextClass = ".message-box-text";
 const messageBox = document.querySelector(messageBoxClass);
+const messageControls = ".message-box-controls";
 const messageBoxControls = document.querySelector(messageControls);
-const messageText = document.querySelector(messageTextClass);
+const messageTextClass = ".message-box-text";
+export const messageText = document.querySelector(messageTextClass);
 const dataButton = "[data-button]";
 
 const userInputID = "user-input";
-const userInputField = document.getElementById(userInputID);
+export const userInputField = document.getElementById(userInputID);
 
-const messageHandler = new MessageHandler(
+export const messageHandler = new MessageHandler(
   messageBox,
   messageBoxControls,
   messageText
 );
-
-const data = {
-  introductions: [
-    {
-      dataState: "prev-next",
-      messageList: [
-        "This is the first message",
-        "This is going to be the second message",
-        "And this here, hooooo boy, this is the third message",
-        "You still with me here? Fourth message up and comming",
-        "Aint no one stopping the fifth message",
-        "For programming purposes, this should be the last message",
-      ],
-      prevStep: () => {
-        messageHandler.clearText();
-        messageHandler.closeMessageBox();
-      },
-      nextStep: () => {
-        goToNextDataObject(data.introductions, messageHandler);
-      },
-    },
-    {
-      dataState: "prompt",
-      messageList: ["What do you like for breakfast in the morning?"],
-      promptStep: () => {
-        userInput = userInputField.value;
-        console.log(`You like ${userInput}?`);
-        clearText(messageText);
-        userInputField.value = "";
-        goToNextDataObject(data.introductions, messageHandler);
-      },
-    },
-    {
-      dataState: "prev-next",
-      messageList: [
-        "This is another prev-next message list, like maybe for a warning or something",
-        "Like before you should be able to click back and forth between the texts",
-        "This is number 3",
-      ],
-      prevStep: () => {
-        goToPrevDataObject(data.introductions, messageHandler);
-      },
-      nextStep: () => {
-        goToNextDataObject(data.introductions, messageHandler);
-      },
-    },
-    {
-      dataState: "confirm",
-      messageList: [
-        "This is a confirm message, like maybe for a warning or something",
-      ],
-      confirmStep: () => {
-        goToNextDataObject(data.introductions, messageHandler);
-      },
-    },
-    {
-      dataState: "yes-no",
-      messageList: ["Answer yes or no, do you like pancakes"],
-      noStep: () => {
-        console.log("You don't like pancakes!?");
-        messageHandler.clearText();
-        messageHandler.closeMessageBox();
-      },
-      yesStep: () => {
-        console.log("You actually DO like pancakes?!?!?!?");
-        messageHandler.clearText();
-        messageHandler.closeMessageBox();
-      },
-    },
-  ],
-};
 
 const gameContainerClass = ".game-board-container";
 const gameContainer = document.querySelector(gameContainerClass);
@@ -110,7 +36,7 @@ export let textSpeed = 10;
 export let messageListIndex = 0;
 export let dataObjectIndex = 0;
 export let currentMessageObj = data.introductions[dataObjectIndex];
-let userInput = "";
+export let userInput = "";
 let userSaidYes = false;
 let userSaidNo = false;
 
@@ -125,6 +51,10 @@ export const setDataObjectIndex = (num) => (dataObjectIndex = num);
 
 export const setCurrentMessageObj = (messageObj) =>
   (currentMessageObj = messageObj);
+
+export const setUserInput = (value) => (userInput = value);
+
+export const setUserInputField = (value) => (userInputField.value = value);
 
 export const setActive = (target, selector = null) => {
   removeSelectedActive(selector);
@@ -183,21 +113,6 @@ const resetYesAndNo = () => {
 const resetUserInput = () => {
   userInputField.value = "";
   userInput = "";
-};
-
-/* APPLICATION GAMEPLAY */
-
-const beginLoading = async () => {
-  setActive(loader);
-  await pause(loadingScreenDuration);
-  removeActive(loader);
-};
-
-const beginIntroduction = async () => {
-  await pause(pauseBetweenAnimations);
-  messageHandler.openMessageBox();
-  await pause(pauseBetweenAnimations);
-  messageHandler.readCurrentMessage(currentMessageObj);
 };
 
 // RUN APPLICATION
