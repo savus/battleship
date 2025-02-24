@@ -5,7 +5,7 @@ export class Cell {
   constructor(type, status, coords) {
     this.type = type;
     this.status = status;
-    this.boardLocation = coords;
+    this.coords = coords;
   }
 
   getStatus = () => this.status;
@@ -47,6 +47,5 @@ export const isCellOccupied = (cell) => cell.getStatus() !== "empty";
 
 export const isCellInsideOfBoard = (coords, boardSize) => {
   const { column, row } = convertCoordsToNumber(coords);
-  console.log(column, row);
   return column < boardSize && row < boardSize;
 };

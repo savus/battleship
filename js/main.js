@@ -121,7 +121,8 @@ gameContainer.appendChild(computerBoardElement);
 // getCell(playerBoard, "A0").displayStatus();
 const ships = [];
 populateShips(shipData, ships);
-
+ships[0].placeShipPieces(playerBoard, boardSize);
+console.log(ships[0]);
 /* ============= */
 
 messageBoxControls.addEventListener("click", ({ target }) => {

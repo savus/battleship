@@ -1,5 +1,6 @@
 import {
   convertCoordsToNumber,
+  convertCoordsToString,
   getRandomCell,
   isCellInsideOfBoard,
   isCellOccupied,
@@ -20,7 +21,6 @@ export class Ship {
   placeShipPieces = (board, boardSize) => {
     this.pieceCoords.length = 0;
     let cell = getRandomCell(board, boardSize);
-
     for (let i = 0; i < this.length; i++) {
       if (
         isCellOccupied(cell) ||
@@ -28,8 +28,10 @@ export class Ship {
       ) {
         this.placeShipPieces(board, boardSize);
       }
-      this.pieceCoords.push(cell.coords);
     }
+    // this.pieceCoords.push(cell.coords);
+    // cell.setStatus("occupied");
+    // cell.displayStatus();
   };
 }
 
