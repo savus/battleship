@@ -45,7 +45,7 @@ export const getRandomCell = (board, boardSize) => {
 
 export const isCellOccupied = (cell) => cell.getStatus() !== "empty";
 
-export const isCellInsideOfBoard = (coords, boardSize) => {
-  const { column, row } = convertCoordsToNumber(coords);
+export const isCellInsideOfBoard = (cell, boardSize) => {
+  const { column, row } = convertCoordsToNumber(cell.coords);
   return column < boardSize && row < boardSize;
 };

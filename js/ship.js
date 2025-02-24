@@ -1,6 +1,7 @@
 import {
   convertCoordsToNumber,
   convertCoordsToString,
+  getCell,
   getRandomCell,
   isCellInsideOfBoard,
   isCellOccupied,
@@ -12,29 +13,18 @@ export class Ship {
   occupiedTiles = [];
   occupiedCells = [];
 
-  constructor({ name, lives, length }) {
+  constructor({ name, lives, length }, board) {
     this.name = name;
     this.lives = lives;
     this.length = length;
+    this.board = board;
   }
 
-  placeShipPieces = (board, boardSize) => {
-    this.pieceCoords.length = 0;
-    let cell = getRandomCell(board, boardSize);
-    for (let i = 0; i < this.length; i++) {
-      if (
-        isCellOccupied(cell) ||
-        !isCellInsideOfBoard(cell.coords, boardSize)
-      ) {
-        this.placeShipPieces(board, boardSize);
-      }
-    }
-    // this.pieceCoords.push(cell.coords);
-    // cell.setStatus("occupied");
-    // cell.displayStatus();
+  placeShipPieces = (boardSize) => {
+    return;
   };
 }
 
-export const populateShips = (shipData, shipList) => {
-  shipData.forEach((ship) => shipList.push(new Ship(ship)));
+export const populateShips = (dataList, shipBoard) => {
+  return dataList.map((shipData) => new Ship(shipData, shipBoard));
 };
