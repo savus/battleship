@@ -325,6 +325,8 @@ const createGrid = (size, controller) => {
   return grid;
 };
 
+const tileButtonClass = ".tile-button";
+
 class GameBoard {
   grid = {};
   constructor(size, type, controller) {
@@ -344,7 +346,7 @@ const createTile = (tileCount) => {
 
 const createTileButton = (cell) => {
   const button = document.createElement("button");
-  button.className = "btn tile-confirm";
+  button.className = `btn ${tileButtonClass}`;
   button.innerText = "Confirm!";
   button.addEventListener("click", () => {
     cell.displayStatus();
@@ -449,7 +451,7 @@ const computerBoardElement = computerBoardData.element;
 gameContainer.appendChild(playerBoardElement);
 gameContainer.appendChild(computerBoardElement);
 
-// beginIntroduction();
+// beginLoading().then(beginIntroduction);
 /* ============= */
 
 //DEBUGGING
