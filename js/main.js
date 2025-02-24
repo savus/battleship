@@ -1,11 +1,18 @@
 import { createBoardElement } from "./board-elements.js";
-import { getCell } from "./cell.js";
+import {
+  convertCoordsToNumber,
+  getCell,
+  getRandomCell,
+  isCellOccupied,
+  isCellInsideOfBoard,
+} from "./cell.js";
 import data from "./data-objects.js";
 import { beginIntroduction, beginLoading } from "./gameplay-chapters.js";
 import MessageHandler, {
   disableAllControlButtons,
   enableAllControlButtons,
 } from "./message-box.js";
+import { populateShips } from "./ship.js";
 
 export const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
@@ -28,6 +35,7 @@ export const messageHandler = new MessageHandler(
   messageText
 );
 
+const boardSize = 6;
 const gameContainerClass = ".game-board-container";
 const gameContainer = document.querySelector(gameContainerClass);
 
@@ -41,10 +49,10 @@ export let userInput = "";
 let userSaidYes = false;
 let userSaidNo = false;
 
-const playerBoardData = createBoardElement(6, "large", "player");
+const playerBoardData = createBoardElement(boardSize, "large", "player");
 const playerBoard = playerBoardData.object;
 const playerBoardElement = playerBoardData.element;
-const computerBoardData = createBoardElement(6, "large", "computer");
+const computerBoardData = createBoardElement(boardSize, "large", "computer");
 const computerBoard = computerBoardData.object;
 const computerBoardElement = computerBoardData.element;
 
@@ -108,7 +116,10 @@ gameContainer.appendChild(playerBoardElement);
 gameContainer.appendChild(computerBoardElement);
 
 // beginLoading().then(beginIntroduction);
-getCell(playerBoard, "A0").displayStatus();
+// getCell(playerBoard, "A0").displayStatus();
+const ships = [];
+populateShips(shipData, ships);
+
 /* ============= */
 
 messageBoxControls.addEventListener("click", ({ target }) => {

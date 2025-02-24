@@ -23,11 +23,11 @@ export class GameBoard {
   }
 }
 
-const createTile = (tileCount) => {
+const createTile = (tileDelay) => {
   const tile = document.createElement("div");
 
   tile.className = "tile";
-  tile.style.setProperty("--i", tileCount);
+  tile.style.setProperty("--i", tileDelay);
   return tile;
 };
 
@@ -72,10 +72,6 @@ export const createBoardElement = (size, type, controller) => {
       tile.appendChild(tileStatus);
 
       cell.htmlElement = tile;
-
-      cell.displayStatus = function () {
-        this.htmlElement.setAttribute("data-status", this.getStatus());
-      };
 
       cell.displayStatus();
       board.grid[alphabet[i]][j] = cell;
