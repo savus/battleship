@@ -1,4 +1,4 @@
-import { alphabet } from "./main.js";
+import { alphabet, dataButton } from "./main.js";
 
 const tileButtonClass = "tile-button";
 
@@ -118,3 +118,21 @@ export const setAllBoardTilesClass = (boardID, className) => {
   const tiles = Array.from(document.querySelectorAll(`#${boardID} .tile`));
   tiles.map((tile) => tile.classList.toggle(className));
 };
+
+export const setControlState = (element, dataState) => {
+  element.setAttribute("data-state", dataState);
+};
+
+const disableButton = (btn) => (btn.disabled = true);
+
+const enableButton = (btn) => (btn.disabled = false);
+
+export const disableAllControlButtons = () =>
+  document
+    .querySelectorAll(dataButton)
+    .forEach((button) => disableButton(button));
+
+export const enableAllControlButtons = () =>
+  document
+    .querySelectorAll(dataButton)
+    .forEach((button) => enableButton(button));

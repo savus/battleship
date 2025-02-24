@@ -1,4 +1,8 @@
-import { createBoardElement } from "./board-elements.js";
+import {
+  createBoardElement,
+  disableAllControlButtons,
+  enableAllControlButtons,
+} from "./board-elements.js";
 import data from "./data-objects.js";
 import { beginIntroduction, beginLoading } from "./gameplay-chapters.js";
 import MessageHandler, {
@@ -16,7 +20,7 @@ const messageControls = ".message-box-controls";
 export const messageBoxControls = document.querySelector(messageControls);
 const messageTextClass = ".message-box-text";
 export const messageText = document.querySelector(messageTextClass);
-const dataButton = "[data-button]";
+export const dataButton = "[data-button]";
 
 const userInputID = "user-input";
 export const userInputField = document.getElementById(userInputID);
@@ -71,24 +75,6 @@ export const removeSelectedActive = (selector) => {
 };
 
 export const removeActive = (target) => target.classList.remove(active);
-
-export const setControlState = (element, dataState) => {
-  element.setAttribute("data-state", dataState);
-};
-
-const disableButton = (btn) => (btn.disabled = true);
-
-const enableButton = (btn) => (btn.disabled = false);
-
-export const disableAllControlButtons = () =>
-  document
-    .querySelectorAll(dataButton)
-    .forEach((button) => disableButton(button));
-
-export const enableAllControlButtons = () =>
-  document
-    .querySelectorAll(dataButton)
-    .forEach((button) => enableButton(button));
 
 export const pause = (ms) =>
   new Promise((resolve) => {

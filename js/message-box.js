@@ -1,10 +1,10 @@
+import { setControlState } from "./board-elements.js";
 import {
   clearText,
   currentMessageObj,
   dataObjectIndex,
   removeActive,
   setActive,
-  setControlState,
   setCurrentMessageObj,
   setDataObjectIndex,
   textSpeed,
