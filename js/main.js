@@ -325,7 +325,7 @@ const createGrid = (size, controller) => {
   return grid;
 };
 
-const tileButtonClass = ".tile-button";
+const tileButtonClass = "tile-button";
 
 class GameBoard {
   grid = {};
