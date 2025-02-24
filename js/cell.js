@@ -2,10 +2,10 @@ import { alphabet } from "./main.js";
 
 export class Cell {
   htmlElement;
-  constructor(type, id, status) {
+  constructor(type, status, coords) {
     this.type = type;
-    this.id = id;
     this.status = status;
+    this.boardLocation = coords;
   }
 
   getStatus = () => this.status;
@@ -17,33 +17,33 @@ export class Cell {
   };
 }
 
-export const createCell = (type, id, status) => {
-  const cell = new Cell(type, id, status);
-  return cell;
+export const separateChars = (coords) => {
+  const letter = coords.slice(0, 1);
+  const number = coords.slice(1);
+  return { letter: letter, number: number };
 };
 
 export const getCell = (board, coords) => {
-  const letter = coords.slice(0, 1);
-  const number = coords.slice(1);
-  return board.grid[letter][number];
+  const { letter: yCoord, number: xCoord } = separateChars(coords);
+  return board.grid[yCoord][xCoord];
 };
 
+export const convertCoordsToNumber = (coords) => {
+  const { letter, number } = separateChars(coords);
+  const column = letter.charCodeAt() - 65;
+  const row = parseInt(number);
+  return { column: column, row: row };
+};
+
+export const convertCoordsToString = ({ col, row }) => `${alphabet[col]}${row}`;
+
 export const getRandomCell = (board, boardSize) => {
+  const randomYCoord = alphabet[Math.floor(Math.random() * boardSize)];
   const randomXCoord = Math.floor(Math.random() * boardSize);
-  const randomYCoord = Math.floor(Math.random() * boardSize);
-  const convertedXCoord = alphabet[randomXCoord];
-  const randomCoords = `${convertedXCoord}${randomYCoord}`;
-  const randomCell = getCell(board, randomCoords);
-  return { cell: randomCell, coords: randomCoords };
+  return getCell(board, `${randomYCoord}${randomXCoord}`);
 };
 
 export const isCellOccupied = (cell) => cell.getStatus() !== "empty";
-
-export const convertCoordsToNumber = (coords) => {
-  const yCoords = coords.slice(0, 1).charCodeAt() - 65;
-  const xCoords = parseInt(coords.slice(1));
-  return { column: yCoords, row: xCoords };
-};
 
 export const isCellInsideOfBoard = (coords, boardSize) => {
   const { column, row } = convertCoordsToNumber(coords);

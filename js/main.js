@@ -5,6 +5,8 @@ import {
   getRandomCell,
   isCellOccupied,
   isCellInsideOfBoard,
+  separateChars,
+  convertCoordsToString,
 } from "./cell.js";
 import data from "./data-objects.js";
 import { beginIntroduction, beginLoading } from "./gameplay-chapters.js";

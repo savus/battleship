@@ -17,7 +17,20 @@ export class Ship {
     this.length = length;
   }
 
-  placeShipPieces = (board, boardSize) => {};
+  placeShipPieces = (board, boardSize) => {
+    this.pieceCoords.length = 0;
+    let cell = getRandomCell(board, boardSize);
+
+    for (let i = 0; i < this.length; i++) {
+      if (
+        isCellOccupied(cell) ||
+        !isCellInsideOfBoard(cell.coords, boardSize)
+      ) {
+        this.placeShipPieces(board, boardSize);
+      }
+      this.pieceCoords.push(cell.coords);
+    }
+  };
 }
 
 export const populateShips = (shipData, shipList) => {

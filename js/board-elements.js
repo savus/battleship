@@ -1,18 +1,7 @@
-import { Cell, getCell } from "./cell.js";
+import { Cell, convertCoordsToString, getCell } from "./cell.js";
 import { alphabet } from "./main.js";
 
 const tileButtonClass = "tile-button";
-
-export const createGrid = (size, controller) => {
-  const grid = {};
-  for (let i = 0; i < size; i++) {
-    grid[alphabet[i]] = [];
-    for (let j = 0; j < size; j++) {
-      grid[alphabet[i]][j] = createCell(controller, i + j, "empty");
-    }
-  }
-  return grid;
-};
 
 export class GameBoard {
   grid = {};
@@ -63,7 +52,7 @@ export const createBoardElement = (size, type, controller) => {
     board.grid[alphabet[i]] = [];
     for (let j = 0; j < size; j++) {
       tileCount++;
-      const cell = new Cell(controller, `${alphabet[i]}:${j}`, "empty");
+      const cell = new Cell(controller, "empty", `${alphabet[i]}${j}`);
       const tile = createTile(tileCount);
       const button = createTileButton(cell);
       const tileStatus = createTileStatus();
