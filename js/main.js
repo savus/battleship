@@ -106,6 +106,8 @@ const gameContainerClass = ".game-board-container";
 const gameContainer = document.querySelector(gameContainerClass);
 console.log(gameContainer);
 
+const shipData = [{ name: "Carrier", lives: 5, length: 5 }];
+
 let textSpeed = 10;
 let dataObjectIndex = 0;
 let messageListIndex = 0;
@@ -303,6 +305,8 @@ class Cell {
   }
 
   getStatus = () => this.status;
+
+  setStatus = (status) => (this.status = status);
 }
 
 const createCell = (type, id, status) => {
@@ -410,7 +414,17 @@ const setAllBoardTilesClass = (boardID, className) => {
   tiles.map((tile) => tile.classList.toggle(className));
 };
 
-/* APPLICATION ORDER */
+class Ship {
+  isHorizontal = Math.floor(Math.random() * 2) + 1 === 1 ? true : false;
+  pieceLocations = [];
+  constructor({ name, lives, length }) {
+    this.name = name;
+    this.lives = lives;
+    this.length = length;
+  }
+}
+
+/* APPLICATION GAMEPLAY */
 
 const beginLoading = async () => {
   setActive(loader);
