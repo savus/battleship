@@ -1,3 +1,8 @@
+import MessageHandler, {
+  goToNextDataObject,
+  goToPrevDataObject,
+} from "./message-box.js";
+
 const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 const active = "active";
@@ -104,31 +109,34 @@ const data = {
 
 const gameContainerClass = ".game-board-container";
 const gameContainer = document.querySelector(gameContainerClass);
-console.log(gameContainer);
 
 const shipData = [{ name: "Carrier", lives: 5, length: 5 }];
 
-let textSpeed = 10;
-let dataObjectIndex = 0;
-let messageListIndex = 0;
+export let textSpeed = 10;
+export let messageListIndex = 0;
+export let dataObjectIndex = 0;
+export let currentMessageObj = data.introductions[dataObjectIndex];
 let userInput = "";
 let userSaidYes = false;
 let userSaidNo = false;
-let currentMessageObj = data.introductions[dataObjectIndex];
 
-const setActive = (target, selector = null) => {
+export const setDataObjectIndex = (num) => (dataObjectIndex = num);
+export const setCurrentMessageObj = (messageObj) =>
+  (currentMessageObj = messageObj);
+
+export const setActive = (target, selector = null) => {
   removeSelectedActive(selector);
   target.classList.add(active);
 };
 
-const removeSelectedActive = (selector) => {
+export const removeSelectedActive = (selector) => {
   const selectedElement = document.querySelector(`${selector}.${active}`);
   if (selectedElement !== null) selectedElement.classList.remove(active);
 };
 
-const removeActive = (target) => target.classList.remove(active);
+export const removeActive = (target) => target.classList.remove(active);
 
-const setControlState = (element, dataState) => {
+export const setControlState = (element, dataState) => {
   element.setAttribute("data-state", dataState);
 };
 
@@ -136,22 +144,22 @@ const disableButton = (btn) => (btn.disabled = true);
 
 const enableButton = (btn) => (btn.disabled = false);
 
-const disableAllControlButtons = () =>
+export const disableAllControlButtons = () =>
   document
     .querySelectorAll(dataButton)
     .forEach((button) => disableButton(button));
 
-const enableAllControlButtons = () =>
+export const enableAllControlButtons = () =>
   document
     .querySelectorAll(dataButton)
     .forEach((button) => enableButton(button));
 
-const pause = (ms) =>
+export const pause = (ms) =>
   new Promise((resolve) => {
     return setTimeout(resolve, ms);
   });
 
-const typeWords = async (textField, message, typeSpeed = 50) => {
+export const typeWords = async (textField, message, typeSpeed = 50) => {
   disableAllControlButtons();
   const letters = message.split("");
   let text = "";
@@ -163,7 +171,7 @@ const typeWords = async (textField, message, typeSpeed = 50) => {
   enableAllControlButtons();
 };
 
-const clearText = (textField) => (textField.innerText = "");
+export const clearText = (textField) => (textField.innerText = "");
 
 const resetYesAndNo = () => {
   userSaidNo = false;
@@ -173,93 +181,6 @@ const resetYesAndNo = () => {
 const resetUserInput = () => {
   userInputField.value = "";
   userInput = "";
-};
-
-class MessageHandler {
-  messageListIndex = 0;
-  constructor(messageBox, controls, textField) {
-    this.controls = controls;
-    this.messageBox = messageBox;
-    this.textField = textField;
-  }
-
-  openMessageBox = () => {
-    setActive(this.messageBox);
-    this.messageBox.classList.remove("close");
-  };
-
-  closeMessageBox = () => {
-    removeActive(this.messageBox);
-    this.messageBox.classList.add("close");
-  };
-
-  updateControlState = (messageObj) => {
-    setControlState(this.controls, messageObj.dataState);
-  };
-
-  clearText = () => {
-    clearText(this.textField);
-  };
-
-  setMessageListIndex = (num) => (this.messageListIndex = num);
-
-  resetMessageListIndex = () => (this.messageListIndex = 0);
-
-  readCurrentMessage = (messageObj) => {
-    this.clearText();
-    this.updateControlState(messageObj);
-    typeWords(
-      this.textField,
-      messageObj.messageList[this.messageListIndex],
-      textSpeed
-    );
-  };
-
-  readPrevMessage = (messageObj) => {
-    const isFirstMessage = this.messageListIndex === 0;
-    if (!isFirstMessage) {
-      this.messageListIndex--;
-      this.readCurrentMessage(messageObj);
-    } else {
-      messageObj.prevStep();
-    }
-  };
-
-  readNextMessage = (messageObj) => {
-    this.messageListIndex++;
-    const isLastMessage =
-      this.messageListIndex === messageObj.messageList.length;
-    if (!isLastMessage) {
-      this.readCurrentMessage(messageObj);
-    } else {
-      this.resetMessageListIndex();
-      messageObj.nextStep();
-    }
-  };
-}
-
-const goToPrevDataObject = (dataList, messageHandler) => {
-  const isFirstObject = dataObjectIndex === 0;
-  if (!isFirstObject) {
-    dataObjectIndex--;
-    currentMessageObj = dataList[dataObjectIndex];
-    messageHandler.readCurrentMessage(currentMessageObj);
-  }
-};
-
-const goToNextDataObject = (dataList, messageHandler) => {
-  const isLastObject = dataObjectIndex === dataList.length;
-  if (!isLastObject) {
-    dataObjectIndex++;
-    currentMessageObj = dataList[dataObjectIndex];
-    messageHandler.readCurrentMessage(currentMessageObj);
-  }
-};
-
-const goToDataObject = (dataList, indexNum, messageHandler) => {
-  dataObjectIndex = indexNum;
-  currentMessageObj = dataList[dataObjectIndex];
-  messageHandler.readCurrentMessage(currentMessageObj);
 };
 
 messageBoxControls.addEventListener("click", ({ target }) => {
@@ -451,7 +372,7 @@ const computerBoardElement = computerBoardData.element;
 gameContainer.appendChild(playerBoardElement);
 gameContainer.appendChild(computerBoardElement);
 
-// beginLoading().then(beginIntroduction);
+beginLoading().then(beginIntroduction);
 /* ============= */
 
 //DEBUGGING
