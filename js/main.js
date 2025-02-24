@@ -56,6 +56,10 @@ export const setUserInput = (value) => (userInput = value);
 
 export const setUserInputField = (value) => (userInputField.value = value);
 
+export const setUserSaidYes = (boolean) => (userSaidYes = boolean);
+
+export const setUserSaidNo = (boolean) => (userSaidNo = boolean);
+
 export const setActive = (target, selector = null) => {
   removeSelectedActive(selector);
   target.classList.add(active);
@@ -106,13 +110,13 @@ export const typeWords = async (textField, message, typeSpeed = 50) => {
 export const clearText = (textField) => (textField.innerText = "");
 
 const resetYesAndNo = () => {
-  userSaidNo = false;
-  userSaidYes = false;
+  setUserSaidNo(false);
+  setUserSaidYes(false);
 };
 
 const resetUserInput = () => {
-  userInputField.value = "";
-  userInput = "";
+  setUserInputField("");
+  setUserInput("");
 };
 
 // RUN APPLICATION
@@ -132,33 +136,6 @@ document.addEventListener("click", (e) => {
 
   if (isTile) {
     setActive(e.target, ".tile");
-  }
-});
-
-messageBoxControls.addEventListener("click", ({ target }) => {
-  if (target.dataset.button) {
-    switch (target.dataset.button) {
-      case "next":
-        messageHandler.readNextMessage(currentMessageObj);
-        break;
-      case "prev":
-        messageHandler.readPrevMessage(currentMessageObj);
-        break;
-      case "prompt":
-        currentMessageObj.promptStep();
-        break;
-      case "confirm":
-        currentMessageObj.confirmStep();
-        break;
-      case "yes":
-        userSaidYes = true;
-        currentMessageObj.yesStep();
-        break;
-      case "no":
-        userSaidNo = true;
-        currentMessageObj.noStep();
-        break;
-    }
   }
 });
 
