@@ -13,7 +13,7 @@ const active = "active";
 const messageBoxClass = ".message-box";
 const messageBox = document.querySelector(messageBoxClass);
 const messageControls = ".message-box-controls";
-const messageBoxControls = document.querySelector(messageControls);
+export const messageBoxControls = document.querySelector(messageControls);
 const messageTextClass = ".message-box-text";
 export const messageText = document.querySelector(messageTextClass);
 const dataButton = "[data-button]";
@@ -126,6 +126,33 @@ gameContainer.appendChild(computerBoardElement);
 
 beginLoading().then(beginIntroduction);
 /* ============= */
+
+messageBoxControls.addEventListener("click", ({ target }) => {
+  if (target.dataset.button) {
+    switch (target.dataset.button) {
+      case "next":
+        messageHandler.readNextMessage(currentMessageObj);
+        break;
+      case "prev":
+        messageHandler.readPrevMessage(currentMessageObj);
+        break;
+      case "prompt":
+        currentMessageObj.promptStep();
+        break;
+      case "confirm":
+        currentMessageObj.confirmStep();
+        break;
+      case "yes":
+        setUserSaidYes(true);
+        currentMessageObj.yesStep();
+        break;
+      case "no":
+        setUserSaidNo(true);
+        currentMessageObj.noStep();
+        break;
+    }
+  }
+});
 
 document.addEventListener("click", (e) => {
   const isTile = e.target.matches(".tile");
