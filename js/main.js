@@ -1,11 +1,13 @@
+import { createBoardElement } from "./board-elements.js";
 import MessageHandler, {
   goToNextDataObject,
   goToPrevDataObject,
 } from "./message-box.js";
 
-const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+export const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 const active = "active";
+
 const loadingClass = ".loading-screen";
 const loader = document.querySelector(loadingClass);
 const loadingScreenDuration = 5000;
@@ -17,24 +19,16 @@ const messageTextClass = ".message-box-text";
 const messageBox = document.querySelector(messageBoxClass);
 const messageBoxControls = document.querySelector(messageControls);
 const messageText = document.querySelector(messageTextClass);
+const dataButton = "[data-button]";
 
 const userInputID = "user-input";
 const userInputField = document.getElementById(userInputID);
 
-const btnPrompt = ".btn-prompt";
-const btnPrev = ".btn-prev";
-const btnYes = ".btn-yes";
-const btnNo = ".btn-no";
-const btnNext = ".btn-next";
-const btnConfirm = ".btn-confirm";
-const dataButton = "[data-button]";
-
-const promptButton = document.querySelector(btnPrompt);
-const prevButton = document.querySelector(btnPrev);
-const yesButton = document.querySelector(btnYes);
-const noButton = document.querySelector(btnNo);
-const nextButton = document.querySelector(btnNext);
-const confirmButton = document.querySelector(btnConfirm);
+const messageHandler = new MessageHandler(
+  messageBox,
+  messageBoxControls,
+  messageText
+);
 
 const data = {
   introductions: [
@@ -120,7 +114,15 @@ let userInput = "";
 let userSaidYes = false;
 let userSaidNo = false;
 
+const playerBoardData = createBoardElement(6, "large", "player");
+const playerBoard = playerBoardData.object;
+const playerBoardElement = playerBoardData.element;
+const computerBoardData = createBoardElement(6, "large", "computer");
+const computerBoard = computerBoardData.object;
+const computerBoardElement = computerBoardData.element;
+
 export const setDataObjectIndex = (num) => (dataObjectIndex = num);
+
 export const setCurrentMessageObj = (messageObj) =>
   (currentMessageObj = messageObj);
 
@@ -183,6 +185,41 @@ const resetUserInput = () => {
   userInput = "";
 };
 
+/* APPLICATION GAMEPLAY */
+
+const beginLoading = async () => {
+  setActive(loader);
+  await pause(loadingScreenDuration);
+  removeActive(loader);
+};
+
+const beginIntroduction = async () => {
+  await pause(pauseBetweenAnimations);
+  messageHandler.openMessageBox();
+  await pause(pauseBetweenAnimations);
+  messageHandler.readCurrentMessage(currentMessageObj);
+};
+
+// RUN APPLICATION
+
+gameContainer.appendChild(playerBoardElement);
+gameContainer.appendChild(computerBoardElement);
+
+beginLoading().then(beginIntroduction);
+/* ============= */
+
+document.addEventListener("click", (e) => {
+  const isTile = e.target.matches(".tile");
+
+  if (!isTile) {
+    removeSelectedActive(".tile");
+  }
+
+  if (isTile) {
+    setActive(e.target, ".tile");
+  }
+});
+
 messageBoxControls.addEventListener("click", ({ target }) => {
   if (target.dataset.button) {
     switch (target.dataset.button) {
@@ -210,180 +247,9 @@ messageBoxControls.addEventListener("click", ({ target }) => {
   }
 });
 
-const messageHandler = new MessageHandler(
-  messageBox,
-  messageBoxControls,
-  messageText
-);
-
-/* BOARD ELEMENTS */
-
-class Cell {
-  constructor(type, id, status) {
-    this.type = type;
-    this.id = id;
-    this.status = status;
-  }
-
-  getStatus = () => this.status;
-
-  setStatus = (status) => (this.status = status);
-}
-
-const createCell = (type, id, status) => {
-  const cell = new Cell(type, id, status);
-  return cell;
-};
-
-const createGrid = (size, controller) => {
-  const grid = {};
-  for (let i = 0; i < size; i++) {
-    grid[alphabet[i]] = [];
-    for (let j = 0; j < size; j++) {
-      grid[alphabet[i]][j] = createCell(controller, i + j, "empty");
-    }
-  }
-  return grid;
-};
-
-const tileButtonClass = "tile-button";
-
-class GameBoard {
-  grid = {};
-  constructor(size, type, controller) {
-    this.size = size;
-    this.type = type;
-    this.controller = controller;
-  }
-}
-
-const createTile = (tileCount) => {
-  const tile = document.createElement("div");
-
-  tile.className = "tile";
-  tile.style.setProperty("--i", tileCount);
-  return tile;
-};
-
-const createTileButton = (cell) => {
-  const button = document.createElement("button");
-  button.className = `btn ${tileButtonClass}`;
-  button.innerText = "Confirm!";
-  button.addEventListener("click", () => {
-    cell.displayStatus();
-  });
-  return button;
-};
-
-const createTileStatus = () => {
-  const tileStatus = document.createElement("div");
-  tileStatus.className = "status";
-  return tileStatus;
-};
-
-const createBoardElement = (size, type, controller) => {
-  const boardHTML = document.createElement("div");
-  const board = new GameBoard(size, type, controller);
-  let tileCount = 0;
-
-  boardHTML.id = controller;
-  boardHTML.setAttribute("data-size", type);
-  boardHTML.className = "game-board";
-
-  for (let i = 0; i < size; i++) {
-    tileCount++;
-    const row = document.createElement("div");
-    row.className = "row";
-    board.grid[alphabet[i]] = [];
-    for (let j = 0; j < size; j++) {
-      tileCount++;
-      const cell = new Cell(controller, `${alphabet[i]}:${j}`, "empty");
-      const tile = createTile(tileCount);
-      const button = createTileButton(cell);
-      const tileStatus = createTileStatus();
-
-      tile.appendChild(button);
-      tile.appendChild(tileStatus);
-
-      cell.htmlElement = tile;
-
-      cell.displayStatus = function () {
-        this.htmlElement.setAttribute("data-status", this.getStatus());
-      };
-
-      cell.displayStatus();
-      board.grid[alphabet[i]][j] = cell;
-      row.appendChild(tile);
-    }
-    boardHTML.appendChild(row);
-  }
-
-  return { element: boardHTML, object: board };
-};
-
-const getCell = (board, coords) => {
-  const letter = coords.slice(0, 1);
-  const number = coords.slice(1);
-  return board.grid[letter][number];
-};
-
-const getTile = (board, coords) => {
-  const cell = getCell(board, coords);
-  return cell.htmlElement;
-};
-
-const setAllBoardTilesClass = (boardID, className) => {
-  const tiles = Array.from(document.querySelectorAll(`#${boardID} .tile`));
-  tiles.map((tile) => tile.classList.toggle(className));
-};
-
-class Ship {
-  isHorizontal = Math.floor(Math.random() * 2) + 1 === 1 ? true : false;
-  pieceLocations = [];
-  constructor({ name, lives, length }) {
-    this.name = name;
-    this.lives = lives;
-    this.length = length;
-  }
-}
-
-/* APPLICATION GAMEPLAY */
-
-const beginLoading = async () => {
-  setActive(loader);
-  await pause(loadingScreenDuration);
-  removeActive(loader);
-};
-
-const beginIntroduction = async () => {
-  await pause(pauseBetweenAnimations);
-  messageHandler.openMessageBox();
-  await pause(pauseBetweenAnimations);
-  messageHandler.readCurrentMessage(currentMessageObj);
-};
-
-// RUN APPLICATION
-const playerBoardData = createBoardElement(6, "large", "player");
-const playerBoard = playerBoardData.object;
-const playerBoardElement = playerBoardData.element;
-const computerBoardData = createBoardElement(6, "large", "computer");
-const computerBoard = computerBoardData.object;
-const computerBoardElement = computerBoardData.element;
-gameContainer.appendChild(playerBoardElement);
-gameContainer.appendChild(computerBoardElement);
-
-beginLoading().then(beginIntroduction);
-/* ============= */
-
 //DEBUGGING
 let controlsToggle = false;
-const testControls = () => {
-  if (!controlsToggle) setAllBoardTilesClass("player", "hovering");
-  else {
-    setAllBoardTilesClass("player", "hovering");
-  }
-  controlsToggle = !controlsToggle;
-};
+const testControls = () => {};
 
 document.addEventListener("keyup", (e) => {
   const key = e.key;
@@ -393,17 +259,5 @@ document.addEventListener("keyup", (e) => {
       break;
     default:
       break;
-  }
-});
-
-document.addEventListener("click", (e) => {
-  const isTile = e.target.matches(".tile");
-
-  if (!isTile) {
-    removeSelectedActive(".tile");
-  }
-
-  if (isTile) {
-    setActive(e.target, ".tile");
   }
 });
