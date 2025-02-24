@@ -1,7 +1,7 @@
-import { setControlState } from "./board-elements.js";
 import {
   clearText,
   currentMessageObj,
+  dataButton,
   dataObjectIndex,
   removeActive,
   setActive,
@@ -78,7 +78,7 @@ const goToPrevDataObject = (dataList, messageHandler) => {
   const isFirstObject = dataObjectIndex === 0;
   if (!isFirstObject) {
     setDataObjectIndex(dataObjectIndex - 1);
-    currentMessageObj = dataList[dataObjectIndex];
+    setCurrentMessageObj(dataList[dataObjectIndex]);
     messageHandler.readCurrentMessage(currentMessageObj);
   }
 };
@@ -97,6 +97,24 @@ const goToDataObject = (dataList, indexNum, messageHandler) => {
   setCurrentMessageObj(dataList[dataObjectIndex]);
   messageHandler.readCurrentMessage(currentMessageObj);
 };
+
+export const setControlState = (element, dataState) => {
+  element.setAttribute("data-state", dataState);
+};
+
+const disableButton = (btn) => (btn.disabled = true);
+
+const enableButton = (btn) => (btn.disabled = false);
+
+export const disableAllControlButtons = () =>
+  document
+    .querySelectorAll(dataButton)
+    .forEach((button) => disableButton(button));
+
+export const enableAllControlButtons = () =>
+  document
+    .querySelectorAll(dataButton)
+    .forEach((button) => enableButton(button));
 
 export default MessageHandler;
 export { goToPrevDataObject, goToNextDataObject, goToDataObject };

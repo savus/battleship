@@ -1,23 +1,7 @@
-import { alphabet, dataButton } from "./main.js";
+import { Cell, getCell } from "./cell.js";
+import { alphabet } from "./main.js";
 
 const tileButtonClass = "tile-button";
-
-export class Cell {
-  constructor(type, id, status) {
-    this.type = type;
-    this.id = id;
-    this.status = status;
-  }
-
-  getStatus = () => this.status;
-
-  setStatus = (status) => (this.status = status);
-}
-
-const createCell = (type, id, status) => {
-  const cell = new Cell(type, id, status);
-  return cell;
-};
 
 export const createGrid = (size, controller) => {
   const grid = {};
@@ -103,12 +87,6 @@ export const createBoardElement = (size, type, controller) => {
   return { element: boardHTML, object: board };
 };
 
-const getCell = (board, coords) => {
-  const letter = coords.slice(0, 1);
-  const number = coords.slice(1);
-  return board.grid[letter][number];
-};
-
 export const getTile = (board, coords) => {
   const cell = getCell(board, coords);
   return cell.htmlElement;
@@ -118,21 +96,3 @@ export const setAllBoardTilesClass = (boardID, className) => {
   const tiles = Array.from(document.querySelectorAll(`#${boardID} .tile`));
   tiles.map((tile) => tile.classList.toggle(className));
 };
-
-export const setControlState = (element, dataState) => {
-  element.setAttribute("data-state", dataState);
-};
-
-const disableButton = (btn) => (btn.disabled = true);
-
-const enableButton = (btn) => (btn.disabled = false);
-
-export const disableAllControlButtons = () =>
-  document
-    .querySelectorAll(dataButton)
-    .forEach((button) => disableButton(button));
-
-export const enableAllControlButtons = () =>
-  document
-    .querySelectorAll(dataButton)
-    .forEach((button) => enableButton(button));

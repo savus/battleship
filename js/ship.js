@@ -6,4 +6,9 @@ export class Ship {
     this.lives = lives;
     this.length = length;
   }
+
+  placeShipPiece = (boardSize) => {
+    const randomXCoord = Math.floor(Math.random() * boardSize) + 1;
+    const randomYCoord = Math.floor(Math.random() * boardSize) + 1;
+  };
 }

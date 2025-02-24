@@ -1,13 +1,10 @@
-import {
-  createBoardElement,
-  disableAllControlButtons,
-  enableAllControlButtons,
-} from "./board-elements.js";
+import { createBoardElement } from "./board-elements.js";
+import { getCell } from "./cell.js";
 import data from "./data-objects.js";
 import { beginIntroduction, beginLoading } from "./gameplay-chapters.js";
 import MessageHandler, {
-  goToNextDataObject,
-  goToPrevDataObject,
+  disableAllControlButtons,
+  enableAllControlButtons,
 } from "./message-box.js";
 
 export const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -110,7 +107,8 @@ const resetUserInput = () => {
 gameContainer.appendChild(playerBoardElement);
 gameContainer.appendChild(computerBoardElement);
 
-beginLoading().then(beginIntroduction);
+// beginLoading().then(beginIntroduction);
+getCell(playerBoard, "A0").displayStatus();
 /* ============= */
 
 messageBoxControls.addEventListener("click", ({ target }) => {
