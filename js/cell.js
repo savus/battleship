@@ -35,7 +35,10 @@ export const convertCoordsToNumber = (coords) => {
   return { column: column, row: row };
 };
 
-export const convertCoordsToString = ({ col, row }) => `${alphabet[col]}${row}`;
+export const convertCoordsToString = (coordsData) => {
+  const { column, row } = coordsData;
+  return `${alphabet[column]}${row}`;
+};
 
 export const getRandomCell = (board, boardSize) => {
   const randomYCoord = alphabet[Math.floor(Math.random() * boardSize)];
@@ -45,7 +48,7 @@ export const getRandomCell = (board, boardSize) => {
 
 export const isCellOccupied = (cell) => cell.getStatus() !== "empty";
 
-export const isCellInsideOfBoard = (cell, boardSize) => {
-  const { column, row } = convertCoordsToNumber(cell.coords);
+export const areCoordsWithinBoard = (string, boardSize) => {
+  const { column, row } = convertCoordsToNumber(string);
   return column < boardSize && row < boardSize;
 };

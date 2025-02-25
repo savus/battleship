@@ -1,13 +1,4 @@
 import { createBoardElement } from "./board-elements.js";
-import {
-  convertCoordsToNumber,
-  getCell,
-  getRandomCell,
-  isCellOccupied,
-  isCellInsideOfBoard,
-  separateChars,
-  convertCoordsToString,
-} from "./cell.js";
 import data from "./data-objects.js";
 import { beginIntroduction, beginLoading } from "./gameplay-chapters.js";
 import MessageHandler, {
@@ -41,7 +32,13 @@ const boardSize = 6;
 const gameContainerClass = ".game-board-container";
 const gameContainer = document.querySelector(gameContainerClass);
 
-const shipData = [{ name: "Carrier", lives: 5, length: 5 }];
+const shipData = [
+  { name: "Carrier", lives: 5, length: 5 },
+  { name: "Battleship", lives: 4, length: 4 },
+  { name: "Cruiser", lives: 3, length: 3 },
+  { name: "Submarine", lives: 3, length: 3 },
+  { name: "Destroyer", lives: 2, length: 2 },
+];
 
 export let textSpeed = 10;
 export let messageListIndex = 0;
@@ -120,10 +117,9 @@ gameContainer.appendChild(computerBoardElement);
 // beginLoading().then(beginIntroduction);
 // getCell(playerBoard, "A0").displayStatus();
 const playerShips = populateShips(shipData, playerBoard);
-
+const computerShips = populateShips(shipData, computerBoard);
 playerShips.forEach((ship) => ship.placeShipPieces(boardSize));
-
-console.log(playerShips);
+computerShips.forEach((ship) => ship.placeShipPieces(boardSize));
 
 /* ============= */
 

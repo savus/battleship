@@ -1,4 +1,4 @@
-import { Cell, convertCoordsToString, getCell } from "./cell.js";
+import { Cell, getCell } from "./cell.js";
 import { alphabet } from "./main.js";
 
 const tileButtonClass = "tile-button";
