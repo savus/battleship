@@ -7,6 +7,14 @@ import {
   isCellOccupied,
 } from "./cell.js";
 
+export const shipData = [
+  { name: "Carrier", lives: 5, length: 5 },
+  { name: "Battleship", lives: 4, length: 4 },
+  { name: "Cruiser", lives: 3, length: 3 },
+  { name: "Submarine", lives: 3, length: 3 },
+  { name: "Destroyer", lives: 2, length: 2 },
+];
+
 export class Ship {
   isHorizontal = Math.floor(Math.random() * 2) + 1 === 1 ? true : false;
   pieceCoords = [];
@@ -22,28 +30,32 @@ export class Ship {
 
   placeShipPieces = (boardSize) => {
     this.pieceCoords.length = 0;
-    let cell = getRandomCell(this.board, boardSize);
-    let { column, row } = convertCoordsToNumber(cell.coords);
-    let string;
-    for (let i = 0; i < this.length; i++) {
-      if (isCellOccupied(cell)) return this.placeShipPieces(boardSize);
-
-      this.pieceCoords.push(cell.coords);
+    this.occupiedCells.length = 0;
+    this.occupiedTiles.length = 0;
+    let startPoint = getRandomCell(this.board, boardSize);
+    let { column, row } = convertCoordsToNumber(startPoint.coords);
+    if (isCellOccupied(startPoint)) return this.placeShipPieces(boardSize);
+    this.pieceCoords.push(startPoint.coords);
+    this.occupiedCells.push(startPoint);
+    this.occupiedTiles.push(startPoint.htmlElement);
+    for (let i = 1; i < this.length; i++) {
       this.isHorizontal ? row++ : column++;
-      string = convertCoordsToString({ column, row });
+      let stringified = convertCoordsToString({ column, row });
 
-      if (!areCoordsWithinBoard(string, boardSize))
+      if (!areCoordsWithinBoard(stringified, boardSize))
         return this.placeShipPieces(boardSize);
 
-      cell = getCell(this.board, string);
+      const newCell = getCell(this.board, stringified);
+
+      if (isCellOccupied(newCell)) return this.placeShipPieces(boardSize);
+      this.pieceCoords.push(newCell.coords);
+      this.occupiedCells.push(newCell);
+      this.occupiedTiles.push(newCell.htmlElement);
     }
 
-    for (const string of this.pieceCoords) {
-      cell = getCell(this.board, string);
+    for (const cell of this.occupiedCells) {
       cell.setStatus("occupied");
       cell.displayStatus();
-      this.occupiedCells.push(cell);
-      this.occupiedTiles.push(cell.htmlElement);
     }
   };
 }

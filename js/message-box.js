@@ -1,15 +1,25 @@
 import {
   clearText,
+  removeActive,
+  setActive,
+  typeWords,
+} from "./helper-functions.js";
+import {
   currentMessageObj,
   dataButton,
   dataObjectIndex,
-  removeActive,
-  setActive,
   setCurrentMessageObj,
   setDataObjectIndex,
   textSpeed,
-  typeWords,
 } from "./main.js";
+
+const messageBoxClass = ".message-box";
+const messageControls = ".message-box-controls";
+const messageTextClass = ".message-box-text";
+
+export const messageBox = document.querySelector(messageBoxClass);
+export const messageBoxControls = document.querySelector(messageControls);
+export const messageText = document.querySelector(messageTextClass);
 
 class MessageHandler {
   messageListIndex = 0;
@@ -73,6 +83,12 @@ class MessageHandler {
     }
   };
 }
+
+export const messageHandler = new MessageHandler(
+  messageBox,
+  messageBoxControls,
+  messageText
+);
 
 const goToPrevDataObject = (dataList, messageHandler) => {
   const isFirstObject = dataObjectIndex === 0;

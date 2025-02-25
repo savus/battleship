@@ -1,13 +1,16 @@
+import { clearText } from "./helper-functions.js";
 import {
-  clearText,
-  messageHandler,
-  messageText,
   setUserInput,
   setUserInputField,
   userInput,
   userInputField,
 } from "./main.js";
-import { goToNextDataObject, goToPrevDataObject } from "./message-box.js";
+import MessageHandler, {
+  goToNextDataObject,
+  goToPrevDataObject,
+  messageHandler,
+  messageText,
+} from "./message-box.js";
 
 const data = {
   introductions: [

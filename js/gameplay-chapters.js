@@ -1,10 +1,6 @@
-import {
-  pause,
-  removeActive,
-  setActive,
-  messageHandler,
-  currentMessageObj,
-} from "./main.js";
+import { pause, removeActive, setActive } from "./helper-functions.js";
+import { currentMessageObj } from "./main.js";
+import { messageHandler } from "./message-box.js";
 
 const loadingClass = ".loading-screen";
 const loader = document.querySelector(loadingClass);

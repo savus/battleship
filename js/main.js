@@ -1,44 +1,27 @@
 import { createBoardElement } from "./board-elements.js";
 import data from "./data-objects.js";
 import { beginIntroduction, beginLoading } from "./gameplay-chapters.js";
+import { removeSelectedActive, setActive } from "./helper-functions.js";
 import MessageHandler, {
-  disableAllControlButtons,
-  enableAllControlButtons,
+  messageBox,
+  messageBoxControls,
+  messageHandler,
+  messageText,
 } from "./message-box.js";
-import { populateShips } from "./ship.js";
+import { populateShips, shipData } from "./ship.js";
 
 export const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-const active = "active";
+export const active = "active";
 
-const messageBoxClass = ".message-box";
-const messageBox = document.querySelector(messageBoxClass);
-const messageControls = ".message-box-controls";
-export const messageBoxControls = document.querySelector(messageControls);
-const messageTextClass = ".message-box-text";
-export const messageText = document.querySelector(messageTextClass);
 export const dataButton = "[data-button]";
 
 const userInputID = "user-input";
 export const userInputField = document.getElementById(userInputID);
 
-export const messageHandler = new MessageHandler(
-  messageBox,
-  messageBoxControls,
-  messageText
-);
-
 const boardSize = 6;
 const gameContainerClass = ".game-board-container";
 const gameContainer = document.querySelector(gameContainerClass);
-
-const shipData = [
-  { name: "Carrier", lives: 5, length: 5 },
-  { name: "Battleship", lives: 4, length: 4 },
-  { name: "Cruiser", lives: 3, length: 3 },
-  { name: "Submarine", lives: 3, length: 3 },
-  { name: "Destroyer", lives: 2, length: 2 },
-];
 
 export let textSpeed = 10;
 export let messageListIndex = 0;
@@ -47,13 +30,6 @@ export let currentMessageObj = data.introductions[dataObjectIndex];
 export let userInput = "";
 let userSaidYes = false;
 let userSaidNo = false;
-
-const playerBoardData = createBoardElement(boardSize, "large", "player");
-const playerBoard = playerBoardData.object;
-const playerBoardElement = playerBoardData.element;
-const computerBoardData = createBoardElement(boardSize, "large", "computer");
-const computerBoard = computerBoardData.object;
-const computerBoardElement = computerBoardData.element;
 
 export const setDataObjectIndex = (num) => (dataObjectIndex = num);
 
@@ -68,48 +44,14 @@ export const setUserSaidYes = (boolean) => (userSaidYes = boolean);
 
 export const setUserSaidNo = (boolean) => (userSaidNo = boolean);
 
-export const setActive = (target, selector = null) => {
-  removeSelectedActive(selector);
-  target.classList.add(active);
-};
-
-export const removeSelectedActive = (selector) => {
-  const selectedElement = document.querySelector(`${selector}.${active}`);
-  if (selectedElement !== null) selectedElement.classList.remove(active);
-};
-
-export const removeActive = (target) => target.classList.remove(active);
-
-export const pause = (ms) =>
-  new Promise((resolve) => {
-    return setTimeout(resolve, ms);
-  });
-
-export const typeWords = async (textField, message, typeSpeed = 50) => {
-  disableAllControlButtons();
-  const letters = message.split("");
-  let text = "";
-  for (let i = 0; i < letters.length; i++) {
-    text += letters[i];
-    textField.innerText = text;
-    await pause(typeSpeed);
-  }
-  enableAllControlButtons();
-};
-
-export const clearText = (textField) => (textField.innerText = "");
-
-const resetYesAndNo = () => {
-  setUserSaidNo(false);
-  setUserSaidYes(false);
-};
-
-const resetUserInput = () => {
-  setUserInputField("");
-  setUserInput("");
-};
-
 // RUN APPLICATION
+
+const playerBoardData = createBoardElement(boardSize, "large", "player");
+const playerBoard = playerBoardData.object;
+const playerBoardElement = playerBoardData.element;
+const computerBoardData = createBoardElement(boardSize, "large", "computer");
+const computerBoard = computerBoardData.object;
+const computerBoardElement = computerBoardData.element;
 
 gameContainer.appendChild(playerBoardElement);
 gameContainer.appendChild(computerBoardElement);
