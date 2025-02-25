@@ -1,7 +1,9 @@
 import { Cell, getCell } from "./cell.js";
-import { alphabet } from "./main.js";
+import { removeSelectedActive, setActive } from "./helper-functions.js";
+import { alphabet, getCurrentTurn, setCurrentTurn } from "./main.js";
 
 const tileButtonClass = "tile-button";
+const tileClassName = "tile";
 
 export class GameBoard {
   grid = {};
@@ -12,11 +14,16 @@ export class GameBoard {
   }
 }
 
-const createTile = (tileDelay) => {
+const createTile = (tileDelay, controller) => {
   const tile = document.createElement("div");
 
-  tile.className = "tile";
+  tile.className = tileClassName;
   tile.style.setProperty("--i", tileDelay);
+  tile.addEventListener("click", () => {
+    if (controller === "computer" && getCurrentTurn() === "player") {
+      setActive(tile, `.${tileClassName}`);
+    }
+  });
   return tile;
 };
 
@@ -25,7 +32,21 @@ const createTileButton = (cell) => {
   button.className = `btn ${tileButtonClass}`;
   button.innerText = "Confirm!";
   button.addEventListener("click", () => {
-    cell.displayStatus();
+    const cellStatus = cell.getStatus();
+    // setCurrentTurn("computer");
+    removeSelectedActive(`.${tileClassName}`);
+    if (cellStatus === "hit" || cellStatus === "miss") {
+      console.log("You have already hit this location");
+    } else {
+      if (cellStatus === "occupied") {
+        cell.setStatus("hit");
+        console.log("you made a hit");
+      } else if (cellStatus === "empty") {
+        cell.setStatus("miss");
+        console.log("You missed");
+      }
+      cell.displayStatus();
+    }
   });
   return button;
 };
@@ -53,8 +74,8 @@ export const createBoardElement = (size, type, controller) => {
     for (let j = 0; j < size; j++) {
       tileCount++;
       const cell = new Cell(controller, "empty", `${alphabet[i]}${j}`);
-      const tile = createTile(tileCount);
-      const button = createTileButton(cell);
+      const tile = createTile(tileCount, controller);
+      const button = createTileButton(cell, controller);
       const tileStatus = createTileStatus();
 
       tile.appendChild(button);

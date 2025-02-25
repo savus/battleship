@@ -28,6 +28,7 @@ export let messageListIndex = 0;
 export let dataObjectIndex = 0;
 export let currentMessageObj = data.introductions[dataObjectIndex];
 export let userInput = "";
+export let currentTurn = "player";
 let userSaidYes = false;
 let userSaidNo = false;
 
@@ -44,6 +45,8 @@ export const setUserSaidYes = (boolean) => (userSaidYes = boolean);
 
 export const setUserSaidNo = (boolean) => (userSaidNo = boolean);
 
+export const setCurrentTurn = (string) => (currentTurn = string);
+export const getCurrentTurn = () => currentTurn;
 // RUN APPLICATION
 
 const playerBoardData = createBoardElement(boardSize, "large", "player");
@@ -56,12 +59,12 @@ const computerBoardElement = computerBoardData.element;
 gameContainer.appendChild(playerBoardElement);
 gameContainer.appendChild(computerBoardElement);
 
-beginLoading().then(beginIntroduction);
+// beginLoading().then(beginIntroduction);
 // getCell(playerBoard, "A0").displayStatus();
-// const playerShips = populateShips(shipData, playerBoard);
-// const computerShips = populateShips(shipData, computerBoard);
-// playerShips.forEach((ship) => ship.placeShipPieces(boardSize));
-// computerShips.forEach((ship) => ship.placeShipPieces(boardSize));
+const playerShips = populateShips(shipData, playerBoard);
+const computerShips = populateShips(shipData, computerBoard);
+playerShips.forEach((ship) => ship.placeShipPieces(boardSize));
+computerShips.forEach((ship) => ship.placeShipPieces(boardSize));
 
 /* ============= */
 
@@ -99,9 +102,9 @@ document.addEventListener("click", (e) => {
     removeSelectedActive(".tile");
   }
 
-  if (isTile) {
-    setActive(e.target, ".tile");
-  }
+  // if (isTile) {
+  //   setActive(e.target, ".tile");
+  // }
 });
 
 //DEBUGGING
