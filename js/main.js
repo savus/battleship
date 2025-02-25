@@ -56,12 +56,12 @@ const computerBoardElement = computerBoardData.element;
 gameContainer.appendChild(playerBoardElement);
 gameContainer.appendChild(computerBoardElement);
 
-// beginLoading().then(beginIntroduction);
+beginLoading().then(beginIntroduction);
 // getCell(playerBoard, "A0").displayStatus();
-const playerShips = populateShips(shipData, playerBoard);
-const computerShips = populateShips(shipData, computerBoard);
-playerShips.forEach((ship) => ship.placeShipPieces(boardSize));
-computerShips.forEach((ship) => ship.placeShipPieces(boardSize));
+// const playerShips = populateShips(shipData, playerBoard);
+// const computerShips = populateShips(shipData, computerBoard);
+// playerShips.forEach((ship) => ship.placeShipPieces(boardSize));
+// computerShips.forEach((ship) => ship.placeShipPieces(boardSize));
 
 /* ============= */
 
