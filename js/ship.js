@@ -47,24 +47,32 @@ export class Ship {
     }
   };
 
-  placeShipPieces = (boardSize) => {
-    this.resetLists();
-    let startPoint = getRandomCell(this.board, boardSize);
-    let { column, row } = convertCoordsToNumber(startPoint.coords);
-    if (isCellOccupied(startPoint)) return this.placeShipPieces(boardSize);
-    this.recordCellData(startPoint);
+  areAllCellsValid = (column, row, boardSize) => {
     for (let i = 1; i < this.length; i++) {
       this.isHorizontal ? row++ : column++;
       let stringified = convertCoordsToString({ column, row });
 
-      if (!areCoordsWithinBoard(stringified, boardSize))
-        return this.placeShipPieces(boardSize);
+      if (!areCoordsWithinBoard(stringified, boardSize)) return false;
 
       const newCell = getCell(this.board, stringified);
 
-      if (isCellOccupied(newCell)) return this.placeShipPieces(boardSize);
+      if (isCellOccupied(newCell)) return false;
       this.recordCellData(newCell);
     }
+    return true;
+  };
+
+  placeShipPieces = (boardSize) => {
+    this.resetLists();
+    let startPoint = getRandomCell(this.board, boardSize);
+    let { column, row } = convertCoordsToNumber(startPoint.coords);
+
+    if (isCellOccupied(startPoint)) return this.placeShipPieces(boardSize);
+
+    if (!this.areAllCellsValid(column, row, boardSize))
+      return this.placeShipPieces(boardSize);
+
+    this.recordCellData(startPoint);
     this.occupyAndDisplayListedCells();
   };
 }
