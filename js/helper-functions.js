@@ -1,4 +1,4 @@
-import { active } from "./main.js";
+import { active, setUserInput, setUserInputField } from "./main.js";
 import {
   disableAllControlButtons,
   enableAllControlButtons,

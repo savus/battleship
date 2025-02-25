@@ -28,16 +28,31 @@ export class Ship {
     this.board = board;
   }
 
-  placeShipPieces = (boardSize) => {
+  recordCellData = (cell) => {
+    this.pieceCoords.push(cell.coords);
+    this.occupiedCells.push(cell);
+    this.occupiedTiles.push(cell.htmlElement);
+  };
+
+  resetLists = () => {
     this.pieceCoords.length = 0;
     this.occupiedCells.length = 0;
     this.occupiedTiles.length = 0;
+  };
+
+  occupyAndDisplayListedCells = () => {
+    for (const cell of this.occupiedCells) {
+      cell.setStatus("occupied");
+      cell.displayStatus();
+    }
+  };
+
+  placeShipPieces = (boardSize) => {
+    this.resetLists();
     let startPoint = getRandomCell(this.board, boardSize);
     let { column, row } = convertCoordsToNumber(startPoint.coords);
     if (isCellOccupied(startPoint)) return this.placeShipPieces(boardSize);
-    this.pieceCoords.push(startPoint.coords);
-    this.occupiedCells.push(startPoint);
-    this.occupiedTiles.push(startPoint.htmlElement);
+    this.recordCellData(startPoint);
     for (let i = 1; i < this.length; i++) {
       this.isHorizontal ? row++ : column++;
       let stringified = convertCoordsToString({ column, row });
@@ -48,15 +63,9 @@ export class Ship {
       const newCell = getCell(this.board, stringified);
 
       if (isCellOccupied(newCell)) return this.placeShipPieces(boardSize);
-      this.pieceCoords.push(newCell.coords);
-      this.occupiedCells.push(newCell);
-      this.occupiedTiles.push(newCell.htmlElement);
+      this.recordCellData(newCell);
     }
-
-    for (const cell of this.occupiedCells) {
-      cell.setStatus("occupied");
-      cell.displayStatus();
-    }
+    this.occupyAndDisplayListedCells();
   };
 }
 
