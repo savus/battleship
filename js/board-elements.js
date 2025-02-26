@@ -64,33 +64,42 @@ const createTileStatus = () => {
   return tileStatus;
 };
 
+const buildCellData = (controller, tileCount, i, j) => {
+  const cell = new Cell(controller, "empty", `${alphabet[i]}${j}`);
+  const tile = createTile(tileCount, controller);
+  const button = createTileButton(cell, controller);
+  const tileStatus = createTileStatus();
+
+  tile.appendChild(button);
+  tile.appendChild(tileStatus);
+
+  cell.htmlElement = tile;
+
+  cell.displayStatus();
+
+  return [cell, tile];
+};
+
 export const createBoardElement = (size, type, controller) => {
   const boardHTML = document.createElement("div");
   const board = new GameBoard(size, type, controller);
-  let tileCount = 0;
 
   boardHTML.id = controller;
   boardHTML.setAttribute("data-size", type);
   boardHTML.className = "game-board";
 
+  let tileCount = 0;
   for (let i = 0; i < size; i++) {
-    tileCount++;
     const row = document.createElement("div");
     row.className = "row";
+
     board.grid[alphabet[i]] = [];
+
+    tileCount++;
     for (let j = 0; j < size; j++) {
+      const [cell, tile] = buildCellData(controller, tileCount, i, j);
       tileCount++;
-      const cell = new Cell(controller, "empty", `${alphabet[i]}${j}`);
-      const tile = createTile(tileCount, controller);
-      const button = createTileButton(cell, controller);
-      const tileStatus = createTileStatus();
 
-      tile.appendChild(button);
-      tile.appendChild(tileStatus);
-
-      cell.htmlElement = tile;
-
-      cell.displayStatus();
       board.grid[alphabet[i]][j] = cell;
       row.appendChild(tile);
     }
