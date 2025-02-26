@@ -41,31 +41,12 @@ export const setUserSaidNo = (boolean) => (userSaidNo = boolean);
 export const setCurrentTurn = (string) => (currentTurn = string);
 export const getCurrentTurn = () => currentTurn;
 
-const { element: playerHTML, object: playerBoard } = buildBoardData(
-  boardSize,
-  "large",
-  "player"
-);
-
-const { element: computerHTML, object: computerBoard } = buildBoardData(
-  boardSize,
-  "large",
-  "computer"
-);
-
-const user = new Player(playerBoard, populateShips(shipData, playerBoard));
-const computer = new Player(
-  computerBoard,
-  populateShips(shipData, computerBoard)
-);
-
+const user = new Player("player", boardSize, "large");
+const computer = new Player("computer", boardSize, "large");
 // RUN APPLICATION
 
-// const playerShips = populateShips(shipData, playerBoard);
-// const computerShips = populateShips(shipData, computerBoard);
-
-gameContainer.appendChild(playerHTML);
-gameContainer.appendChild(computerHTML);
+gameContainer.appendChild(user.boardHTML);
+gameContainer.appendChild(computer.boardHTML);
 
 user.placeAllShips();
 computer.placeAllShips();
@@ -73,8 +54,6 @@ computer.placeAllShips();
 // beginLoading().then(beginIntroduction);
 // beginIntroduction();
 // getCell(playerBoard, "A0").displayStatus();
-// playerShips.forEach((ship) => ship.placeShipPieces(boardSize));
-// computerShips.forEach((ship) => ship.placeShipPieces(boardSize));
 
 /* ============= */
 
