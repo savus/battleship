@@ -2,8 +2,7 @@ import { alphabet } from "./main.js";
 
 export class Cell {
   htmlElement;
-  constructor(type, status, coords) {
-    this.type = type;
+  constructor(status, coords) {
     this.status = status;
     this.coords = coords;
   }

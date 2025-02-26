@@ -1,4 +1,4 @@
-import { createBoardElement } from "./board-elements.js";
+import { buildBoardData } from "./board-elements.js";
 import data from "./data-objects.js";
 import { beginIntroduction, beginLoading } from "./gameplay-chapters.js";
 import { removeSelectedActive, setActive } from "./helper-functions.js";
@@ -8,6 +8,7 @@ import MessageHandler, {
   messageHandler,
   messageText,
 } from "./message-box.js";
+import { Player } from "./player.js";
 import { populateShips, shipData } from "./ship.js";
 
 export const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -40,23 +41,38 @@ export const setUserSaidNo = (boolean) => (userSaidNo = boolean);
 export const setCurrentTurn = (string) => (currentTurn = string);
 export const getCurrentTurn = () => currentTurn;
 
+const { element: playerHTML, object: playerBoard } = buildBoardData(
+  boardSize,
+  "large",
+  "player"
+);
+
+const { element: computerHTML, object: computerBoard } = buildBoardData(
+  boardSize,
+  "large",
+  "computer"
+);
+
+const user = new Player(playerBoard, populateShips(shipData, playerBoard));
+const computer = new Player(
+  computerBoard,
+  populateShips(shipData, computerBoard)
+);
+
 // RUN APPLICATION
 
-const playerBoardData = createBoardElement(boardSize, "large", "player");
-const playerBoard = playerBoardData.object;
-const playerBoardElement = playerBoardData.element;
-const computerBoardData = createBoardElement(boardSize, "large", "computer");
-const computerBoard = computerBoardData.object;
-const computerBoardElement = computerBoardData.element;
-
-gameContainer.appendChild(playerBoardElement);
-gameContainer.appendChild(computerBoardElement);
-
-// beginLoading().then(beginIntroduction);
-beginIntroduction();
-// getCell(playerBoard, "A0").displayStatus();
 // const playerShips = populateShips(shipData, playerBoard);
 // const computerShips = populateShips(shipData, computerBoard);
+
+gameContainer.appendChild(playerHTML);
+gameContainer.appendChild(computerHTML);
+
+user.placeAllShips();
+computer.placeAllShips();
+
+// beginLoading().then(beginIntroduction);
+// beginIntroduction();
+// getCell(playerBoard, "A0").displayStatus();
 // playerShips.forEach((ship) => ship.placeShipPieces(boardSize));
 // computerShips.forEach((ship) => ship.placeShipPieces(boardSize));
 
