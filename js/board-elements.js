@@ -1,6 +1,13 @@
 import { Cell, getCell } from "./cell.js";
 import { removeSelectedActive, setActive } from "./helper-functions.js";
-import { alphabet, getCurrentTurn, setCurrentTurn } from "./main.js";
+import {
+  alphabet,
+  computer,
+  getCurrentTurn,
+  setCurrentTurn,
+  user,
+} from "./main.js";
+import { playTurn } from "./turn-functions.js";
 
 const tileButtonClass = "tile-button";
 const tileClassName = "tile";
@@ -29,21 +36,23 @@ const createTile = (tileDelay, controller) => {
 };
 
 const tileButtonOnClick = (cell) => {
-  const cellStatus = cell.getStatus();
   // setCurrentTurn("computer");
-  removeSelectedActive(`.${tileClassName}`);
-  if (cellStatus === "hit" || cellStatus === "miss") {
-    console.log("You have already hit this location");
-  } else {
-    if (cellStatus === "occupied") {
-      cell.setStatus("hit");
-      console.log("you made a hit");
-    } else if (cellStatus === "empty") {
-      cell.setStatus("miss");
-      console.log("You missed");
-    }
-    cell.displayStatus();
-  }
+  // const cellStatus = cell.getStatus();
+  // removeSelectedActive(`.${tileClassName}`);
+  // if (cellStatus === "hit" || cellStatus === "miss") {
+  //   console.log("You have already hit this location");
+  // } else {
+  //   if (cellStatus === "occupied") {
+  //     cell.setStatus("hit");
+  //     console.log("you made a hit");
+  //   } else if (cellStatus === "empty") {
+  //     cell.setStatus("miss");
+  //     console.log("You missed");
+  //   }
+  //   cell.displayStatus();
+  // }
+  // nextTurn();
+  playTurn(user.board, computer.board, cell);
 };
 
 const createTileButton = (cell) => {

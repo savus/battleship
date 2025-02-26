@@ -1,4 +1,5 @@
 import { buildBoardData } from "./board-elements.js";
+import { getCell, getRandomCell } from "./cell.js";
 import data from "./data-objects.js";
 import { beginIntroduction, beginLoading } from "./gameplay-chapters.js";
 import { removeSelectedActive, setActive } from "./helper-functions.js";
@@ -10,6 +11,7 @@ import MessageHandler, {
 } from "./message-box.js";
 import { Player } from "./player.js";
 import { populateShips, shipData } from "./ship.js";
+import { playTurn } from "./turn-functions.js";
 
 export const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 export const active = "active";
@@ -18,7 +20,7 @@ export const dataButton = "[data-button]";
 const userInputID = "user-input";
 export const userInputField = document.getElementById(userInputID);
 
-const boardSize = 6;
+export const boardSize = 6;
 const gameContainerClass = ".game-board-container";
 const gameContainer = document.querySelector(gameContainerClass);
 
@@ -38,11 +40,13 @@ export const setUserInput = (value) => (userInput = value);
 export const setUserInputField = (value) => (userInputField.value = value);
 export const setUserSaidYes = (boolean) => (userSaidYes = boolean);
 export const setUserSaidNo = (boolean) => (userSaidNo = boolean);
-export const setCurrentTurn = (string) => (currentTurn = string);
 export const getCurrentTurn = () => currentTurn;
+export const setCurrentTurn = (string) => (currentTurn = string);
+export const reverseCurrentTurn = () =>
+  currentTurn === "player" ? "computer" : "player";
 
-const user = new Player("player", boardSize, "large");
-const computer = new Player("computer", boardSize, "large");
+export const user = new Player("player", boardSize, "large");
+export const computer = new Player("computer", boardSize, "large");
 // RUN APPLICATION
 
 gameContainer.appendChild(user.boardHTML);
@@ -51,9 +55,10 @@ gameContainer.appendChild(computer.boardHTML);
 user.placeAllShips();
 computer.placeAllShips();
 
+// playTurn(user.board, computer.board);
+
 // beginLoading().then(beginIntroduction);
 // beginIntroduction();
-// getCell(playerBoard, "A0").displayStatus();
 
 /* ============= */
 

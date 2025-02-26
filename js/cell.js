@@ -47,6 +47,9 @@ export const getRandomCell = (board, boardSize) => {
 
 export const isCellOccupied = (cell) => cell.getStatus() !== "empty";
 
+export const isCellAlreadyAttempted = (cell) =>
+  cell.getStatus() === "miss" || cell.getStatus() === "hit";
+
 export const areCoordsWithinBoard = (string, boardSize) => {
   const { column, row } = convertCoordsToNumber(string);
   return column < boardSize && row < boardSize;
