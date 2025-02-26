@@ -14,10 +14,12 @@ import {
 } from "./main.js";
 
 const messageBoxClass = ".message-box";
+const headerClass = ".message-box-header";
 const messageControls = ".message-box-controls";
 const messageTextClass = ".message-box-text";
 
 export const messageBox = document.querySelector(messageBoxClass);
+export const messageBoxHeader = document.querySelector(headerClass);
 export const messageBoxControls = document.querySelector(messageControls);
 export const messageText = document.querySelector(messageTextClass);
 
@@ -39,6 +41,8 @@ class MessageHandler {
     this.messageBox.classList.add("close");
   };
 
+  updateHeader = (string) => (messageBoxHeader.innerText = string);
+
   updateControlState = (messageObj) => {
     setControlState(this.controls, messageObj.dataState);
   };
@@ -53,6 +57,7 @@ class MessageHandler {
 
   readCurrentMessage = (messageObj) => {
     this.clearText();
+    this.updateHeader(messageObj.header);
     this.updateControlState(messageObj);
     typeWords(
       this.textField,

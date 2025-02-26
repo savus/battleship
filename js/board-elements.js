@@ -24,30 +24,37 @@ const createTile = (tileDelay, controller) => {
       setActive(tile, `.${tileClassName}`);
     }
   });
+
   return tile;
+};
+
+const tileButtonOnClick = (cell) => {
+  const cellStatus = cell.getStatus();
+  // setCurrentTurn("computer");
+  removeSelectedActive(`.${tileClassName}`);
+  if (cellStatus === "hit" || cellStatus === "miss") {
+    console.log("You have already hit this location");
+  } else {
+    if (cellStatus === "occupied") {
+      cell.setStatus("hit");
+      console.log("you made a hit");
+    } else if (cellStatus === "empty") {
+      cell.setStatus("miss");
+      console.log("You missed");
+    }
+    cell.displayStatus();
+  }
 };
 
 const createTileButton = (cell) => {
   const button = document.createElement("button");
+
   button.className = `btn ${tileButtonClass}`;
-  button.innerText = "Confirm!";
+  button.innerText = "Confirm";
   button.addEventListener("click", () => {
-    const cellStatus = cell.getStatus();
-    // setCurrentTurn("computer");
-    removeSelectedActive(`.${tileClassName}`);
-    if (cellStatus === "hit" || cellStatus === "miss") {
-      console.log("You have already hit this location");
-    } else {
-      if (cellStatus === "occupied") {
-        cell.setStatus("hit");
-        console.log("you made a hit");
-      } else if (cellStatus === "empty") {
-        cell.setStatus("miss");
-        console.log("You missed");
-      }
-      cell.displayStatus();
-    }
+    tileButtonOnClick(cell);
   });
+
   return button;
 };
 

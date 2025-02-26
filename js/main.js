@@ -11,9 +11,7 @@ import MessageHandler, {
 import { populateShips, shipData } from "./ship.js";
 
 export const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
 export const active = "active";
-
 export const dataButton = "[data-button]";
 
 const userInputID = "user-input";
@@ -33,20 +31,15 @@ let userSaidYes = false;
 let userSaidNo = false;
 
 export const setDataObjectIndex = (num) => (dataObjectIndex = num);
-
 export const setCurrentMessageObj = (messageObj) =>
   (currentMessageObj = messageObj);
-
 export const setUserInput = (value) => (userInput = value);
-
 export const setUserInputField = (value) => (userInputField.value = value);
-
 export const setUserSaidYes = (boolean) => (userSaidYes = boolean);
-
 export const setUserSaidNo = (boolean) => (userSaidNo = boolean);
-
 export const setCurrentTurn = (string) => (currentTurn = string);
 export const getCurrentTurn = () => currentTurn;
+
 // RUN APPLICATION
 
 const playerBoardData = createBoardElement(boardSize, "large", "player");
@@ -60,11 +53,12 @@ gameContainer.appendChild(playerBoardElement);
 gameContainer.appendChild(computerBoardElement);
 
 // beginLoading().then(beginIntroduction);
+beginIntroduction();
 // getCell(playerBoard, "A0").displayStatus();
-const playerShips = populateShips(shipData, playerBoard);
-const computerShips = populateShips(shipData, computerBoard);
-playerShips.forEach((ship) => ship.placeShipPieces(boardSize));
-computerShips.forEach((ship) => ship.placeShipPieces(boardSize));
+// const playerShips = populateShips(shipData, playerBoard);
+// const computerShips = populateShips(shipData, computerBoard);
+// playerShips.forEach((ship) => ship.placeShipPieces(boardSize));
+// computerShips.forEach((ship) => ship.placeShipPieces(boardSize));
 
 /* ============= */
 
