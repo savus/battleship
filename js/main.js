@@ -66,6 +66,7 @@ user.placeAllShips();
 computer.placeAllShips();
 
 displayAllShipTiles(user.board);
+console.log(computer.lastHitShip);
 // const findNotSunkShip = user.ships.find((ship) => !ship.checkIfSunk());
 // const findNotHitCell = findNotSunkShip.occupiedCells.find(
 //   (cell) => cell.getStatus() !== "hit"

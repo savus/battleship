@@ -20,7 +20,7 @@ export const playerTurn = (player, computer, cell) => {
   if (isCellOccupied(cell)) {
     console.log("You scored a hit");
     cell.updateTile("hit");
-    if (computer.assessDamage(cell)) return;
+    if (computer.assessDamage(cell, player)) return;
     reverseCurrentTurn();
     computersTurn(player, computer);
   }
@@ -37,10 +37,15 @@ const computersDecision = (player, computer) => {
   let cell;
   let notSunkShip;
   if (cheatingMode) {
-    notSunkShip = player.ships.find((ship) => !ship.checkIfSunk());
+    notSunkShip =
+      computer.lastHitShip || player.ships.find((ship) => !ship.checkIfSunk());
     cell = notSunkShip.occupiedCells.find((cell) => cell.getStatus() !== "hit");
   } else {
-    cell = getRandomCell(player.board, player.board.size);
+    cell = computer.lastHitShip
+      ? computer.lastHitShip.occupiedCells.find(
+          (cell) => cell.getStatus() !== "hit"
+        )
+      : getRandomCell(player.board, player.board.size);
     if (isCellAlreadyAttempted(cell))
       return computersDecision(player, computer);
   }
@@ -48,20 +53,21 @@ const computersDecision = (player, computer) => {
 };
 
 const computersTurn = (player, computer) => {
+  console.log(computer.lastHitShip);
   console.log(`It is now computer's turn`);
   const cell = computersDecision(player, computer);
   if (isCellOccupied(cell)) {
     console.log("Computer scored a hit");
     cell.updateTile("hit");
-    if (player.assessDamage(cell)) return;
+    if (player.assessDamage(cell, computer)) return;
     reverseCurrentTurn();
     return;
   }
 
-  if (compDec.getStatus() === "empty") {
+  if (cell.getStatus() === "empty") {
     console.log("Computer missed!");
-    compDec.setStatus("miss");
-    compDec.displayStatus();
+    cell.setStatus("miss");
+    cell.displayStatus();
     reverseCurrentTurn();
     return;
   }

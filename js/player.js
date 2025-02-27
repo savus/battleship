@@ -42,11 +42,13 @@ export class Player {
 
   hasLost = () => this.shipsLeft === 0;
 
-  assessDamage = (cell) => {
+  assessDamage = (cell, opponent) => {
     this.ships.forEach((ship) => {
       if (ship.doesCellBelongToShip(cell)) {
+        opponent.lastHitShip = ship;
         ship.takeDamage(1);
         if (ship.checkIfSunk()) {
+          opponent.lastHitShip = undefined;
           const sunkMessage =
             this.type === "player"
               ? "The enemy sunk your "
