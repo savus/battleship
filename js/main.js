@@ -106,7 +106,6 @@ debugButton.addEventListener("click", () => {
     hideAllShipTiles(computer.board);
   }
   setDebugMode(!debugMode);
-  console.log(debugMode);
 });
 
 document.addEventListener("click", (e) => {

@@ -10,24 +10,39 @@ import {
   setCurrentTurn,
 } from "./main.js";
 
-export const playerTurn = (playersBoard, computersBoard, cell) => {
+export const playerTurn = (player, computer, cell) => {
+  console.clear();
   if (isCellAlreadyAttempted(cell)) {
     console.log("You have already tried this location");
-    return playerTurn(playersBoard, computersBoard, cell);
   }
 
   if (isCellOccupied(cell)) {
     console.log("You scored a hit");
     cell.setStatus("hit");
     cell.displayStatus();
-  } else if (cell.getStatus() === "empty") {
+    computer.ships.forEach((ship) => {
+      if (ship.doesCellBelongToShip(cell)) {
+        ship.takeDamage(1);
+        if (ship.checkIfSunk()) {
+          console.log(`You sunk the enemy ${ship.name}`);
+          computer.checkIfShipSunk(ship);
+          if (computer.hasLost()) {
+            console.log("You sunk all ships! You won!");
+          }
+        }
+      }
+    });
+    reverseCurrentTurn();
+    computersTurn(player.board);
+  }
+
+  if (cell.getStatus() === "empty") {
     console.log("You missed");
     cell.setStatus("miss");
     cell.displayStatus();
+    reverseCurrentTurn();
+    computersTurn(player.board);
   }
-
-  reverseCurrentTurn();
-  computersTurn(playersBoard, computersBoard);
 };
 
 const computersDecision = (playersBoard) => {

@@ -9,10 +9,10 @@ import {
 
 export const shipData = [
   { name: "Carrier", lives: 5, length: 5 },
-  { name: "Battleship", lives: 4, length: 4 },
-  { name: "Cruiser", lives: 3, length: 3 },
-  { name: "Submarine", lives: 3, length: 3 },
-  { name: "Destroyer", lives: 2, length: 2 },
+  // { name: "Battleship", lives: 4, length: 4 },
+  // { name: "Cruiser", lives: 3, length: 3 },
+  // { name: "Submarine", lives: 3, length: 3 },
+  // { name: "Destroyer", lives: 2, length: 2 },
 ];
 
 export class Ship {
@@ -74,6 +74,12 @@ export class Ship {
     this.recordCellData(startPoint);
     this.occupyListedCells();
   };
+
+  doesCellBelongToShip = (cell) => this.occupiedCells.includes(cell);
+
+  takeDamage = (num) => (this.lives -= num);
+
+  checkIfSunk = () => this.lives === 0;
 }
 
 export const populateShips = (dataList, shipBoard) => {

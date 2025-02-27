@@ -6,6 +6,7 @@ export class Player {
   board;
   boardHTML;
   ships;
+  shipsLeft = 0;
 
   constructor(type, boardSize, boardType) {
     this.type = type;
@@ -13,6 +14,7 @@ export class Player {
     this.boardType = boardType;
     this.buildBoard();
     this.ships = populateShips(shipData, this.board);
+    this.shipsLeft = this.ships.length;
   }
 
   buildBoard = () => {
@@ -31,4 +33,12 @@ export class Player {
       ship.placeShipPieces(this.board.size);
     });
   };
+
+  checkIfShipSunk = (ship) => {
+    if (ship.checkIfSunk()) this.subtractShipsLeft(1);
+  };
+
+  subtractShipsLeft = (num) => (this.shipsLeft -= num);
+
+  hasLost = () => this.shipsLeft === 0;
 }

@@ -47,7 +47,7 @@ export const getRandomCell = (board, boardSize) => {
   return getCell(board, `${randomYCoord}${randomXCoord}`);
 };
 
-export const isCellOccupied = (cell) => cell.getStatus() !== "empty";
+export const isCellOccupied = (cell) => cell.getStatus() === "occupied";
 
 export const isCellAlreadyAttempted = (cell) =>
   cell.getStatus() === "miss" || cell.getStatus() === "hit";

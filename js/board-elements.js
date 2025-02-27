@@ -52,7 +52,7 @@ const tileButtonOnClick = (cell) => {
   //   cell.displayStatus();
   // }
   // nextTurn();
-  playerTurn(user.board, computer.board, cell);
+  playerTurn(user, computer, cell);
 };
 
 const createTileButton = (cell) => {
