@@ -80,6 +80,9 @@ export class Ship {
   takeDamage = (num) => (this.lives -= num);
 
   checkIfSunk = () => this.lives === 0;
+
+  getUnhitCell = () =>
+    this.occupiedCells.find((cell) => cell.getStatus() !== "hit");
 }
 
 export const populateShips = (dataList, shipBoard) => {

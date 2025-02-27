@@ -37,15 +37,13 @@ const computersDecision = (player, computer) => {
   let cell;
   let notSunkShip;
   if (cheatingMode) {
-    notSunkShip =
-      computer.lastHitShip || player.ships.find((ship) => !ship.checkIfSunk());
-    cell = notSunkShip.occupiedCells.find((cell) => cell.getStatus() !== "hit");
+    notSunkShip = computer.lastHitShip || player.getUnsunkShip();
+    cell = notSunkShip.getUnhitCell();
   } else {
     cell = computer.lastHitShip
-      ? computer.lastHitShip.occupiedCells.find(
-          (cell) => cell.getStatus() !== "hit"
-        )
+      ? computer.lastHitShip.getUnhitCell()
       : getRandomCell(player.board, player.board.size);
+
     if (isCellAlreadyAttempted(cell))
       return computersDecision(player, computer);
   }

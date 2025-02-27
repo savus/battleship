@@ -69,4 +69,6 @@ export class Player {
 
     return this.hasLost();
   };
+
+  getUnsunkShip = () => this.ships.find((ship) => !ship.checkIfSunk());
 }

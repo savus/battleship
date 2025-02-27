@@ -37,7 +37,7 @@ export let currentMessageObj = data.introductions[dataObjectIndex];
 export let userInput = "";
 export let currentTurn = "player";
 export let debugMode = false;
-export let cheatingMode = true;
+export let cheatingMode = false;
 let userSaidYes = false;
 let userSaidNo = false;
 
