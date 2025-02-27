@@ -7,7 +7,7 @@ import {
   setCurrentTurn,
   user,
 } from "./main.js";
-import { playTurn } from "./turn-functions.js";
+import { playerTurn } from "./turn-functions.js";
 
 const tileButtonClass = "tile-button";
 const tileClassName = "tile";
@@ -52,7 +52,7 @@ const tileButtonOnClick = (cell) => {
   //   cell.displayStatus();
   // }
   // nextTurn();
-  playTurn(user.board, computer.board, cell);
+  playerTurn(user.board, computer.board, cell);
 };
 
 const createTileButton = (cell) => {

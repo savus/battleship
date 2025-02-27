@@ -11,7 +11,6 @@ import MessageHandler, {
 } from "./message-box.js";
 import { Player } from "./player.js";
 import { populateShips, shipData } from "./ship.js";
-import { playTurn } from "./turn-functions.js";
 
 export const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 export const active = "active";
@@ -54,8 +53,6 @@ gameContainer.appendChild(computer.boardHTML);
 
 user.placeAllShips();
 computer.placeAllShips();
-
-// playTurn(user.board, computer.board);
 
 // beginLoading().then(beginIntroduction);
 // beginIntroduction();
