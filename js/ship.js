@@ -40,10 +40,9 @@ export class Ship {
     this.occupiedTiles.length = 0;
   };
 
-  occupyAndDisplayListedCells = () => {
+  occupyListedCells = () => {
     for (const cell of this.occupiedCells) {
       cell.setStatus("occupied");
-      cell.displayStatus();
     }
   };
 
@@ -73,7 +72,7 @@ export class Ship {
       return this.placeShipPieces(boardSize);
 
     this.recordCellData(startPoint);
-    this.occupyAndDisplayListedCells();
+    this.occupyListedCells();
   };
 }
 

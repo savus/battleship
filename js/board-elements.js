@@ -84,8 +84,6 @@ const buildCellData = (controller, tileCount, i, j) => {
 
   cell.htmlElement = tile;
 
-  cell.displayStatus();
-
   return [cell, tile];
 };
 
@@ -123,4 +121,32 @@ export const getTile = (board, coords) => {
 export const setAllBoardTilesClass = (boardID, className) => {
   const tiles = Array.from(document.querySelectorAll(`#${boardID} .tile`));
   tiles.map((tile) => tile.classList.toggle(className));
+};
+
+export const displayAllBoardTiles = (board) => {
+  const values = Object.values(board.grid);
+  values.map((row) => row.map((cell) => cell.displayStatus()));
+};
+
+export const hideAllBoardTiles = (board) => {
+  const values = Object.values(board.grid);
+  values.map((row) => row.map((cell) => cell.hideStatus()));
+};
+
+export const displayAllShipTiles = (board) => {
+  const values = Object.values(board.grid);
+  values.map((row) =>
+    row.map((cell) => {
+      if (cell.getStatus() === "occupied") return cell.displayStatus();
+    })
+  );
+};
+
+export const hideAllShipTiles = (board) => {
+  const values = Object.values(board.grid);
+  values.map((row) =>
+    row.map((cell) => {
+      if (cell.getStatus() === "occupied") return cell.hideStatus();
+    })
+  );
 };

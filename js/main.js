@@ -1,5 +1,10 @@
-import { buildBoardData } from "./board-elements.js";
-import { getCell, getRandomCell } from "./cell.js";
+import {
+  buildBoardData,
+  displayAllBoardTiles,
+  displayAllShipTiles,
+  hideAllShipTiles,
+} from "./board-elements.js";
+import { displayCellStatus, getCell, getRandomCell } from "./cell.js";
 import data from "./data-objects.js";
 import { beginIntroduction, beginLoading } from "./gameplay-chapters.js";
 import { removeSelectedActive, setActive } from "./helper-functions.js";
@@ -16,6 +21,8 @@ export const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 export const active = "active";
 export const dataButton = "[data-button]";
 
+const debugClass = ".debug-button";
+const debugButton = document.querySelector(debugClass);
 const userInputID = "user-input";
 export const userInputField = document.getElementById(userInputID);
 
@@ -29,6 +36,7 @@ export let dataObjectIndex = 0;
 export let currentMessageObj = data.introductions[dataObjectIndex];
 export let userInput = "";
 export let currentTurn = "player";
+export let debugMode = false;
 let userSaidYes = false;
 let userSaidNo = false;
 
@@ -43,6 +51,7 @@ export const getCurrentTurn = () => currentTurn;
 export const setCurrentTurn = (string) => (currentTurn = string);
 export const reverseCurrentTurn = () =>
   currentTurn === "player" ? "computer" : "player";
+export const setDebugMode = (boolean) => (debugMode = boolean);
 
 export const user = new Player("player", boardSize, "large");
 export const computer = new Player("computer", boardSize, "large");
@@ -53,6 +62,9 @@ gameContainer.appendChild(computer.boardHTML);
 
 user.placeAllShips();
 computer.placeAllShips();
+
+displayAllShipTiles(user.board);
+// displayAllShipTiles(computer.board);
 
 // beginLoading().then(beginIntroduction);
 // beginIntroduction();
@@ -84,6 +96,17 @@ messageBoxControls.addEventListener("click", ({ target }) => {
         break;
     }
   }
+});
+
+debugButton.addEventListener("click", () => {
+  if (!debugMode) {
+    displayAllShipTiles(user.board);
+    displayAllShipTiles(computer.board);
+  } else {
+    hideAllShipTiles(computer.board);
+  }
+  setDebugMode(!debugMode);
+  console.log(debugMode);
 });
 
 document.addEventListener("click", (e) => {

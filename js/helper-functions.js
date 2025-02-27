@@ -1,4 +1,5 @@
-import { active, setUserInput, setUserInputField } from "./main.js";
+import { displayAllBoardTiles } from "./board-elements.js";
+import { active, debugMode, setUserInput, setUserInputField } from "./main.js";
 import {
   disableAllControlButtons,
   enableAllControlButtons,

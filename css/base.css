@@ -145,6 +145,13 @@ input,
   animation: loadingAnim 3s linear var(--anim-delay) infinite;
 }
 
+.debug-button {
+  position: fixed;
+  top: 0;
+  left: 0;
+  cursor: pointer;
+}
+
 /* ANIMATIONS */
 
 @keyframes loadingAnim {

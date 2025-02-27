@@ -14,6 +14,8 @@ export class Cell {
   displayStatus = () => {
     this.htmlElement.setAttribute("data-status", this.getStatus());
   };
+
+  hideStatus = () => this.htmlElement.setAttribute("data-status", "empty");
 }
 
 export const separateChars = (coords) => {
@@ -53,4 +55,9 @@ export const isCellAlreadyAttempted = (cell) =>
 export const areCoordsWithinBoard = (string, boardSize) => {
   const { column, row } = convertCoordsToNumber(string);
   return column < boardSize && row < boardSize;
+};
+
+export const displayCellStatus = (board, coords) => {
+  const cell = getCell(board, coords);
+  cell.displayStatus();
 };
