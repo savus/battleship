@@ -37,6 +37,7 @@ export let currentMessageObj = data.introductions[dataObjectIndex];
 export let userInput = "";
 export let currentTurn = "player";
 export let debugMode = false;
+export let cheatingMode = true;
 let userSaidYes = false;
 let userSaidNo = false;
 
@@ -52,6 +53,7 @@ export const setCurrentTurn = (string) => (currentTurn = string);
 export const reverseCurrentTurn = () =>
   currentTurn === "player" ? "computer" : "player";
 export const setDebugMode = (boolean) => (debugMode = boolean);
+export const setCheatingMode = (boolean) => (cheatingMode = boolean);
 
 export const user = new Player("player", boardSize, "large");
 export const computer = new Player("computer", boardSize, "large");
@@ -64,6 +66,13 @@ user.placeAllShips();
 computer.placeAllShips();
 
 displayAllShipTiles(user.board);
+// const findNotSunkShip = user.ships.find((ship) => !ship.checkIfSunk());
+// const findNotHitCell = findNotSunkShip.occupiedCells.find(
+//   (cell) => cell.getStatus() !== "hit"
+// );
+
+// findNotHitCell.updateTile("hit");
+// console.log(findNotHitCell);
 // displayAllShipTiles(computer.board);
 
 // beginLoading().then(beginIntroduction);

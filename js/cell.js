@@ -16,6 +16,11 @@ export class Cell {
   };
 
   hideStatus = () => this.htmlElement.setAttribute("data-status", "empty");
+
+  updateTile = (status) => {
+    this.setStatus(status);
+    this.displayStatus();
+  };
 }
 
 export const separateChars = (coords) => {

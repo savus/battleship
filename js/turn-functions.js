@@ -4,6 +4,7 @@ import {
   isCellOccupied,
 } from "./cell.js";
 import {
+  cheatingMode,
   currentTurn,
   getCurrentTurn,
   reverseCurrentTurn,
@@ -18,47 +19,41 @@ export const playerTurn = (player, computer, cell) => {
 
   if (isCellOccupied(cell)) {
     console.log("You scored a hit");
-    cell.setStatus("hit");
-    cell.displayStatus();
-    computer.ships.forEach((ship) => {
-      if (ship.doesCellBelongToShip(cell)) {
-        ship.takeDamage(1);
-        if (ship.checkIfSunk()) {
-          console.log(`You sunk the enemy ${ship.name}`);
-          computer.checkIfShipSunk(ship);
-          if (computer.hasLost()) {
-            console.log("You sunk all ships! You won!");
-          }
-        }
-      }
-    });
+    cell.updateTile("hit");
+    if (computer.assessDamage(cell)) return;
     reverseCurrentTurn();
-    computersTurn(player.board);
+    computersTurn(player, computer);
   }
 
   if (cell.getStatus() === "empty") {
     console.log("You missed");
-    cell.setStatus("miss");
-    cell.displayStatus();
+    cell.updateTile("miss");
     reverseCurrentTurn();
-    computersTurn(player.board);
+    computersTurn(player, computer);
   }
 };
 
-const computersDecision = (playersBoard) => {
-  const randomCell = getRandomCell(playersBoard, playersBoard.size);
-  if (isCellAlreadyAttempted(randomCell))
-    return computersDecision(playersBoard);
-  return randomCell;
+const computersDecision = (player, computer) => {
+  let cell;
+  let notSunkShip;
+  if (cheatingMode) {
+    notSunkShip = player.ships.find((ship) => !ship.checkIfSunk());
+    cell = notSunkShip.occupiedCells.find((cell) => cell.getStatus() !== "hit");
+  } else {
+    cell = getRandomCell(player.board, player.board.size);
+    if (isCellAlreadyAttempted(cell))
+      return computersDecision(player, computer);
+  }
+  return cell;
 };
 
-const computersTurn = (playersBoard) => {
+const computersTurn = (player, computer) => {
   console.log(`It is now computer's turn`);
-  const compDec = computersDecision(playersBoard);
-  if (isCellOccupied(compDec)) {
+  const cell = computersDecision(player, computer);
+  if (isCellOccupied(cell)) {
     console.log("Computer scored a hit");
-    compDec.setStatus("hit");
-    compDec.displayStatus();
+    cell.updateTile("hit");
+    if (player.assessDamage(cell)) return;
     reverseCurrentTurn();
     return;
   }

@@ -7,7 +7,7 @@ export class Player {
   boardHTML;
   ships;
   shipsLeft = 0;
-
+  lastHitShip;
   constructor(type, boardSize, boardType) {
     this.type = type;
     this.boardSize = boardSize;
@@ -41,4 +41,30 @@ export class Player {
   subtractShipsLeft = (num) => (this.shipsLeft -= num);
 
   hasLost = () => this.shipsLeft === 0;
+
+  assessDamage = (cell) => {
+    this.ships.forEach((ship) => {
+      if (ship.doesCellBelongToShip(cell)) {
+        ship.takeDamage(1);
+        if (ship.checkIfSunk()) {
+          const sunkMessage =
+            this.type === "player"
+              ? "The enemy sunk your "
+              : `You sunk the enemy's`;
+          console.log(`${sunkMessage} ${ship.name}`);
+          this.checkIfShipSunk(ship);
+          if (this.hasLost()) {
+            const endGameMessage =
+              this.type === "player"
+                ? "The enemy sunk all your ships! You lost!"
+                : "You sunk all ships! You won!";
+            console.log(endGameMessage);
+            return;
+          }
+        }
+      }
+    });
+
+    return this.hasLost();
+  };
 }
