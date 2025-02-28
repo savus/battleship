@@ -39,7 +39,7 @@ export let currentMessageObj = data.introductions[dataObjectIndex];
 export let userInput = "";
 export let currentTurn = "player";
 export let debugMode = false;
-export let cheatingMode = false;
+export let cheatingMode = true;
 let userSaidYes = false;
 let userSaidNo = false;
 
@@ -53,13 +53,15 @@ export const setUserSaidNo = (boolean) => (userSaidNo = boolean);
 export const getCurrentTurn = () => currentTurn;
 export const setCurrentTurn = (string) => (currentTurn = string);
 export const reverseCurrentTurn = () => {
-  const oppositeTurn = currentTurn === "player" ? "computer" : "player";
+  const oppositeTurn = getCurrentTurn() === "player" ? "computer" : "player";
   setCurrentTurn(oppositeTurn);
 };
 export const setDebugMode = (boolean) => (debugMode = boolean);
 export const setCheatingMode = (boolean) => (cheatingMode = boolean);
 export const getCurrentPlayer = (player, opponent) =>
   getCurrentTurn() === "player" ? player : opponent;
+export const getOpposingPlayer = (player, opponent) =>
+  getCurrentTurn() === "player" ? opponent : player;
 // RUN APPLICATION
 
 gameContainer.appendChild(user.boardHTML);

@@ -1,4 +1,10 @@
 import { buildBoardData } from "./board-elements.js";
+import {
+  getRandomCell,
+  isCellAlreadyAttempted,
+  isCellOccupied,
+} from "./cell.js";
+import { cheatingMode, reverseCurrentTurn } from "./main.js";
 import { populateShips, shipData } from "./ship.js";
 
 export class Player {
@@ -34,10 +40,6 @@ export class Player {
     });
   };
 
-  checkIfShipSunk = (ship) => {
-    if (ship.checkIfSunk()) this.subtractShipsLeft(1);
-  };
-
   subtractShipsLeft = (num) => (this.shipsLeft -= num);
 
   hasLost = () => this.shipsLeft === 0;
@@ -48,13 +50,13 @@ export class Player {
         opponent.lastHitShip = ship;
         ship.takeDamage(1);
         if (ship.checkIfSunk()) {
+          this.subtractShipsLeft(1);
           opponent.lastHitShip = undefined;
           const sunkMessage =
             this.type === "player"
               ? "The enemy sunk your "
               : `You sunk the enemy's`;
           console.log(`${sunkMessage} ${ship.name}`);
-          this.checkIfShipSunk(ship);
           if (this.hasLost()) {
             const endGameMessage =
               this.type === "player"
@@ -68,6 +70,48 @@ export class Player {
     });
 
     return this.hasLost();
+  };
+
+  computersDecision = (opponent) => {
+    let cell;
+    if (cheatingMode) {
+      const notSunkShip = this.lastHitShip || opponent.getUnsunkShip();
+      cell = notSunkShip.getUnhitCell();
+    } else {
+      cell = this.lastHitShip
+        ? this.lastHitShip.getUnhitCell()
+        : getRandomCell(opponent.board, opponent.board.size);
+
+      if (isCellAlreadyAttempted(cell)) return this.computersDecision(opponent);
+    }
+    return cell;
+  };
+
+  playTurn = (opponent, cell) => {
+    const isPlayer = this.type === "player";
+    const decidedCell = isPlayer ? cell : this.computersDecision(opponent);
+
+    if (isPlayer && isCellAlreadyAttempted(decidedCell)) {
+      console.log("You have already tried this location");
+      return;
+    }
+
+    if (isCellOccupied(decidedCell)) {
+      console.log(`${this.type} scored a hit!`);
+      decidedCell.updateTile("hit");
+      if (opponent.assessDamage(decidedCell, this)) return;
+    }
+
+    if (decidedCell.getStatus() === "empty") {
+      console.log(`${this.type} missed!`);
+      decidedCell.updateTile("miss");
+    }
+
+    reverseCurrentTurn();
+
+    if (this.type === "player") {
+      opponent.playTurn(this, cell);
+    }
   };
 
   getUnsunkShip = () => this.ships.find((ship) => !ship.checkIfSunk());
