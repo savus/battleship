@@ -1,5 +1,6 @@
 :root {
   /* sizes */
+  --10px: 0.625rem;
   --20px: 1.25rem;
 }
 
@@ -16,11 +17,16 @@ body {
   font-size: 16px;
   font-family: playRegular, Arial, Helvetica, sans-serif;
   line-height: 1.2;
-  padding: 0;
-  margin: 0;
   background: linear-gradient(#00d2ff, #3a7bd5);
   background-repeat: no-repeat;
   height: 100vh;
+}
+
+body,
+ul,
+ol {
+  margin: 0;
+  padding: 0;
 }
 
 a {
@@ -161,11 +167,37 @@ input,
   animation: loadingAnim 3s linear var(--anim-delay) infinite;
 }
 
-.debug-button {
+.options-menu {
   position: fixed;
   top: 0;
+  right: 0;
+  left: 100%;
+}
+
+.options-menu,
+.options-menu::before {
+  color: #fff;
+  background-color: #000;
+  border-radius: var(--10px) 0 0 var(--10px);
+}
+
+.options-menu::before {
+  content: "<";
+  position: absolute;
   left: 0;
+  top: 50%;
+  transform: translate(-100%, -50%);
+  font-size: 2rem;
+}
+
+.options-menu::before,
+.options-menu li {
   cursor: pointer;
+  padding: var(--10px);
+}
+
+.options-menu li:hover {
+  background-color: #fff;
 }
 
 /* ANIMATIONS */
