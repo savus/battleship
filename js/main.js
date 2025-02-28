@@ -1,6 +1,10 @@
 import { displayAllShipTiles, hideAllShipTiles } from "./board-elements.js";
 import data from "./data-objects.js";
-import { beginIntroduction, beginLoading } from "./gameplay-chapters.js";
+import {
+  beginIntroduction,
+  beginLoading,
+  endGame,
+} from "./gameplay-chapters.js";
 import { removeSelectedActive } from "./helper-functions.js";
 import { messageBoxControls, messageHandler } from "./message-box.js";
 import { Player } from "./player.js";
@@ -9,8 +13,14 @@ export const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 export const active = "active";
 export const dataButton = "[data-button]";
 
+const dataOpen = "[data-open]";
+const openTab = document.querySelector(dataOpen);
 const debugClass = ".debug-button";
 const debugButton = document.querySelector(debugClass);
+const cheatClass = ".cheat-mode-button";
+const cheatModeButton = document.querySelector(cheatClass);
+const exitGameClass = ".exit-game-button";
+const exitGameButton = document.querySelector(exitGameClass);
 const userInputID = "user-input";
 export const userInputField = document.getElementById(userInputID);
 
@@ -87,6 +97,11 @@ messageBoxControls.addEventListener("click", ({ target }) => {
   }
 });
 
+openTab.addEventListener("click", ({ target }) => {
+  const menu = target.closest(".options-menu");
+  menu.classList.toggle("open");
+});
+
 debugButton.addEventListener("click", () => {
   if (!debugMode) {
     displayAllShipTiles(user.board);
@@ -95,6 +110,14 @@ debugButton.addEventListener("click", () => {
     hideAllShipTiles(computer.board);
   }
   setDebugMode(!debugMode);
+});
+
+cheatModeButton.addEventListener("click", () => {
+  setCheatingMode(!cheatingMode);
+});
+
+exitGameButton.addEventListener("click", () => {
+  endGame();
 });
 
 document.addEventListener("click", (e) => {

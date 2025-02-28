@@ -169,35 +169,54 @@ input,
 
 .options-menu {
   position: fixed;
-  top: 0;
-  right: 0;
+  top: 50%;
   left: 100%;
+  transform: translate(0, -50%);
+  transition: transform 0.3s ease-in-out;
+}
+
+.options-menu.open {
+  transform: translate(-100%, -50%);
+}
+
+.options-menu.open [data-open] i {
+  transform: rotate(180deg);
 }
 
 .options-menu,
-.options-menu::before {
+.options-menu [data-open] {
   color: #fff;
   background-color: #000;
   border-radius: var(--10px) 0 0 var(--10px);
 }
 
-.options-menu::before {
-  content: "<";
+.options-menu [data-open] {
   position: absolute;
   left: 0;
   top: 50%;
   transform: translate(-100%, -50%);
   font-size: 2rem;
 }
+.options-menu [data-open] i {
+  transition: transform 0.3s ease-in-out;
+}
 
-.options-menu::before,
+.options-menu [data-open],
 .options-menu li {
   cursor: pointer;
   padding: var(--10px);
 }
 
+.options-menu li {
+  width: 100%;
+  text-wrap: nowrap;
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+  border-radius: var(--10px) 0 0 var(--10px);
+}
+
 .options-menu li:hover {
-  background-color: #fff;
+  background-color: rgba(255, 255, 255, 1);
+  color: rgba(0, 0, 0, 1);
 }
 
 /* ANIMATIONS */
