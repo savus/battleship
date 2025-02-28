@@ -15,10 +15,11 @@ import { goToDataObject, messageHandler } from "./message-box.js";
 
 const loadingClass = ".loading-screen";
 const loader = document.querySelector(loadingClass);
+const loaderDots = document.querySelectorAll(`${loadingClass} span`);
 const loadingScreenDuration = 5000;
 const pauseBetweenAnimations = 500;
-const pauseBetweenSetup = pauseBetweenAnimations * 5;
-
+const pauseBetweenSetup = pauseBetweenAnimations * 6;
+console.log(loaderDots);
 /* APPLICATION GAMEPLAY */
 
 export const beginLoading = async () => {

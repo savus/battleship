@@ -52,10 +52,11 @@ export const getOpposingPlayer = (player, opponent) =>
   getCurrentTurn() === "player" ? opponent : player;
 
 // RUN APPLICATION
+beginLoading();
 
 // beginLoading().then(beginIntroduction);
 
-beginIntroduction();
+// beginIntroduction();
 
 /* ============= */
 
