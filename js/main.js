@@ -1,5 +1,6 @@
 import { displayAllShipTiles, hideAllShipTiles } from "./board-elements.js";
 import data from "./data-objects.js";
+import { beginIntroduction, beginLoading } from "./gameplay-chapters.js";
 import { removeSelectedActive } from "./helper-functions.js";
 import { messageBoxControls, messageHandler } from "./message-box.js";
 import { Player } from "./player.js";
@@ -15,7 +16,7 @@ export const userInputField = document.getElementById(userInputID);
 
 export const boardSize = 6;
 const gameContainerClass = ".game-board-container";
-const gameContainer = document.querySelector(gameContainerClass);
+export const gameContainer = document.querySelector(gameContainerClass);
 export const user = new Player("player", boardSize, "large");
 export const computer = new Player("computer", boardSize, "large");
 
@@ -52,25 +53,9 @@ export const getOpposingPlayer = (player, opponent) =>
 
 // RUN APPLICATION
 
-gameContainer.appendChild(user.boardHTML);
-gameContainer.appendChild(computer.boardHTML);
-
-user.placeAllShips();
-computer.placeAllShips();
-
-displayAllShipTiles(user.board);
-console.log(computer.lastHitShip);
-// const findNotSunkShip = user.ships.find((ship) => !ship.checkIfSunk());
-// const findNotHitCell = findNotSunkShip.occupiedCells.find(
-//   (cell) => cell.getStatus() !== "hit"
-// );
-
-// findNotHitCell.updateTile("hit");
-// console.log(findNotHitCell);
-// displayAllShipTiles(computer.board);
-
 // beginLoading().then(beginIntroduction);
-// beginIntroduction();
+
+beginIntroduction();
 
 /* ============= */
 

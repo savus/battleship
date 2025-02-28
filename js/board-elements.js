@@ -117,9 +117,9 @@ export const getTile = (board, coords) => {
   return cell.htmlElement;
 };
 
-export const setAllBoardTilesClass = (boardID, className) => {
-  const tiles = Array.from(document.querySelectorAll(`#${boardID} .tile`));
-  tiles.map((tile) => tile.classList.toggle(className));
+export const toggleBoardTileClass = (boardID, className) => {
+  const board = document.getElementById(boardID);
+  board.classList.toggle(className);
 };
 
 export const displayAllBoardTiles = (board) => {

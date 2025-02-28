@@ -167,7 +167,7 @@ input,
 
 @keyframes scaleOpen {
   0% {
-    transform: scale(0, 0.01);
+    transform: scale(0, 0.007);
   }
   20%,
   40% {
@@ -185,7 +185,7 @@ input,
   }
   20%,
   40% {
-    transform: scale(1, 0.01);
+    transform: scale(1, 0.007);
   }
   50%,
   100% {

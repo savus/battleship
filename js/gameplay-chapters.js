@@ -1,11 +1,16 @@
+import {
+  displayAllBoardTiles,
+  toggleBoardTileClass,
+} from "./board-elements.js";
 import { pause, removeActive, setActive } from "./helper-functions.js";
-import { currentMessageObj } from "./main.js";
+import { computer, currentMessageObj, gameContainer, user } from "./main.js";
 import { messageHandler } from "./message-box.js";
 
 const loadingClass = ".loading-screen";
 const loader = document.querySelector(loadingClass);
 const loadingScreenDuration = 5000;
 const pauseBetweenAnimations = 500;
+const pauseBetweenSetup = pauseBetweenAnimations * 5;
 
 /* APPLICATION GAMEPLAY */
 
@@ -20,4 +25,25 @@ export const beginIntroduction = async () => {
   messageHandler.openMessageBox();
   await pause(pauseBetweenAnimations);
   messageHandler.readCurrentMessage(currentMessageObj);
+};
+
+export const runBoardSetupAnimation = async () => {
+  toggleBoardTileClass(user.boardHTML.id, "set-up");
+  toggleBoardTileClass(computer.boardHTML.id, "set-up");
+  await pause(pauseBetweenSetup);
+  toggleBoardTileClass(user.boardHTML.id, "set-up");
+  toggleBoardTileClass(user.boardHTML.id, "hovering");
+  toggleBoardTileClass(computer.boardHTML.id, "set-up");
+  toggleBoardTileClass(computer.boardHTML.id, "hovering");
+  await pause(pauseBetweenAnimations);
+  displayAllBoardTiles(user.board);
+};
+
+export const buildGameBoards = async () => {
+  await pause(pauseBetweenAnimations);
+  gameContainer.appendChild(user.boardHTML);
+  gameContainer.appendChild(computer.boardHTML);
+  user.placeAllShips();
+  computer.placeAllShips();
+  runBoardSetupAnimation();
 };

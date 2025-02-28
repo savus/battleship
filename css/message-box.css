@@ -1,24 +1,21 @@
 /* MESSAGE BOX */
 
 .message-box {
-  --left: 10%;
-  --top: 20%;
   --s-height: 0.01;
   --s-width: 1;
   --anim-name: none;
-  position: absolute;
-  left: var(--left);
-  top: var(--top);
-  width: 37.5rem;
-  height: 25rem;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 18rem;
   overflow: hidden;
-  border-radius: 15px;
   background-color: #000;
   color: #fff;
   box-shadow: 0px 0px 1.25rem 0.063rem rgba(255, 255, 255, 0.6),
     inset 0px 0px 1.25rem 0.188rem rgba(255, 255, 255, 0.3);
   transform: scale(0);
-  animation: var(--anim-name) 1.3s ease-in-out forwards;
+  animation: var(--anim-name) 0.8s ease-in-out forwards;
 }
 
 .message-box.active {
@@ -50,7 +47,7 @@
 
 .message-box .message-box-text {
   font-size: 1.2rem;
-  height: 17rem;
+  height: 11rem;
   padding: 1rem;
   overflow: hidden;
   max-width: 100%;
@@ -60,10 +57,9 @@
   --justify: flex-start;
   display: flex;
   align-items: center;
-  height: 5rem;
   border-top: 1px solid white;
   justify-content: var(--justify);
-  gap: 20px;
+  height: 4rem;
 }
 
 .message-box .message-box-controls > div,
@@ -104,6 +100,7 @@
 
 .message-box .message-box-controls[data-state="yes-no"] {
   --justify: center;
+  gap: 20px;
 }
 
 .message-box .message-box-controls[data-state="confirm"] {

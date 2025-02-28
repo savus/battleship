@@ -48,7 +48,7 @@
     var(--anim-delay) var(--anim-dir) var(--anim-count);
 }
 
-.game-board .tile.hovering {
+.game-board.hovering .tile {
   --anim-name: hoveringTile;
   --anim-duration: 1.8s;
   --anim-tf: ease-in-out;
@@ -57,7 +57,7 @@
   --anim-dir: forwards;
 }
 
-.game-board .tile.set-up {
+.game-board.set-up .tile {
   --anim-name: flipFallDown;
   --anim-duration: 0.5s;
   --anim-delay: calc(var(--i) * 0.06s);
