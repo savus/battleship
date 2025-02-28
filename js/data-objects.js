@@ -1,12 +1,5 @@
 import DataObject from "./data-object-class.js";
 import { buildGameBoards } from "./gameplay-chapters.js";
-import { clearText } from "./helper-functions.js";
-import {
-  setUserInput,
-  setUserInputField,
-  userInput,
-  userInputField,
-} from "./main.js";
 import {
   goToNextDataObject,
   goToPrevDataObject,
@@ -34,6 +27,19 @@ const data = {
     ),
   ],
   gamePlay: [],
+  gameEnd: [
+    new DataObject(
+      "confirm",
+      "Game Over",
+      ["Thank you for playing! Good Bye!"],
+      {
+        confirmStep: () => {
+          messageHandler.clearText();
+          messageHandler.closeMessageBox();
+        },
+      }
+    ),
+  ],
 };
 
 export default data;

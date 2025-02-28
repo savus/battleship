@@ -4,6 +4,7 @@ import {
   isCellAlreadyAttempted,
   isCellOccupied,
 } from "./cell.js";
+import { endGame } from "./gameplay-chapters.js";
 import { cheatingMode, reverseCurrentTurn } from "./main.js";
 import { populateShips, shipData } from "./ship.js";
 
@@ -63,6 +64,7 @@ export class Player {
                 ? "The enemy sunk all your ships! You lost!"
                 : "You sunk all ships! You won!";
             console.log(endGameMessage);
+            endGame();
             return;
           }
         }

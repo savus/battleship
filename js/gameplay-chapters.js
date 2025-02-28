@@ -2,9 +2,16 @@ import {
   displayAllBoardTiles,
   toggleBoardTileClass,
 } from "./board-elements.js";
+import data from "./data-objects.js";
 import { pause, removeActive, setActive } from "./helper-functions.js";
-import { computer, currentMessageObj, gameContainer, user } from "./main.js";
-import { messageHandler } from "./message-box.js";
+import {
+  computer,
+  currentMessageObj,
+  gameContainer,
+  setCurrentTurn,
+  user,
+} from "./main.js";
+import { goToDataObject, messageHandler } from "./message-box.js";
 
 const loadingClass = ".loading-screen";
 const loader = document.querySelector(loadingClass);
@@ -46,4 +53,11 @@ export const buildGameBoards = async () => {
   user.placeAllShips();
   computer.placeAllShips();
   runBoardSetupAnimation();
+};
+
+export const endGame = async () => {
+  setCurrentTurn("end");
+  messageHandler.openMessageBox();
+  await pause(pauseBetweenAnimations);
+  goToDataObject(data.gameEnd, 0, messageHandler);
 };

@@ -35,22 +35,6 @@ const createTile = (tileDelay, controller) => {
 };
 
 const tileButtonOnClick = (cell) => {
-  // setCurrentTurn("computer");
-  // const cellStatus = cell.getStatus();
-  // removeSelectedActive(`.${tileClassName}`);
-  // if (cellStatus === "hit" || cellStatus === "miss") {
-  //   console.log("You have already hit this location");
-  // } else {
-  //   if (cellStatus === "occupied") {
-  //     cell.setStatus("hit");
-  //     console.log("you made a hit");
-  //   } else if (cellStatus === "empty") {
-  //     cell.setStatus("miss");
-  //     console.log("You missed");
-  //   }
-  //   cell.displayStatus();
-  // }
-  // nextTurn();
   user.playTurn(computer, cell);
 };
 
