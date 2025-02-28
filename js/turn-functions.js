@@ -6,31 +6,35 @@ import {
 import {
   cheatingMode,
   currentTurn,
+  getCurrentPlayer,
   getCurrentTurn,
   reverseCurrentTurn,
   setCurrentTurn,
 } from "./main.js";
 
 export const playerTurn = (player, computer, cell) => {
-  console.clear();
-  if (isCellAlreadyAttempted(cell)) {
-    console.log("You have already tried this location");
-  }
+  let currentPlayer = getCurrentPlayer(player, computer);
+  let opposingPlayer = getCurrentPlayer(computer, player);
 
-  if (isCellOccupied(cell)) {
-    console.log("You scored a hit");
-    cell.updateTile("hit");
-    if (computer.assessDamage(cell, player)) return;
-    reverseCurrentTurn();
-    computersTurn(player, computer);
-  }
+  // console.clear();
+  // if (isCellAlreadyAttempted(cell)) {
+  //   console.log("You have already tried this location");
+  // }
 
-  if (cell.getStatus() === "empty") {
-    console.log("You missed");
-    cell.updateTile("miss");
-    reverseCurrentTurn();
-    computersTurn(player, computer);
-  }
+  // if (isCellOccupied(cell)) {
+  //   console.log("You scored a hit");
+  //   cell.updateTile("hit");
+  //   if (computer.assessDamage(cell, player)) return;
+  //   reverseCurrentTurn();
+  //   computersTurn(player, computer);
+  // }
+
+  // if (cell.getStatus() === "empty") {
+  //   console.log("You missed");
+  //   cell.updateTile("miss");
+  //   reverseCurrentTurn();
+  //   computersTurn(player, computer);
+  // }
 };
 
 const computersDecision = (player, computer) => {

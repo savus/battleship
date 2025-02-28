@@ -29,6 +29,8 @@ export const userInputField = document.getElementById(userInputID);
 export const boardSize = 6;
 const gameContainerClass = ".game-board-container";
 const gameContainer = document.querySelector(gameContainerClass);
+export const user = new Player("player", boardSize, "large");
+export const computer = new Player("computer", boardSize, "large");
 
 export let textSpeed = 10;
 export let messageListIndex = 0;
@@ -50,13 +52,14 @@ export const setUserSaidYes = (boolean) => (userSaidYes = boolean);
 export const setUserSaidNo = (boolean) => (userSaidNo = boolean);
 export const getCurrentTurn = () => currentTurn;
 export const setCurrentTurn = (string) => (currentTurn = string);
-export const reverseCurrentTurn = () =>
-  currentTurn === "player" ? "computer" : "player";
+export const reverseCurrentTurn = () => {
+  const oppositeTurn = currentTurn === "player" ? "computer" : "player";
+  setCurrentTurn(oppositeTurn);
+};
 export const setDebugMode = (boolean) => (debugMode = boolean);
 export const setCheatingMode = (boolean) => (cheatingMode = boolean);
-
-export const user = new Player("player", boardSize, "large");
-export const computer = new Player("computer", boardSize, "large");
+export const getCurrentPlayer = (player, opponent) =>
+  getCurrentTurn() === "player" ? player : opponent;
 // RUN APPLICATION
 
 gameContainer.appendChild(user.boardHTML);
