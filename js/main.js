@@ -1,21 +1,8 @@
-import {
-  buildBoardData,
-  displayAllBoardTiles,
-  displayAllShipTiles,
-  hideAllShipTiles,
-} from "./board-elements.js";
-import { displayCellStatus, getCell, getRandomCell } from "./cell.js";
+import { displayAllShipTiles, hideAllShipTiles } from "./board-elements.js";
 import data from "./data-objects.js";
-import { beginIntroduction, beginLoading } from "./gameplay-chapters.js";
-import { removeSelectedActive, setActive } from "./helper-functions.js";
-import MessageHandler, {
-  messageBox,
-  messageBoxControls,
-  messageHandler,
-  messageText,
-} from "./message-box.js";
+import { removeSelectedActive } from "./helper-functions.js";
+import { messageBoxControls, messageHandler } from "./message-box.js";
 import { Player } from "./player.js";
-import { populateShips, shipData } from "./ship.js";
 
 export const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 export const active = "active";
@@ -62,6 +49,7 @@ export const getCurrentPlayer = (player, opponent) =>
   getCurrentTurn() === "player" ? player : opponent;
 export const getOpposingPlayer = (player, opponent) =>
   getCurrentTurn() === "player" ? opponent : player;
+
 // RUN APPLICATION
 
 gameContainer.appendChild(user.boardHTML);
