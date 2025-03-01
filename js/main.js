@@ -81,7 +81,7 @@ gameContainer.appendChild(computer.boardHTML);
 
 const testFunc = async () => {
   // toggleBoardTileClass(user.boardHTML.id, "set-up");
-  setActive(computer.boardHTML, ".game-board");
+  setActive(user.boardHTML, ".game-board");
   // toggleBoardTileClass(computer.boardHTML.id, "set-up");
   await pause(pauseBetweenSetup);
   // swapBoardClasses(user.boardHTML, "hovering", "set-up");
@@ -91,7 +91,7 @@ const testFunc = async () => {
   const coords = ["A0", "A1", "B0", "C0", "A3"];
   const status = ["occupied", "miss", "hit", "occupied", "miss", "hit"];
   coords.forEach((coord, index) => {
-    const cell = getCell(computer.board, coord);
+    const cell = getCell(user.board, coord);
     cell.setStatus(status[index]);
     cell.displayStatus();
   });

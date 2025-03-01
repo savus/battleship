@@ -159,6 +159,7 @@
   --translate-x: -50%;
   --translate-y: -50%;
   --scale: 1;
+  border-radius: 50%;
 }
 
 #player .tile[data-status="occupied"] .status {
@@ -166,7 +167,6 @@
 }
 
 #computer .tile[data-status="occupied"] .status {
-  border-radius: 50%;
   background-color: red;
 }
 
