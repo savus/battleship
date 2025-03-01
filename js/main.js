@@ -5,7 +5,7 @@ import {
   beginLoading,
   endGame,
 } from "./gameplay-chapters.js";
-import { removeSelectedActive } from "./helper-functions.js";
+import { removeSelectedActive, setActive } from "./helper-functions.js";
 import { messageBoxControls, messageHandler } from "./message-box.js";
 import { Player } from "./player.js";
 
@@ -134,7 +134,14 @@ document.addEventListener("click", (e) => {
 
 //DEBUGGING
 let controlsToggle = false;
-const testControls = () => {};
+const board1 = document.getElementById("player");
+const board2 = document.getElementById("computer");
+console.log(board1, board2);
+const testControls = () => {
+  if (!controlsToggle) setActive(board1, ".game-board");
+  else setActive(board2, ".game-board");
+  controlsToggle = !controlsToggle;
+};
 
 document.addEventListener("keyup", (e) => {
   const key = e.key;
