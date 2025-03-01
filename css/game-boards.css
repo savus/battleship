@@ -72,10 +72,10 @@
   --anim-dir: forwards;
   opacity: 0;
   pointer-events: none;
-  transition: transform 0.3s ease-in-out;
 }
 
 .game-board:not(.set-up) .tile:hover {
+  --anim-name: none;
   box-shadow: 1px 12px 8px 0px rgba(0, 0, 0, 0.8),
     0px 0px 12px 1px rgba(78, 247, 210, 0.8) inset;
   transform: scale(1.2);
@@ -145,6 +145,7 @@
   left: var(--left);
   width: var(--width);
   height: var(--height);
+  transform-origin: center;
   transform: scale(var(--scale))
     translate(var(--translate-x), var(--translate-y));
   pointer-events: none;
@@ -153,8 +154,8 @@
 .game-board .tile[data-status="occupied"] .status {
   --top: 50%;
   --left: 50%;
-  --width: 75%;
-  --height: 65%;
+  --width: 3em;
+  --height: 3em;
   --translate-x: -50%;
   --translate-y: -50%;
   --scale: 1;
@@ -200,7 +201,7 @@
 .game-board .tile[data-status="hit"] .status::before,
 .game-board .tile[data-status="miss"] .status::after,
 .game-board .tile[data-status="miss"] .status::before {
-  --width: 10px;
+  --width: var(--size-10);
   --height: 100%;
   --translate-x: -50%;
   --translate-y: -50%;
@@ -226,6 +227,11 @@
 .game-board .tile[data-status="miss"] .status::after,
 .game-board .tile[data-status="miss"] .status::before {
   background-color: black;
+}
+
+.game-board .tile[data-status="miss"] .status,
+.game-board .tile[data-status="hit"] .status {
+  animation: scaleUpFadeOut 0.3s linear;
 }
 
 @media (max-width: 800px) {
