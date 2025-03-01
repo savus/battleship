@@ -4,16 +4,16 @@
   --s-height: 0.01;
   --s-width: 1;
   --anim-name: none;
+  --height: 18rem;
   position: fixed;
   left: 0;
   right: 0;
   bottom: 0;
-  height: 18rem;
+  height: var(--height);
   overflow: hidden;
   background-color: #000;
   color: #fff;
-  box-shadow: 0px 0px 1.25rem 0.063rem rgba(255, 255, 255, 0.6),
-    inset 0px 0px 1.25rem 0.188rem rgba(255, 255, 255, 0.3);
+  box-shadow: inset 0px 0px 1rem 0.188rem rgba(255, 255, 255, 0.2);
   transform: scale(0);
   animation: var(--anim-name) 0.8s ease-in-out forwards;
 }
@@ -27,9 +27,11 @@
 }
 
 .message-box .message-box-header {
-  font-size: 1.5rem;
+  --height: 3rem;
+  --font-size: 1.5rem;
+  font-size: var(--font-size);
   border-bottom: 1px solid #fff;
-  height: 3rem;
+  height: var(--height);
   display: flex;
   align-items: center;
 }
@@ -46,8 +48,10 @@
 }
 
 .message-box .message-box-text {
-  font-size: 1.2rem;
-  height: 11rem;
+  --font-size: 1.2rem;
+  --height: 11rem;
+  font-size: var(--font-size);
+  height: var(--height);
   padding: 1rem;
   overflow: hidden;
   max-width: 100%;
@@ -91,6 +95,7 @@
 }
 
 .message-box [data-state="prompt"] .user-input {
+  --flex-d: column;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -99,8 +104,7 @@
 }
 
 .message-box .message-box-controls[data-state="yes-no"] {
-  --justify: center;
-  gap: 20px;
+  --justify: space-evenly;
 }
 
 .message-box .message-box-controls[data-state="confirm"] {
@@ -118,4 +122,29 @@
   letter-spacing: 1px;
   font-size: 0.8rem;
   width: 63%;
+}
+
+@media (max-width: 768px) {
+  .message-box {
+    --height: 13rem;
+  }
+
+  .message-box .message-box-header {
+    --height: 2rem;
+    --font-size: 1rem;
+  }
+
+  .message-box .message-box-text {
+    --font-size: 1rem;
+    --height: 7rem;
+  }
+
+  .message-box .message-box-controls {
+    --flex-d: column;
+  }
+
+  .message-box .message-box-controls[data-state="yes-no"] {
+    --justify: center;
+    gap: var(--size-40);
+  }
 }
