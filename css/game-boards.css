@@ -3,7 +3,7 @@
 .game-board-container {
   position: relative;
   width: 100%;
-  height: 100%;
+  min-height: 38rem;
   max-width: 1024px;
   margin: var(--size-20) auto 0 auto;
 }
@@ -11,6 +11,7 @@
 .game-board {
   --scale: 0.4;
   --left: 10%;
+  --top: 0;
   position: absolute;
   background-color: #fff;
   border-radius: 10px;
@@ -24,6 +25,7 @@
   transform: scale(var(--scale)) translateX(-50%);
   transition: transform 0.2s ease-in-out, left 0.2s ease-in-out;
   left: var(--left);
+  top: var(--top);
 }
 
 .game-board.active {
@@ -234,12 +236,46 @@
   animation: scaleUpFadeOut 0.3s linear;
 }
 
+.game-board-container .board-controls {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-around;
+}
+
+.board-controls .left,
+.board-controls .right {
+  cursor: pointer;
+  transition: transform 0.1s ease-in-out;
+}
+
+.game-board-container .board-controls i {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 5rem;
+  cursor: pointer;
+  pointer-events: none;
+}
+
+.game-board-container .board-controls .left:hover,
+.game-board-container .board-controls .right:hover {
+  transform: scale(1.5);
+}
+
+.game-board-container .board-controls .left:active,
+.game-board-container .board-controls .right:active {
+  transform: scale(1.2);
+}
+
 @media (max-width: 800px) {
   .game-board-container {
     margin: var(--size-10) auto 0 auto;
+    min-height: 27rem;
   }
   .game-board {
     --left: 0;
+    --top: calc(var(--size-40) * -2);
   }
   .game-board.active {
     --scale: 0.6;
@@ -248,9 +284,14 @@
 }
 
 @media (max-width: 550px) {
+  .game-board-container {
+    min-height: 23rem;
+  }
+
   .game-board {
     --scale: 0.3;
     --left: -15%;
+    --top: calc(var(--size-40) * -2.5);
   }
 
   .game-board.active {

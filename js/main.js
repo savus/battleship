@@ -35,8 +35,11 @@ export const userInputField = document.getElementById(userInputID);
 export const boardSize = 6;
 const gameContainerClass = ".game-board-container";
 export const gameContainer = document.querySelector(gameContainerClass);
+const boardControlsClass = ".board-controls";
+const boardControls = document.querySelector(boardControlsClass);
 export const user = new Player("player", boardSize, "large");
 export const computer = new Player("computer", boardSize, "large");
+const players = [user, computer];
 
 export let textSpeed = 10;
 export let messageListIndex = 0;
@@ -46,6 +49,7 @@ export let userInput = "";
 export let currentTurn = "player";
 export let debugMode = false;
 export let cheatingMode = true;
+let playerIndex = 0;
 let userSaidYes = false;
 let userSaidNo = false;
 
@@ -68,6 +72,17 @@ export const getCurrentPlayer = (player, opponent) =>
   getCurrentTurn() === "player" ? player : opponent;
 export const getOpposingPlayer = (player, opponent) =>
   getCurrentTurn() === "player" ? opponent : player;
+const setPlayerIndex = (num) => (playerIndex = num);
+const incrementPlayerIndex = () => {
+  const isLastIndex = playerIndex === players.length - 1;
+  setPlayerIndex(isLastIndex ? 0 : playerIndex + 1);
+  console.log(playerIndex);
+};
+const decrementPlayerIndex = () => {
+  const isFirstIndex = playerIndex === 0;
+  setPlayerIndex(isFirstIndex ? players.length - 1 : playerIndex - 1);
+  console.log(playerIndex);
+};
 
 // RUN APPLICATION
 // beginLoading();
@@ -81,7 +96,7 @@ gameContainer.appendChild(computer.boardHTML);
 
 const testFunc = async () => {
   // toggleBoardTileClass(user.boardHTML.id, "set-up");
-  setActive(user.boardHTML, ".game-board");
+  setActive(players[playerIndex].boardHTML, ".game-board");
   // toggleBoardTileClass(computer.boardHTML.id, "set-up");
   await pause(pauseBetweenSetup);
   // swapBoardClasses(user.boardHTML, "hovering", "set-up");
@@ -131,6 +146,14 @@ messageBoxControls.addEventListener("click", ({ target }) => {
 openTab.addEventListener("click", ({ target }) => {
   const menu = target.closest(".options-menu");
   menu.classList.toggle("open");
+});
+
+boardControls.addEventListener("click", ({ target }) => {
+  const leftButton = target.classList.contains("left");
+  const rightbutton = target.classList.contains("right");
+  if (leftButton) decrementPlayerIndex();
+  if (rightbutton) incrementPlayerIndex();
+  setActive(players[playerIndex].boardHTML, ".game-board");
 });
 
 debugButton.addEventListener("click", () => {
