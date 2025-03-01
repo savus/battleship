@@ -1,7 +1,7 @@
 :root {
   /* sizes */
-  --10px: 0.625rem;
-  --20px: 1.25rem;
+  --size-10: 0.625rem;
+  --size-20: 1.25rem;
 }
 
 @font-face {
@@ -121,7 +121,7 @@ input,
 .loading-screen .loading-text {
   color: #fff;
   display: flex;
-  gap: var(--20px);
+  gap: var(--size-20);
 }
 
 .loading-screen .loading-text span {
@@ -187,16 +187,20 @@ input,
 .options-menu [data-open] {
   color: #fff;
   background-color: #000;
-  border-radius: var(--10px) 0 0 var(--10px);
+  border-radius: var(--size-10) 0 0 var(--size-10);
 }
 
 .options-menu [data-open] {
   position: absolute;
   left: 0;
-  top: 50%;
+}
+
+.options-menu [data-open] {
   transform: translate(-100%, -50%);
+  top: 50%;
   font-size: 2rem;
 }
+
 .options-menu [data-open] i {
   transition: transform 0.3s ease-in-out;
 }
@@ -204,14 +208,14 @@ input,
 .options-menu [data-open],
 .options-menu li {
   cursor: pointer;
-  padding: var(--10px);
+  padding: var(--size-10);
 }
 
 .options-menu li {
   width: 100%;
   text-wrap: nowrap;
   transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
-  border-radius: var(--10px) 0 0 var(--10px);
+  border-radius: var(--size-10) 0 0 var(--size-10);
 }
 
 .options-menu li:hover {
@@ -239,7 +243,7 @@ input,
     transform: translateY(0);
   }
   40% {
-    transform: translateY(calc(var(--20px) * -1));
+    transform: translateY(calc(var(--size-20) * -1));
   }
 }
 
