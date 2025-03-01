@@ -3,6 +3,7 @@
   --size-10: 0.625rem;
   --size-20: 1.25rem;
   --size-40: 2.5rem;
+  --num-of-tiles: 36;
 }
 
 @font-face {
@@ -298,11 +299,12 @@ input,
   }
 }
 
-@keyframes flipFallDown {
+@keyframes glideDown {
   0% {
-    transform: translate(-60px, -20px);
+    transform: translate(-100px, -30px);
     opacity: 0;
   }
+
   100% {
     transform: translate(0, 0);
     opacity: 1;

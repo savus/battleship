@@ -1,11 +1,18 @@
-import { displayAllShipTiles, hideAllShipTiles } from "./board-elements.js";
+import {
+  displayAllShipTiles,
+  hideAllShipTiles,
+  swapBoardClasses,
+  toggleBoardTileClass,
+} from "./board-elements.js";
 import data from "./data-objects.js";
 import {
   beginIntroduction,
   beginLoading,
   endGame,
+  pauseBetweenAnimations,
+  pauseBetweenSetup,
 } from "./gameplay-chapters.js";
-import { removeSelectedActive, setActive } from "./helper-functions.js";
+import { pause, removeSelectedActive, setActive } from "./helper-functions.js";
 import { messageBoxControls, messageHandler } from "./message-box.js";
 import { Player } from "./player.js";
 
@@ -67,6 +74,20 @@ export const getOpposingPlayer = (player, opponent) =>
 // beginLoading().then(beginIntroduction);
 
 // beginIntroduction();
+
+gameContainer.appendChild(user.boardHTML);
+gameContainer.appendChild(computer.boardHTML);
+
+const testFunc = async () => {
+  toggleBoardTileClass(user.boardHTML.id, "set-up");
+  setActive(computer.boardHTML, ".game-board");
+  toggleBoardTileClass(computer.boardHTML.id, "set-up");
+  await pause(pauseBetweenSetup);
+  swapBoardClasses(user.boardHTML, "hovering", "set-up");
+  swapBoardClasses(computer.boardHTML, "hovering", "set-up");
+};
+
+testFunc();
 
 /* ============= */
 
@@ -134,14 +155,11 @@ document.addEventListener("click", (e) => {
 
 //DEBUGGING
 let controlsToggle = false;
-const board1 = document.getElementById("player");
-const board2 = document.getElementById("computer");
-console.log(board1, board2);
-const testControls = () => {
-  if (!controlsToggle) setActive(board1, ".game-board");
-  else setActive(board2, ".game-board");
-  controlsToggle = !controlsToggle;
-};
+// const board1 = document.getElementById("player");
+// const board2 = document.getElementById("computer");
+// setActive(board1, ".game-board");
+// console.log(board1, board2);
+const testControls = () => {};
 
 document.addEventListener("keyup", (e) => {
   const key = e.key;

@@ -106,6 +106,11 @@ export const toggleBoardTileClass = (boardID, className) => {
   board.classList.toggle(className);
 };
 
+export const swapBoardClasses = (boardElement, classToAdd, classToRemove) => {
+  boardElement.classList.add(classToAdd);
+  boardElement.classList.remove(classToRemove);
+};
+
 export const displayAllBoardTiles = (board) => {
   const values = Object.values(board.grid);
   values.map((row) => row.map((cell) => cell.displayStatus()));

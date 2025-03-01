@@ -2,7 +2,6 @@
 
 .game-board-container {
   position: relative;
-  gap: var(--size-40);
   width: 100%;
   height: 100%;
   max-width: 1024px;
@@ -29,7 +28,7 @@
 
 .game-board.active {
   --scale: 1;
-  --left: 70%;
+  --left: 65%;
 }
 
 .game-board .row {
@@ -66,24 +65,24 @@
 }
 
 .game-board.set-up .tile {
-  --anim-name: flipFallDown;
-  --anim-duration: 0.5s;
+  --anim-name: glideDown;
+  --anim-duration: 0.3s;
   --anim-delay: calc(var(--i) * 0.06s);
   --anim-count: 1;
   --anim-dir: forwards;
   opacity: 0;
+  pointer-events: none;
+  transition: transform 0.3s ease-in-out;
 }
 
-.game-board .tile:not(.set-up):hover,
-.game-board .tile.active:not(.set-up) {
-  --anim-name: none;
+.game-board:not(.set-up) .tile:hover {
   box-shadow: 1px 12px 8px 0px rgba(0, 0, 0, 0.8),
     0px 0px 12px 1px rgba(78, 247, 210, 0.8) inset;
   transform: scale(1.2);
   cursor: pointer;
 }
 
-.game-board .tile.active {
+.game-board:not(.set-up) .tile.active {
   z-index: 1;
 }
 
@@ -229,7 +228,10 @@
   background-color: black;
 }
 
-@media (max-width: 758px) {
+@media (max-width: 800px) {
+  .game-board-container {
+    margin: var(--size-10) auto 0 auto;
+  }
   .game-board {
     --left: 0;
   }

@@ -16,8 +16,8 @@ import { goToDataObject, messageHandler } from "./message-box.js";
 const loadingClass = ".loading-screen";
 const loader = document.querySelector(loadingClass);
 const loadingScreenDuration = 5000;
-const pauseBetweenAnimations = 500;
-const pauseBetweenSetup = pauseBetweenAnimations * 6;
+export const pauseBetweenAnimations = 500;
+export const pauseBetweenSetup = pauseBetweenAnimations * 6;
 
 /* APPLICATION GAMEPLAY */
 
