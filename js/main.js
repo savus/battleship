@@ -49,7 +49,7 @@ export let userInput = "";
 export let currentTurn = "player";
 export let debugMode = false;
 export let cheatingMode = true;
-let playerIndex = 0;
+let playerIndex = 1;
 let userSaidYes = false;
 let userSaidNo = false;
 
@@ -98,18 +98,18 @@ const testFunc = async () => {
   // toggleBoardTileClass(user.boardHTML.id, "set-up");
   setActive(players[playerIndex].boardHTML, ".game-board");
   // toggleBoardTileClass(computer.boardHTML.id, "set-up");
-  await pause(pauseBetweenSetup);
+  // await pause(pauseBetweenSetup);
   // swapBoardClasses(user.boardHTML, "hovering", "set-up");
   // swapBoardClasses(computer.boardHTML, "hovering", "set-up");
   toggleBoardTileClass(computer.boardHTML.id, "hovering");
   toggleBoardTileClass(user.boardHTML.id, "hovering");
   const coords = ["A0", "A1", "B0", "C0", "A3"];
   const status = ["occupied", "miss", "hit", "occupied", "miss", "hit"];
-  coords.forEach((coord, index) => {
-    const cell = getCell(user.board, coord);
-    cell.setStatus(status[index]);
-    cell.displayStatus();
-  });
+  // coords.forEach((coord, index) => {
+  //   const cell = getCell(user.board, coord);
+  //   cell.setStatus(status[index]);
+  //   cell.displayStatus();
+  // });
 };
 
 testFunc();
