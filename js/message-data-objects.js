@@ -97,6 +97,32 @@ const messageData = {
       }
     ),
   ],
+  alreadyAttempted: [
+    new MessageData(
+      "confirm",
+      "Game Play",
+      ["You have already attempted this location. Please choose another"],
+      {
+        confirmStep: () => {
+          messageHandler.closeMessageBox();
+        },
+      }
+    ),
+  ],
+  targetHit: [
+    new MessageData("confirm", "Game Play", ["Custom Hit Message Failed"], {
+      confirmStep: () => {
+        messageHandler.closeMessageBox();
+      },
+    }),
+  ],
+  targetMissed: [
+    new MessageData("confirm", "Game Play", ["Custom Miss Message Failed"], {
+      confirmStep: () => {
+        messageHandler.closeMessageBox();
+      },
+    }),
+  ],
   gamePlay: [],
   gameEnd: [
     new MessageData(

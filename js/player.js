@@ -2,6 +2,8 @@ import { buildBoardData } from "./board-elements.js";
 
 import { endGame } from "./gameplay-chapters.js";
 import { cheatingMode, reverseCurrentTurn } from "./main.js";
+import { messageHandler } from "./message-box.js";
+import messageData from "./message-data-objects.js";
 import { populateShips, shipData } from "./ship.js";
 import {
   getRandomCell,
@@ -92,27 +94,39 @@ export class Player {
 
   playTurn = (opponent, cell) => {
     const isPlayer = this.type === "player";
+    const playerReference = isPlayer ? "You" : "The Computer";
     const decidedCell = isPlayer ? cell : this.computersDecision(opponent);
 
     if (isPlayer && isCellAlreadyAttempted(decidedCell)) {
-      console.log("You have already tried this location");
+      messageHandler.openMessageBox();
+      messageHandler.goToMessageData(messageData.alreadyAttempted, 0);
       return;
     }
 
     if (isCellOccupied(decidedCell)) {
-      console.log(`${this.type} scored a hit!`);
+      messageHandler.openMessageBox();
+      messageHandler.goToMessageData(
+        messageData.targetHit,
+        0,
+        `${playerReference} scored a hit`
+      );
       decidedCell.updateTile("hit");
       if (opponent.assessDamage(decidedCell, this)) return;
     }
 
     if (decidedCell.getStatus() === "empty") {
-      console.log(`${this.type} missed!`);
+      messageHandler.openMessageBox();
+      messageHandler.goToMessageData(
+        messageData.targetMissed,
+        0,
+        `${playerReference} missed!`
+      );
       decidedCell.updateTile("miss");
     }
 
     reverseCurrentTurn();
 
-    if (this.type === "player") {
+    if (isPlayer) {
       opponent.playTurn(this, cell);
     }
   };

@@ -48,13 +48,13 @@ class MessageHandler {
 
   resetMessageListIndex = () => (this.messageListIndex = 0);
 
-  readCurrentMessage = (messageObj) => {
+  readCurrentMessage = (messageObj, customMessage = null) => {
     this.clearText();
     this.updateHeader(messageObj.header);
     this.updateControlBox(messageObj.dataState);
     typeWords(
       this.textField,
-      messageObj.messageList[this.messageListIndex],
+      customMessage || messageObj.messageList[this.messageListIndex],
       textSpeed
     );
   };
@@ -99,10 +99,10 @@ class MessageHandler {
     }
   };
 
-  goToMessageData = (dataList, indexNum) => {
+  goToMessageData = (dataList, indexNum, customMessage = null) => {
     setMessageObjIndex(indexNum);
     setCurrentMessageObj(dataList[messageObjIndex]);
-    this.readCurrentMessage(currentMessageObj);
+    this.readCurrentMessage(currentMessageObj, customMessage);
   };
 }
 
