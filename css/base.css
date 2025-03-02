@@ -4,6 +4,8 @@
   --size-20: 1.25rem;
   --size-40: 2.5rem;
   --num-of-tiles: 36;
+  --tile-setup-dur: 0.3;
+  --tile-setup-del: 0.06;
 }
 
 @font-face {
@@ -301,7 +303,7 @@ input,
 
 @keyframes glideDown {
   0% {
-    transform: translate(-100px, -30px);
+    transform: translate(-150px, -30px);
     opacity: 0;
   }
 

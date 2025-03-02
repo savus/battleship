@@ -7,6 +7,7 @@ import messageData from "./message-data-objects.js";
 export const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 export const active = "active";
 export const dataButton = "[data-button]";
+export const root = document.documentElement;
 
 const dataOpen = "[data-open]";
 const openTab = document.querySelector(dataOpen);

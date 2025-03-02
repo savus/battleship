@@ -11,6 +11,7 @@ import messageData from "./message-data-objects.js";
 
 const loadingClass = ".loading-screen";
 const loader = document.querySelector(loadingClass);
+
 const loadingScreenDuration = 5000;
 export const pauseBetweenAnimations = 500;
 export const pauseBetweenSetup = pauseBetweenAnimations * 6;
@@ -47,10 +48,9 @@ export const runBoardSetupAnimation = async () => {
   user.board.toggleBoardTileClass("hovering");
   computer.board.toggleBoardTileClass("set-up");
   computer.board.toggleBoardTileClass("hovering");
+  setActive(user.boardHTML, "game-board");
   await pause(pauseBetweenAnimations);
   user.board.displayAllBoardTiles();
-  computer.board.displayAllBoardTiles();
-  setActive(user.boardHTML, "game-board");
 };
 
 export const endGame = async () => {
