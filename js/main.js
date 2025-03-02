@@ -1,4 +1,3 @@
-import { displayAllShipTiles, hideAllShipTiles } from "./board-elements.js";
 import { beginIntroduction, endGame } from "./gameplay-chapters.js";
 import { removePreviousActive, setActive } from "./helper-functions.js";
 import { messageBoxControls, messageHandler } from "./message-box.js";
@@ -32,7 +31,7 @@ const players = [user, computer];
 export let textSpeed = 10;
 export let messageListIndex = 0;
 export let messageObjIndex = 0;
-export let currentMessageObj = messageData.testing[messageObjIndex];
+export let currentMessageObj = messageData.introductions[messageObjIndex];
 export let userInput = "";
 export let currentTurn = "player";
 export let debugMode = false;
@@ -74,13 +73,11 @@ const decrementPlayerIndex = () => {
 
 // RUN APPLICATION
 
-// gameContainer.appendChild(user.boardHTML);
-// gameContainer.appendChild(computer.boardHTML);
-
 beginIntroduction();
 
 /* ============= */
 
+/* EVENT HANDLERS */
 messageBoxControls.addEventListener("click", ({ target }) => {
   if (target.dataset.button) {
     switch (target.dataset.button) {
@@ -124,10 +121,10 @@ boardControls.addEventListener("click", ({ target }) => {
 
 debugButton.addEventListener("click", () => {
   if (!debugMode) {
-    displayAllShipTiles(user.board);
-    displayAllShipTiles(computer.board);
+    user.board.displayAllShipTiles();
+    computer.board.displayAllShipTiles();
   } else {
-    hideAllShipTiles(computer.board);
+    computer.board.hideAllShipTiles();
   }
   setDebugMode(!debugMode);
 });

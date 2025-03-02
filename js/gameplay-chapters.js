@@ -1,8 +1,3 @@
-import {
-  displayAllBoardTiles,
-  toggleBoardTileClass,
-} from "./board-elements.js";
-import data from "./message-data-objects.js";
 import { pause, removeActive, setActive } from "./helper-functions.js";
 import {
   computer,
@@ -12,6 +7,7 @@ import {
   user,
 } from "./main.js";
 import { messageHandler } from "./message-box.js";
+import messageData from "./message-data-objects.js";
 
 const loadingClass = ".loading-screen";
 const loader = document.querySelector(loadingClass);
@@ -34,18 +30,6 @@ export const beginIntroduction = async () => {
   messageHandler.readCurrentMessage(currentMessageObj);
 };
 
-export const runBoardSetupAnimation = async () => {
-  toggleBoardTileClass(user.boardHTML.id, "set-up");
-  toggleBoardTileClass(computer.boardHTML.id, "set-up");
-  await pause(pauseBetweenSetup);
-  toggleBoardTileClass(user.boardHTML.id, "set-up");
-  toggleBoardTileClass(user.boardHTML.id, "hovering");
-  toggleBoardTileClass(computer.boardHTML.id, "set-up");
-  toggleBoardTileClass(computer.boardHTML.id, "hovering");
-  await pause(pauseBetweenAnimations);
-  displayAllBoardTiles(user.board);
-};
-
 export const buildGameBoards = async () => {
   await pause(pauseBetweenAnimations);
   gameContainer.appendChild(user.boardHTML);
@@ -55,9 +39,23 @@ export const buildGameBoards = async () => {
   runBoardSetupAnimation();
 };
 
+export const runBoardSetupAnimation = async () => {
+  user.board.toggleBoardTileClass("set-up");
+  computer.board.toggleBoardTileClass("set-up");
+  await pause(pauseBetweenSetup);
+  user.board.toggleBoardTileClass("set-up");
+  user.board.toggleBoardTileClass("hovering");
+  computer.board.toggleBoardTileClass("set-up");
+  computer.board.toggleBoardTileClass("hovering");
+  await pause(pauseBetweenAnimations);
+  user.board.displayAllBoardTiles();
+  computer.board.displayAllBoardTiles();
+  setActive(user.boardHTML, "game-board");
+};
+
 export const endGame = async () => {
   setCurrentTurn("end");
   messageHandler.openMessageBox();
   await pause(pauseBetweenAnimations);
-  goToMe(data.gameEnd, 0, messageHandler);
+  messageHandler.goToMessageData(messageData.gameEnd, 0);
 };

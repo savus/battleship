@@ -1,39 +1,81 @@
-import { Cell, getCell } from "./cell.js";
+import { Cell } from "./cell.js";
 import { setActive } from "./helper-functions.js";
 import { alphabet, computer, getCurrentTurn, user } from "./main.js";
 
 const tileButtonClass = "tile-button";
 const tileClassName = "tile";
+const gameBoardClass = "game-board";
+const rowClass = "row";
 
-export class GameBoard {
+export default class GameBoard {
   grid = {};
-  constructor(size, type, controller) {
+  constructor(size, type, controller, html) {
     this.size = size;
     this.type = type;
     this.controller = controller;
+    this.boardHTML = html;
   }
+
+  toggleBoardTileClass = (className) => {
+    this.boardHTML.classList.toggle(className);
+  };
+
+  swapBoardClasses = (classToAdd, classToRemove) => {
+    this.boardHTML.classList.add(classToAdd);
+    this.boardHTML.classList.remove(classToRemove);
+  };
+
+  displayAllBoardTiles = () => {
+    const values = Object.values(this.grid);
+    values.map((row) => row.map((cell) => cell.displayStatus()));
+  };
+
+  hideAllBoardTiles = () => {
+    const values = Object.values(this.grid);
+    values.map((row) => row.map((cell) => cell.hideStatus()));
+  };
+
+  displayAllShipTiles = () => {
+    const values = Object.values(this.grid);
+    values.map((row) =>
+      row.map((cell) => {
+        if (cell.getStatus() === "occupied") return cell.displayStatus();
+      })
+    );
+  };
+
+  hideAllShipTiles = (board) => {
+    const values = Object.values(board.grid);
+    values.map((row) =>
+      row.map((cell) => {
+        if (cell.getStatus() === "occupied") return cell.hideStatus();
+      })
+    );
+  };
 }
 
 const createTile = (tileDelay, controller) => {
   const tile = document.createElement("div");
 
-  tile.className = tileClassName;
-  tile.style.setProperty("--i", tileDelay);
-  tile.addEventListener("click", () => {
+  const tileOnClick = () => {
     if (controller === "computer" && getCurrentTurn() === "player") {
       setActive(tile, `.${tileClassName}`);
     }
-  });
+  };
+
+  tile.className = tileClassName;
+  tile.style.setProperty("--i", tileDelay);
+  tile.addEventListener("click", tileOnClick);
 
   return tile;
 };
 
-const tileButtonOnClick = (cell) => {
-  user.playTurn(computer, cell);
-};
-
 const createTileButton = (cell) => {
   const button = document.createElement("button");
+
+  const tileButtonOnClick = (cell) => {
+    user.playTurn(computer, cell);
+  };
 
   button.className = `btn ${tileButtonClass}`;
   button.innerText = "Confirm";
@@ -50,8 +92,8 @@ const createTileStatus = () => {
   return tileStatus;
 };
 
-const buildCellData = (controller, tileCount, i, j) => {
-  const cell = new Cell("empty", `${alphabet[i]}${j}`);
+const buildCellData = (controller, tileCount, coords) => {
+  const cell = new Cell("empty", coords);
   const tile = createTile(tileCount, controller);
   const button = createTileButton(cell);
   const tileStatus = createTileStatus();
@@ -66,20 +108,24 @@ const buildCellData = (controller, tileCount, i, j) => {
 
 export const buildBoardData = (size, type, controller) => {
   const boardHTML = document.createElement("div");
-  const boardObj = new GameBoard(size, type, controller);
+  const boardObj = new GameBoard(size, type, controller, boardHTML);
 
   boardHTML.id = controller;
   boardHTML.setAttribute("data-size", type);
-  boardHTML.className = "game-board";
+  boardHTML.className = gameBoardClass;
 
   let tileCount = 0;
   for (let i = 0; i < size; i++) {
     const row = document.createElement("div");
-    row.className = "row";
+    row.className = rowClass;
     boardObj.grid[alphabet[i]] = [];
     tileCount++;
     for (let j = 0; j < size; j++) {
-      const [cell, tile] = buildCellData(controller, tileCount, i, j);
+      const [cell, tile] = buildCellData(
+        controller,
+        tileCount,
+        `${alphabet[i]}${j}`
+      );
       tileCount++;
       boardObj.grid[alphabet[i]][j] = cell;
       row.appendChild(tile);
@@ -88,47 +134,4 @@ export const buildBoardData = (size, type, controller) => {
   }
 
   return { element: boardHTML, object: boardObj };
-};
-
-export const getTile = (board, coords) => {
-  const cell = getCell(board, coords);
-  return cell.htmlElement;
-};
-
-export const toggleBoardTileClass = (boardID, className) => {
-  const board = document.getElementById(boardID);
-  board.classList.toggle(className);
-};
-
-export const swapBoardClasses = (boardElement, classToAdd, classToRemove) => {
-  boardElement.classList.add(classToAdd);
-  boardElement.classList.remove(classToRemove);
-};
-
-export const displayAllBoardTiles = (board) => {
-  const values = Object.values(board.grid);
-  values.map((row) => row.map((cell) => cell.displayStatus()));
-};
-
-export const hideAllBoardTiles = (board) => {
-  const values = Object.values(board.grid);
-  values.map((row) => row.map((cell) => cell.hideStatus()));
-};
-
-export const displayAllShipTiles = (board) => {
-  const values = Object.values(board.grid);
-  values.map((row) =>
-    row.map((cell) => {
-      if (cell.getStatus() === "occupied") return cell.displayStatus();
-    })
-  );
-};
-
-export const hideAllShipTiles = (board) => {
-  const values = Object.values(board.grid);
-  values.map((row) =>
-    row.map((cell) => {
-      if (cell.getStatus() === "occupied") return cell.hideStatus();
-    })
-  );
 };
