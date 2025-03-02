@@ -1,7 +1,14 @@
 import MessageData from "./message-data-class.js";
 import { buildGameBoards } from "./gameplay-chapters.js";
 import { messageHandler } from "./message-box.js";
-import { userInputField, userSaidNo, userSaidYes } from "./main.js";
+import {
+  computer,
+  getCurrentTurn,
+  user,
+  userInputField,
+  userSaidNo,
+  userSaidYes,
+} from "./main.js";
 
 const messageData = {
   testing: [
@@ -112,14 +119,22 @@ const messageData = {
   targetHit: [
     new MessageData("confirm", "Game Play", ["Custom Hit Message Failed"], {
       confirmStep: () => {
-        messageHandler.closeMessageBox();
+        if (getCurrentTurn() === "computer") {
+          computer.playTurn(user);
+        } else {
+          messageHandler.closeMessageBox();
+        }
       },
     }),
   ],
   targetMissed: [
     new MessageData("confirm", "Game Play", ["Custom Miss Message Failed"], {
       confirmStep: () => {
-        messageHandler.closeMessageBox();
+        if (getCurrentTurn() === "computer") {
+          computer.playTurn(user);
+        } else {
+          messageHandler.closeMessageBox();
+        }
       },
     }),
   ],

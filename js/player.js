@@ -92,7 +92,7 @@ export class Player {
     return cell;
   };
 
-  playTurn = (opponent, cell) => {
+  playTurn = (opponent, cell = null) => {
     const isPlayer = this.type === "player";
     const playerReference = isPlayer ? "You" : "The Computer";
     const decidedCell = isPlayer ? cell : this.computersDecision(opponent);
@@ -125,10 +125,6 @@ export class Player {
     }
 
     reverseCurrentTurn();
-
-    if (isPlayer) {
-      opponent.playTurn(this, cell);
-    }
   };
 
   getUnsunkShip = () => this.ships.find((ship) => !ship.checkIfSunk());
