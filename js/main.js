@@ -1,5 +1,5 @@
 import { beginIntroduction, endGame } from "./gameplay-chapters.js";
-import { removePreviousActive, setActive } from "./helper-functions.js";
+import { removePreviousActive, setActive } from "./utility-functions.js";
 import { messageBoxControls, messageHandler } from "./message-box.js";
 import { Player } from "./player.js";
 import messageData from "./message-data-objects.js";

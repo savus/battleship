@@ -5,7 +5,7 @@ import {
   getCell,
   getRandomCell,
   isCellOccupied,
-} from "./cell.js";
+} from "./utility-functions.js";
 
 export const shipData = [
   { name: "Carrier", lives: 5, length: 5 },

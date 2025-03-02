@@ -1,4 +1,4 @@
-import { pause, removeActive, setActive } from "./helper-functions.js";
+import { pause, removeActive, setActive } from "./utility-functions.js";
 import {
   computer,
   currentMessageObj,

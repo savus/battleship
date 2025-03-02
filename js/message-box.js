@@ -1,4 +1,4 @@
-import { removeActive, setActive, typeWords } from "./helper-functions.js";
+import { removeActive, setActive, typeWords } from "./utility-functions.js";
 import {
   currentMessageObj,
   dataButton,

@@ -1,5 +1,5 @@
 import { Cell } from "./cell.js";
-import { setActive } from "./helper-functions.js";
+import { setActive } from "./utility-functions.js";
 import { alphabet, computer, getCurrentTurn, user } from "./main.js";
 
 const tileButtonClass = "tile-button";
