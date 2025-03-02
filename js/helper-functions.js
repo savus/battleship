@@ -1,18 +1,17 @@
-import { displayAllBoardTiles } from "./board-elements.js";
-import { active, debugMode, setUserInput, setUserInputField } from "./main.js";
+import { active, setUserInput, setUserInputField } from "./main.js";
 import {
   disableAllControlButtons,
   enableAllControlButtons,
 } from "./message-box.js";
 
 export const setActive = (target, selector = null) => {
-  removeSelectedActive(selector);
+  removePreviousActive(selector);
   target.classList.add(active);
 };
 
-export const removeSelectedActive = (selector) => {
+export const removePreviousActive = (selector) => {
   const selectedElement = document.querySelector(`${selector}.${active}`);
-  if (selectedElement !== null) selectedElement.classList.remove(active);
+  if (selectedElement !== null) removeActive(selectedElement);
 };
 
 export const removeActive = (target) => target.classList.remove(active);
@@ -33,8 +32,6 @@ export const typeWords = async (textField, message, typeSpeed = 50) => {
   }
   enableAllControlButtons();
 };
-
-export const clearText = (textField) => (textField.innerText = "");
 
 const resetYesAndNo = () => {
   setUserSaidNo(false);

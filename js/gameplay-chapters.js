@@ -2,7 +2,7 @@ import {
   displayAllBoardTiles,
   toggleBoardTileClass,
 } from "./board-elements.js";
-import data from "./data-objects.js";
+import data from "./message-data-objects.js";
 import { pause, removeActive, setActive } from "./helper-functions.js";
 import {
   computer,
@@ -11,7 +11,7 @@ import {
   setCurrentTurn,
   user,
 } from "./main.js";
-import { goToDataObject, messageHandler } from "./message-box.js";
+import { messageHandler } from "./message-box.js";
 
 const loadingClass = ".loading-screen";
 const loader = document.querySelector(loadingClass);
@@ -59,5 +59,5 @@ export const endGame = async () => {
   setCurrentTurn("end");
   messageHandler.openMessageBox();
   await pause(pauseBetweenAnimations);
-  goToDataObject(data.gameEnd, 0, messageHandler);
+  goToMe(data.gameEnd, 0, messageHandler);
 };

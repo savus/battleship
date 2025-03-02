@@ -1,21 +1,9 @@
-import {
-  displayAllShipTiles,
-  hideAllShipTiles,
-  swapBoardClasses,
-  toggleBoardTileClass,
-} from "./board-elements.js";
-import { getCell } from "./cell.js";
-import data from "./data-objects.js";
-import {
-  beginIntroduction,
-  beginLoading,
-  endGame,
-  pauseBetweenAnimations,
-  pauseBetweenSetup,
-} from "./gameplay-chapters.js";
-import { pause, removeSelectedActive, setActive } from "./helper-functions.js";
+import { displayAllShipTiles, hideAllShipTiles } from "./board-elements.js";
+import { beginIntroduction, endGame } from "./gameplay-chapters.js";
+import { removePreviousActive, setActive } from "./helper-functions.js";
 import { messageBoxControls, messageHandler } from "./message-box.js";
 import { Player } from "./player.js";
+import messageData from "./message-data-objects.js";
 
 export const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 export const active = "active";
@@ -43,17 +31,17 @@ const players = [user, computer];
 
 export let textSpeed = 10;
 export let messageListIndex = 0;
-export let dataObjectIndex = 0;
-export let currentMessageObj = data.introductions[dataObjectIndex];
+export let messageObjIndex = 0;
+export let currentMessageObj = messageData.testing[messageObjIndex];
 export let userInput = "";
 export let currentTurn = "player";
 export let debugMode = false;
 export let cheatingMode = true;
 let playerIndex = 1;
-let userSaidYes = false;
-let userSaidNo = false;
+export let userSaidYes = false;
+export let userSaidNo = false;
 
-export const setDataObjectIndex = (num) => (dataObjectIndex = num);
+export const setMessageObjIndex = (num) => (messageObjIndex = num);
 export const setCurrentMessageObj = (messageObj) =>
   (currentMessageObj = messageObj);
 export const setUserInput = (value) => (userInput = value);
@@ -85,34 +73,11 @@ const decrementPlayerIndex = () => {
 };
 
 // RUN APPLICATION
-// beginLoading();
 
-// beginLoading().then(beginIntroduction);
+// gameContainer.appendChild(user.boardHTML);
+// gameContainer.appendChild(computer.boardHTML);
 
-// beginIntroduction();
-
-gameContainer.appendChild(user.boardHTML);
-gameContainer.appendChild(computer.boardHTML);
-
-const testFunc = async () => {
-  // toggleBoardTileClass(user.boardHTML.id, "set-up");
-  setActive(players[playerIndex].boardHTML, ".game-board");
-  // toggleBoardTileClass(computer.boardHTML.id, "set-up");
-  // await pause(pauseBetweenSetup);
-  // swapBoardClasses(user.boardHTML, "hovering", "set-up");
-  // swapBoardClasses(computer.boardHTML, "hovering", "set-up");
-  toggleBoardTileClass(computer.boardHTML.id, "hovering");
-  toggleBoardTileClass(user.boardHTML.id, "hovering");
-  const coords = ["A0", "A1", "B0", "C0", "A3"];
-  const status = ["occupied", "miss", "hit", "occupied", "miss", "hit"];
-  // coords.forEach((coord, index) => {
-  //   const cell = getCell(user.board, coord);
-  //   cell.setStatus(status[index]);
-  //   cell.displayStatus();
-  // });
-};
-
-testFunc();
+beginIntroduction();
 
 /* ============= */
 
@@ -126,6 +91,7 @@ messageBoxControls.addEventListener("click", ({ target }) => {
         messageHandler.readPrevMessage(currentMessageObj);
         break;
       case "prompt":
+        setUserInput(userInputField.value);
         currentMessageObj.promptStep();
         break;
       case "confirm":
@@ -178,7 +144,7 @@ document.addEventListener("click", (e) => {
   const isTile = e.target.matches(".tile");
 
   if (!isTile) {
-    removeSelectedActive(".tile");
+    removePreviousActive(".tile");
   }
 
   // if (isTile) {

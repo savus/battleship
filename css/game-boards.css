@@ -114,27 +114,6 @@
   --scale: 1;
 }
 
-/* 
-.game-board .tile.active .tile-button:hover {
-  color: #000;
-} */
-
-/* .game-board .tile.active .tile-button::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 0;
-  height: 100%;
-  background: #fff;
-  transition: width 0.3s ease-in-out;
-  z-index: -1;
-}
-
-.game-board .tile.active .tile-button:hover::before {
-  width: 100%;
-} */
-
 .game-board .tile .status {
   --top: 0;
   --left: 0;

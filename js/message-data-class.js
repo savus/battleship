@@ -1,4 +1,4 @@
-export default class DataObject {
+export default class MessageData {
   constructor(dataState, header, messageList, stepMethods) {
     this.dataState = dataState;
     this.header = header;

@@ -1,15 +1,10 @@
-import {
-  clearText,
-  removeActive,
-  setActive,
-  typeWords,
-} from "./helper-functions.js";
+import { removeActive, setActive, typeWords } from "./helper-functions.js";
 import {
   currentMessageObj,
   dataButton,
-  dataObjectIndex,
+  messageObjIndex,
   setCurrentMessageObj,
-  setDataObjectIndex,
+  setMessageObjIndex,
   textSpeed,
 } from "./main.js";
 
@@ -43,13 +38,11 @@ class MessageHandler {
 
   updateHeader = (string) => (messageBoxHeader.innerText = string);
 
-  updateControlState = (messageObj) => {
-    setControlState(this.controls, messageObj.dataState);
+  updateControlBox = (dataState) => {
+    this.controls.setAttribute("data-state", dataState);
   };
 
-  clearText = () => {
-    clearText(this.textField);
-  };
+  clearText = () => (this.textField.innerText = "");
 
   setMessageListIndex = (num) => (this.messageListIndex = num);
 
@@ -58,7 +51,7 @@ class MessageHandler {
   readCurrentMessage = (messageObj) => {
     this.clearText();
     this.updateHeader(messageObj.header);
-    this.updateControlState(messageObj);
+    this.updateControlBox(messageObj.dataState);
     typeWords(
       this.textField,
       messageObj.messageList[this.messageListIndex],
@@ -87,6 +80,30 @@ class MessageHandler {
       messageObj.nextStep();
     }
   };
+
+  goToPrevMessageData = (dataList) => {
+    const isFirstObject = messageObjIndex === 0;
+    if (!isFirstObject) {
+      setMessageObjIndex(messageObjIndex - 1);
+      setCurrentMessageObj(dataList[messageObjIndex]);
+      this.readCurrentMessage(currentMessageObj);
+    }
+  };
+
+  goToNextMessageData = (dataList) => {
+    const isLastObject = messageObjIndex === dataList.length;
+    if (!isLastObject) {
+      setMessageObjIndex(messageObjIndex + 1);
+      setCurrentMessageObj(dataList[messageObjIndex]);
+      this.readCurrentMessage(currentMessageObj);
+    }
+  };
+
+  goToMessageData = (dataList, indexNum) => {
+    setMessageObjIndex(indexNum);
+    setCurrentMessageObj(dataList[messageObjIndex]);
+    this.readCurrentMessage(currentMessageObj);
+  };
 }
 
 export const messageHandler = new MessageHandler(
@@ -94,34 +111,6 @@ export const messageHandler = new MessageHandler(
   messageBoxControls,
   messageText
 );
-
-const goToPrevDataObject = (dataList, messageHandler) => {
-  const isFirstObject = dataObjectIndex === 0;
-  if (!isFirstObject) {
-    setDataObjectIndex(dataObjectIndex - 1);
-    setCurrentMessageObj(dataList[dataObjectIndex]);
-    messageHandler.readCurrentMessage(currentMessageObj);
-  }
-};
-
-const goToNextDataObject = (dataList, messageHandler) => {
-  const isLastObject = dataObjectIndex === dataList.length;
-  if (!isLastObject) {
-    setDataObjectIndex(dataObjectIndex + 1);
-    setCurrentMessageObj(dataList[dataObjectIndex]);
-    messageHandler.readCurrentMessage(currentMessageObj);
-  }
-};
-
-const goToDataObject = (dataList, indexNum, messageHandler) => {
-  setDataObjectIndex(indexNum);
-  setCurrentMessageObj(dataList[dataObjectIndex]);
-  messageHandler.readCurrentMessage(currentMessageObj);
-};
-
-export const setControlState = (element, dataState) => {
-  element.setAttribute("data-state", dataState);
-};
 
 const disableButton = (btn) => (btn.disabled = true);
 
@@ -138,4 +127,3 @@ export const enableAllControlButtons = () =>
     .forEach((button) => enableButton(button));
 
 export default MessageHandler;
-export { goToPrevDataObject, goToNextDataObject, goToDataObject };

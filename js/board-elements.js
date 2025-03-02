@@ -1,12 +1,6 @@
 import { Cell, getCell } from "./cell.js";
-import { removeSelectedActive, setActive } from "./helper-functions.js";
-import {
-  alphabet,
-  computer,
-  getCurrentTurn,
-  setCurrentTurn,
-  user,
-} from "./main.js";
+import { setActive } from "./helper-functions.js";
+import { alphabet, computer, getCurrentTurn, user } from "./main.js";
 
 const tileButtonClass = "tile-button";
 const tileClassName = "tile";
