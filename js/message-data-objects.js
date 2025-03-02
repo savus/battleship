@@ -1,13 +1,7 @@
 import MessageData from "./message-data-class.js";
 import { buildGameBoards } from "./gameplay-chapters.js";
 import { messageHandler } from "./message-box.js";
-import {
-  setUserSaidNo,
-  setUserSaidYes,
-  userInputField,
-  userSaidNo,
-  userSaidYes,
-} from "./main.js";
+import { userInputField, userSaidNo, userSaidYes } from "./main.js";
 
 const messageData = {
   testing: [

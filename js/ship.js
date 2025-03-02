@@ -68,10 +68,11 @@ export class Ship {
 
     if (isCellOccupied(startPoint)) return this.placeShipPieces(boardSize);
 
+    this.recordCellData(startPoint);
+
     if (!this.areAllCellsValid(column, row, boardSize))
       return this.placeShipPieces(boardSize);
 
-    this.recordCellData(startPoint);
     this.occupyListedCells();
   };
 
