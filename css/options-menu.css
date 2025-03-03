@@ -1,0 +1,62 @@
+.options-menu {
+  position: fixed;
+  top: 30%;
+  left: 100%;
+  transform: translate(0, -50%);
+  transition: transform 0.3s ease-in-out;
+}
+
+.options-menu.open {
+  transform: translate(-100%, -50%);
+}
+
+.options-menu.open [data-open] i {
+  transform: rotate(180deg);
+}
+
+.options-menu,
+.options-menu [data-open] {
+  color: #fff;
+  background-color: #000;
+  border-radius: var(--size-10) 0 0 var(--size-10);
+  box-shadow: 0px 0px 5px 1px rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(255, 255, 255, 1);
+}
+
+.options-menu [data-open] {
+  position: absolute;
+  left: 0;
+}
+
+.options-menu [data-open] {
+  transform: translate(-100%, -50%);
+  top: 50%;
+  font-size: 2rem;
+}
+
+.options-menu [data-open] i {
+  transition: transform 0.3s ease-in-out;
+}
+
+.options-menu [data-open],
+.options-menu li {
+  cursor: pointer;
+  padding: var(--size-10);
+}
+
+.options-menu li {
+  width: 100%;
+  text-wrap: nowrap;
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+  border-radius: var(--size-10) 0 0 var(--size-10);
+}
+
+.options-menu li:hover {
+  background-color: rgba(255, 255, 255, 1);
+  color: rgba(0, 0, 0, 1);
+}
+
+.options-menu li.enabled {
+  background-color: rgba(255, 255, 255, 0.3);
+  color: red;
+}

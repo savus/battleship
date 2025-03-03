@@ -3,20 +3,20 @@ import { removePreviousActive, setActive } from "./utility-functions.js";
 import { messageBoxControls, messageHandler } from "./message-box.js";
 import { Player } from "./player.js";
 import messageData from "./message-data-objects.js";
+import {
+  debugButton,
+  exitGameButton,
+  hardModeButton,
+  openTab,
+  toggleOption,
+  updateOptions,
+} from "./options-menu.js";
 
 export const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 export const active = "active";
 export const dataButton = "[data-button]";
 export const root = document.documentElement;
 
-const dataOpen = "[data-open]";
-const openTab = document.querySelector(dataOpen);
-const debugClass = ".debug-button";
-const debugButton = document.querySelector(debugClass);
-const cheatClass = ".cheat-mode-button";
-const cheatModeButton = document.querySelector(cheatClass);
-const exitGameClass = ".exit-game-button";
-const exitGameButton = document.querySelector(exitGameClass);
 const userInputID = "user-input";
 export const userInputField = document.getElementById(userInputID);
 
@@ -36,7 +36,7 @@ export let currentMessageObj = messageData.introductions[messageObjIndex];
 export let userInput = "";
 export let currentTurn = "player";
 export let debugMode = false;
-export let cheatingMode = true;
+export let hardMode = false;
 let playerIndex = 1;
 export let userSaidYes = false;
 export let userSaidNo = false;
@@ -55,7 +55,7 @@ export const reverseCurrentTurn = () => {
   setCurrentTurn(oppositeTurn);
 };
 export const setDebugMode = (boolean) => (debugMode = boolean);
-export const setCheatingMode = (boolean) => (cheatingMode = boolean);
+export const setHardMode = (boolean) => (hardMode = boolean);
 export const getCurrentPlayer = (player, opponent) =>
   getCurrentTurn() === "player" ? player : opponent;
 export const getOpposingPlayer = (player, opponent) =>
@@ -73,6 +73,8 @@ const decrementPlayerIndex = () => {
 };
 
 // RUN APPLICATION
+
+updateOptions();
 
 beginIntroduction();
 
@@ -128,10 +130,12 @@ debugButton.addEventListener("click", () => {
     computer.board.hideAllShipTiles();
   }
   setDebugMode(!debugMode);
+  updateOptions();
 });
 
-cheatModeButton.addEventListener("click", () => {
-  setCheatingMode(!cheatingMode);
+hardModeButton.addEventListener("click", () => {
+  setHardMode(!hardMode);
+  updateOptions();
 });
 
 exitGameButton.addEventListener("click", () => {

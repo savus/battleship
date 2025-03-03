@@ -44,8 +44,8 @@ export default class GameBoard {
     );
   };
 
-  hideAllShipTiles = (board) => {
-    const values = Object.values(board.grid);
+  hideAllShipTiles = () => {
+    const values = Object.values(this.grid);
     values.map((row) =>
       row.map((cell) => {
         if (cell.getStatus() === "occupied") return cell.hideStatus();

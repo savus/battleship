@@ -1,7 +1,6 @@
 import { buildBoardData } from "./board-elements.js";
 
-import { endGame } from "./gameplay-chapters.js";
-import { cheatingMode, reverseCurrentTurn } from "./main.js";
+import { hardMode, reverseCurrentTurn } from "./main.js";
 import { messageHandler } from "./message-box.js";
 import messageData from "./message-data-objects.js";
 import { populateShips, shipData } from "./ship.js";
@@ -78,7 +77,7 @@ export class Player {
 
   computersDecision = (opponent) => {
     let cell;
-    if (cheatingMode) {
+    if (hardMode) {
       const notSunkShip = this.lastHitShip || opponent.getUnsunkShip();
       cell = notSunkShip.getUnhitCell();
     } else {
