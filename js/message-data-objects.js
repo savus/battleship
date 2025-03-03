@@ -1,5 +1,5 @@
 import MessageData from "./message-data-class.js";
-import { buildGameBoards } from "./gameplay-chapters.js";
+import { buildGameBoards, endGame } from "./gameplay-chapters.js";
 import { messageHandler } from "./message-box.js";
 import {
   computer,
@@ -137,6 +137,30 @@ const messageData = {
         }
       },
     }),
+  ],
+  targetSunk: [
+    new MessageData("confirm", "Game Play", ["Custom sunk message failed"], {
+      confirmStep: () => {
+        if (user.lostGame() || computer.lostGame()) return;
+        if (getCurrentTurn() === "computer") {
+          computer.playTurn(user);
+        } else {
+          messageHandler.closeMessageBox();
+        }
+      },
+    }),
+  ],
+  gameLostWon: [
+    new MessageData(
+      "confirm",
+      "Game Play",
+      ["custom won/lost message failed"],
+      {
+        confirmStep: () => {
+          endGame();
+        },
+      }
+    ),
   ],
   gamePlay: [],
   gameEnd: [

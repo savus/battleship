@@ -59,17 +59,16 @@ export class Player {
           const sunkMessage =
             this.type === "player"
               ? "The enemy sunk your "
-              : `You sunk the enemy's`;
-          console.log(`${sunkMessage} ${ship.name}`);
-          if (this.hasLost()) {
-            const endGameMessage =
-              this.type === "player"
-                ? "The enemy sunk all your ships! You lost!"
-                : "You sunk all ships! You won!";
-            console.log(endGameMessage);
-            endGame();
-            return;
-          }
+              : `You sunk the enemy's `;
+          const shipsRemainingMessage =
+            this.shipsLeft > 0 ? `, ${this.shipsLeft} remaining!` : ``;
+          messageHandler.openMessageBox();
+          messageHandler.goToMessageData(
+            messageData.targetSunk,
+            0,
+            `${sunkMessage}${ship.name}${shipsRemainingMessage}`
+          );
+          if (this.hasLost()) return;
         }
       }
     });
@@ -128,4 +127,21 @@ export class Player {
   };
 
   getUnsunkShip = () => this.ships.find((ship) => !ship.checkIfSunk());
+
+  lostGame = () => {
+    if (this.hasLost()) {
+      const endGameMessage =
+        this.type === "player"
+          ? "The enemy sunk all your ships! You lost!"
+          : "You sunk all ships! You won!";
+      messageHandler.openMessageBox();
+      messageHandler.goToMessageData(
+        messageData.gameLostWon,
+        0,
+        endGameMessage
+      );
+      return true;
+    }
+    return false;
+  };
 }
