@@ -114,7 +114,7 @@ messageBoxControls.addEventListener("click", ({ target }) => {
   }
 });
 
-openTab.addEventListener("click", ({ target }) => {
+openTab.addEventListener("click", () => {
   optionsMenu.classList.toggle("open");
 });
 

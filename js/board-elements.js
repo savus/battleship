@@ -1,6 +1,6 @@
 import { Cell } from "./cell.js";
 import { setActive } from "./utility-functions.js";
-import { alphabet, computer, getCurrentTurn, user } from "./main.js";
+import { active, alphabet, computer, getCurrentTurn, user } from "./main.js";
 
 const tileButtonClass = "tile-button";
 export const tileClassName = "tile";
@@ -57,8 +57,13 @@ export default class GameBoard {
 const createTile = (tileDelay, controller) => {
   const tile = document.createElement("div");
 
-  const tileOnClick = () => {
-    if (controller === "computer" && getCurrentTurn() === "player") {
+  const tileOnClick = (e) => {
+    const gameBoardParent = e.target.closest(`.${gameBoardClass}`);
+
+    if (
+      controller === "computer" &&
+      gameBoardParent.classList.contains(active)
+    ) {
       setActive(tile, `.${tileClassName}`);
     }
   };
