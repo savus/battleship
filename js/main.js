@@ -29,8 +29,7 @@ export const userInputField = document.getElementById(userInputID);
 export const boardSize = 6;
 const gameContainerClass = ".game-board-container";
 export const gameContainer = document.querySelector(gameContainerClass);
-const boardControlsClass = ".board-controls";
-const boardControls = document.querySelector(boardControlsClass);
+
 export const user = new Player("player", boardSize, "large");
 export const computer = new Player("computer", boardSize, "large");
 const players = [user, computer];
@@ -119,14 +118,6 @@ openTab.addEventListener("click", ({ target }) => {
   optionsMenu.classList.toggle("open");
 });
 
-boardControls.addEventListener("click", ({ target }) => {
-  const leftButton = target.classList.contains("left");
-  const rightbutton = target.classList.contains("right");
-  if (leftButton) decrementPlayerIndex();
-  if (rightbutton) incrementPlayerIndex();
-  setActive(players[playerIndex].boardHTML, ".game-board");
-});
-
 debugButton.addEventListener("click", () => {
   if (!debugMode) {
     user.board.displayAllShipTiles();
@@ -148,8 +139,13 @@ exitGameButton.addEventListener("click", () => {
 });
 
 gameContainer.addEventListener("click", ({ target }) => {
-  if (target.classList.contains(gameBoardClass)) {
-    setActive(target, `.${gameBoardClass}`);
+  const isGameBoard = target.matches(`.${gameBoardClass}`);
+  const isRow = target.matches(`.row`);
+  const isTile = target.matches(`.${tileClassName}`);
+
+  if (isGameBoard || isTile || isRow) {
+    const gameBoard = target.closest(`.${gameBoardClass}`);
+    setActive(gameBoard, `.${gameBoardClass}`);
   }
 });
 

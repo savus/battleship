@@ -57,9 +57,7 @@ export default class GameBoard {
 const createTile = (tileDelay, controller) => {
   const tile = document.createElement("div");
 
-  const tileOnClick = (e) => {
-    const gameBoardParent = e.target.closest(`.${gameBoardClass}`);
-    setActive(gameBoardParent, `.${gameBoardClass}`);
+  const tileOnClick = () => {
     if (controller === "computer" && getCurrentTurn() === "player") {
       setActive(tile, `.${tileClassName}`);
     }
