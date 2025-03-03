@@ -1,13 +1,15 @@
 import { debugMode, hardMode } from "./main.js";
 
 const dataOpen = "[data-open]";
-const openTab = document.querySelector(dataOpen);
+export const optionsClass = ".options-menu";
+export const optionsMenu = document.querySelector(optionsClass);
+export const openTab = document.querySelector(dataOpen);
 const debugClass = ".debug-button";
-const debugButton = document.querySelector(debugClass);
+export const debugButton = document.querySelector(debugClass);
 const hardModeClass = ".hard-mode-button";
-const hardModeButton = document.querySelector(hardModeClass);
+export const hardModeButton = document.querySelector(hardModeClass);
 const exitGameClass = ".exit-game-button";
-const exitGameButton = document.querySelector(exitGameClass);
+export const exitGameButton = document.querySelector(exitGameClass);
 
 export const setButtonText = (button, text) => (button.innerText = text);
 
@@ -25,5 +27,3 @@ export const updateOptions = () => {
   setButtonText(hardModeButton, hardModeText);
   !hardMode ? disableOption(hardModeButton) : enableOption(hardModeButton);
 };
-
-export { openTab, debugButton, hardModeButton, exitGameButton };

@@ -12,9 +12,11 @@ import {
   exitGameButton,
   hardModeButton,
   openTab,
-  toggleOption,
+  optionsClass,
+  optionsMenu,
   updateOptions,
 } from "./options-menu.js";
+import { gameBoardClass, tileClassName } from "./board-elements.js";
 
 export const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 export const active = "active";
@@ -114,8 +116,7 @@ messageBoxControls.addEventListener("click", ({ target }) => {
 });
 
 openTab.addEventListener("click", ({ target }) => {
-  const menu = target.closest(".options-menu");
-  menu.classList.toggle("open");
+  optionsMenu.classList.toggle("open");
 });
 
 boardControls.addEventListener("click", ({ target }) => {
@@ -146,18 +147,28 @@ exitGameButton.addEventListener("click", () => {
   endGame();
 });
 
-document.addEventListener("click", (e) => {
-  const isTile = e.target.matches(".tile");
+gameContainer.addEventListener("click", ({ target }) => {
+  if (target.classList.contains(gameBoardClass)) {
+    setActive(target, `.${gameBoardClass}`);
+  }
+});
 
+/* GLOBAL HANDLERS */
+document.addEventListener("click", (e) => {
+  const isTile = e.target.matches(`.${tileClassName}`);
+  const isOptionsMenu = e.target.closest(optionsClass);
+  const isConfirmButton = e.target.matches(`[data-button="confirm"]`);
   if (!isTile) {
-    removePreviousActive(".tile");
+    removePreviousActive(`.${tileClassName}`);
   }
 
-  autoConfirmMessageBox(true);
+  if (!isConfirmButton) {
+    autoConfirmMessageBox(true);
+  }
 
-  // if (isTile) {
-  //   setActive(e.target, ".tile");
-  // }
+  if (!isOptionsMenu) {
+    optionsMenu.classList.remove("open");
+  }
 });
 
 //DEBUGGING

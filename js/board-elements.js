@@ -3,8 +3,8 @@ import { setActive } from "./utility-functions.js";
 import { alphabet, computer, getCurrentTurn, user } from "./main.js";
 
 const tileButtonClass = "tile-button";
-const tileClassName = "tile";
-const gameBoardClass = "game-board";
+export const tileClassName = "tile";
+export const gameBoardClass = "game-board";
 const rowClass = "row";
 
 export default class GameBoard {
@@ -57,7 +57,9 @@ export default class GameBoard {
 const createTile = (tileDelay, controller) => {
   const tile = document.createElement("div");
 
-  const tileOnClick = () => {
+  const tileOnClick = (e) => {
+    const gameBoardParent = e.target.closest(`.${gameBoardClass}`);
+    setActive(gameBoardParent, `.${gameBoardClass}`);
     if (controller === "computer" && getCurrentTurn() === "player") {
       setActive(tile, `.${tileClassName}`);
     }
