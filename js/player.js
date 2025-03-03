@@ -1,4 +1,4 @@
-import { buildBoardData } from "./board-elements.js";
+import { buildBoardData, gameBoardClass } from "./board-elements.js";
 
 import { hardMode, reverseCurrentTurn } from "./main.js";
 import { messageHandler } from "./message-box.js";
@@ -8,6 +8,8 @@ import {
   getRandomCell,
   isCellAlreadyAttempted,
   isCellOccupied,
+  pause,
+  setActive,
 } from "./utility-functions.js";
 
 export class Player {
@@ -87,10 +89,11 @@ export class Player {
 
       if (isCellAlreadyAttempted(cell)) return this.computersDecision(opponent);
     }
+
     return cell;
   };
 
-  playTurn = (opponent, cell = null) => {
+  playTurn = async (opponent, cell = null) => {
     const isPlayer = this.type === "player";
     const playerReference = isPlayer ? "You" : "The Computer";
     const decidedCell = isPlayer ? cell : this.computersDecision(opponent);
@@ -99,6 +102,13 @@ export class Player {
       messageHandler.openMessageBox();
       messageHandler.goToMessageData(messageData.alreadyAttempted, 0);
       return;
+    }
+
+    if (!isPlayer) {
+      setActive(opponent.boardHTML, `.${gameBoardClass}`);
+      messageHandler.openMessageBox();
+      messageHandler.goToMessageData(messageData.computerThinking, 0);
+      await pause(3000);
     }
 
     if (isCellOccupied(decidedCell)) {
