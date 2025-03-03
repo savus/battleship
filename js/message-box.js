@@ -20,6 +20,8 @@ export const messageText = document.querySelector(messageTextClass);
 
 class MessageHandler {
   messageListIndex = 0;
+  isOpen = false;
+  delayOpenConfirm = false;
   constructor(messageBox, controls, textField) {
     this.controls = controls;
     this.messageBox = messageBox;
@@ -29,11 +31,14 @@ class MessageHandler {
   openMessageBox = () => {
     setActive(this.messageBox);
     this.messageBox.classList.remove("close");
+    this.isOpen = true;
   };
 
   closeMessageBox = () => {
     removeActive(this.messageBox);
     this.messageBox.classList.add("close");
+    this.isOpen = false;
+    this.delayOpenConfirm = false;
   };
 
   updateHeader = (string) => (messageBoxHeader.innerText = string);

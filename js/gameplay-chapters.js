@@ -56,6 +56,5 @@ export const runBoardSetupAnimation = async () => {
 export const endGame = async () => {
   setCurrentTurn("end");
   messageHandler.openMessageBox();
-  await pause(pauseBetweenAnimations);
   messageHandler.goToMessageData(messageData.gameEnd, 0);
 };

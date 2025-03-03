@@ -1,5 +1,9 @@
 import { beginIntroduction, endGame } from "./gameplay-chapters.js";
-import { removePreviousActive, setActive } from "./utility-functions.js";
+import {
+  autoConfirmMessageBox,
+  removePreviousActive,
+  setActive,
+} from "./utility-functions.js";
 import { messageBoxControls, messageHandler } from "./message-box.js";
 import { Player } from "./player.js";
 import messageData from "./message-data-objects.js";
@@ -149,6 +153,8 @@ document.addEventListener("click", (e) => {
     removePreviousActive(".tile");
   }
 
+  autoConfirmMessageBox(true);
+
   // if (isTile) {
   //   setActive(e.target, ".tile");
   // }
@@ -168,7 +174,19 @@ document.addEventListener("keyup", (e) => {
     case "e":
       testControls();
       break;
+    case "Enter":
+      break;
     default:
+      break;
+  }
+});
+
+document.addEventListener("keydown", (e) => {
+  const key = e.key;
+  switch (key) {
+    case "Enter":
+      e.preventDefault();
+      autoConfirmMessageBox(false);
       break;
   }
 });

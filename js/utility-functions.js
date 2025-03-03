@@ -1,7 +1,14 @@
-import { active, alphabet, setUserInput, setUserInputField } from "./main.js";
+import {
+  active,
+  alphabet,
+  currentMessageObj,
+  setUserInput,
+  setUserInputField,
+} from "./main.js";
 import {
   disableAllControlButtons,
   enableAllControlButtons,
+  messageHandler,
 } from "./message-box.js";
 
 export const setActive = (target, selector = null) => {
@@ -85,4 +92,20 @@ export const areCoordsWithinBoard = (string, boardSize) => {
 export const displayCellStatus = (board, coords) => {
   const cell = getCell(board, coords);
   cell.displayStatus();
+};
+
+export const autoConfirmMessageBox = (isClicked) => {
+  if (isClicked) {
+    if (messageHandler.isOpen && currentMessageObj.dataState === "confirm") {
+      if (!messageHandler.delayOpenConfirm) {
+        messageHandler.delayOpenConfirm = true;
+      } else {
+        currentMessageObj.confirmStep();
+      }
+    }
+  } else {
+    if (messageHandler.isOpen && currentMessageObj.dataState === "confirm") {
+      currentMessageObj.confirmStep();
+    }
+  }
 };
