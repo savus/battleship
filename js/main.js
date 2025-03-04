@@ -1,6 +1,7 @@
 import { endGame, playGame } from "./gameplay-chapters.js";
 import {
   autoConfirmMessageBox,
+  removeActive,
   removePreviousActive,
   setActive,
 } from "./utility-functions.js";
@@ -27,6 +28,10 @@ export const loadingScreenDuration = 5000;
 export const pauseBetweenAnimations = 500;
 export const pauseBetweenSetup = pauseBetweenAnimations * 5.5;
 export const computerThinkingDuration = 1500;
+
+const startScreenClass = ".start-screen";
+const startScreen = document.querySelector(startScreenClass);
+const startButton = document.querySelector(`${startScreenClass} .btn`);
 
 const userInputID = "user-input";
 export const userInputField = document.getElementById(userInputID);
@@ -79,11 +84,18 @@ export const getOpposingPlayer = (player, opponent) =>
 // RUN APPLICATION
 
 updateOptions();
-playGame();
+
+// playGame();
 
 /* ============= */
 
 /* EVENT HANDLERS */
+
+startButton.addEventListener("click", () => {
+  removeActive(startScreen);
+  playGame();
+});
+
 messageBoxControls.addEventListener("click", ({ target }) => {
   if (target.dataset.button) {
     switch (target.dataset.button) {

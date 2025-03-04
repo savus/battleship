@@ -85,6 +85,7 @@ input,
 }
 
 .modal {
+  --scale: 1;
   --transition-dur: 0.3s;
   --opacity: 0;
   --visibility: hidden;
@@ -93,10 +94,10 @@ input,
   left: 0;
   right: 0;
   bottom: 0;
+  scale: var(--scale);
   opacity: var(--opacity);
   visibility: var(--visibility);
-  transition: opacity var(--transition-dur) ease-in-out,
-    visibility var(--transition-dur) ease-in-out;
+  transition: all var(--transition-dur) ease-in-out;
 }
 
 .modal.active {
@@ -119,8 +120,29 @@ input,
   z-index: 10;
 }
 
+/* START SCREEN */
+.start-screen {
+  --opacity: 1;
+  --visibility: visible;
+  font-size: 2em;
+}
+
+.start-screen.active h1 {
+  animation: bounceyScaleIn 2s ease-in-out forwards;
+}
+
+.start-screen::before {
+  --overlay-opacity: 0.3;
+}
+
+.start-screen,
+.start-screen .btn {
+  color: #fff;
+}
+
 /* LOADER */
 
+.start-screen,
 .loading-screen {
   display: flex;
   justify-content: center;
@@ -178,6 +200,22 @@ input,
 }
 
 /* ANIMATIONS */
+
+@keyframes bounceyScaleIn {
+  0% {
+    transform: scale(0) rotate(0deg);
+  }
+  30% {
+    transform: scale(2) rotate(30deg);
+  }
+  60% {
+    transform: scale(0.8) rotate(-30deg);
+  }
+  80%,
+  100% {
+    transform: scale(1) rotate(0deg);
+  }
+}
 
 @keyframes loadingAnim {
   0% {
