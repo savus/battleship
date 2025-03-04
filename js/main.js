@@ -1,14 +1,6 @@
+import { endGame, playGame } from "./gameplay-chapters.js";
 import {
-  beginIntroduction,
-  buildGameBoards,
-  checkIfPlayedBefore,
-  endGame,
-  playGame,
-} from "./gameplay-chapters.js";
-import {
-  appendGameBoards,
   autoConfirmMessageBox,
-  getCell,
   removePreviousActive,
   setActive,
 } from "./utility-functions.js";
@@ -25,14 +17,6 @@ import {
   updateOptions,
 } from "./options-menu.js";
 import { gameBoardClass, tileClassName } from "./board-elements.js";
-import {
-  beginTutorial,
-  placeDemoShips,
-  showGameLost,
-  showHitTile,
-  showMissedTile,
-  showSunkShip,
-} from "./tutorial-functions.js";
 
 export const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 export const active = "active";
@@ -42,7 +26,7 @@ export const root = document.documentElement;
 export const loadingScreenDuration = 5000;
 export const pauseBetweenAnimations = 500;
 export const pauseBetweenSetup = pauseBetweenAnimations * 5.5;
-export const computerThinkingDuration = 1300;
+export const computerThinkingDuration = 1500;
 
 const userInputID = "user-input";
 export const userInputField = document.getElementById(userInputID);
@@ -96,15 +80,7 @@ export const getOpposingPlayer = (player, opponent) =>
 
 updateOptions();
 playGame();
-// beginTutorial(demoUser, demoComputer);
-// placeDemoShips(demoUser, demoComputer, demoUserShips, demoComputerShips);
-// setActive(demoComputer.boardHTML, `.${gameBoardClass}`);
-// showMissedTile(demoComputer.board, "B2");
-// setActive(demoUser.boardHTML, `.${gameBoardClass}`);
-// showHitTile(demoUser.board, "B2");
-// showSunkShip(demoUser.board, ["B2", "B3", "B4", "B5"]);
-// setActive(demoComputer.boardHTML, `.${gameBoardClass}`);
-// showGameLost(demoComputer.board, demoComputerShips);
+
 /* ============= */
 
 /* EVENT HANDLERS */
@@ -185,30 +161,12 @@ document.addEventListener("click", (e) => {
     removePreviousActive(`.${tileClassName}`);
   }
 
-  // if (!isConfirmButton) {
-  // autoConfirmMessageBox(true);
-  // }
+  if (!isConfirmButton) {
+    autoConfirmMessageBox(true);
+  }
 
   if (!isOptionsMenu) {
     optionsMenu.classList.remove("open");
-  }
-});
-
-//DEBUGGING
-let controlsToggle = false;
-
-const testControls = () => {};
-
-document.addEventListener("keyup", (e) => {
-  const key = e.key;
-  switch (key) {
-    case "e":
-      testControls();
-      break;
-    case "Enter":
-      break;
-    default:
-      break;
   }
 });
 

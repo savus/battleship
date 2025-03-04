@@ -62,7 +62,8 @@ const createTile = (tileDelay, controller) => {
 
     if (
       controller === "computer" &&
-      gameBoardParent.classList.contains(active)
+      gameBoardParent.classList.contains(active) &&
+      !gameBoardParent.classList.contains("demo")
     ) {
       setActive(tile, `.${tileClassName}`);
     }

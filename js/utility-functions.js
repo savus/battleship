@@ -118,6 +118,11 @@ export const appendGameBoards = (user, computer) => {
   gameContainer.appendChild(computer.boardHTML);
 };
 
+export const removeGameBoards = (user, computer) => {
+  gameContainer.removeChild(user.boardHTML);
+  gameContainer.removeChild(computer.boardHTML);
+};
+
 export const placeShipsOfPlayers = (user, computer) => {
   user.placeAllShips();
   computer.placeAllShips();

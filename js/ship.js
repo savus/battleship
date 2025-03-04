@@ -10,9 +10,9 @@ import {
 export const shipData = [
   { name: "Carrier", lives: 5, length: 5 },
   { name: "Battleship", lives: 4, length: 4 },
-  // { name: "Cruiser", lives: 3, length: 3 },
-  // { name: "Submarine", lives: 3, length: 3 },
-  // { name: "Destroyer", lives: 2, length: 2 },
+  { name: "Cruiser", lives: 3, length: 3 },
+  { name: "Submarine", lives: 3, length: 3 },
+  { name: "Destroyer", lives: 2, length: 2 },
 ];
 
 export class Ship {

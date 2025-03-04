@@ -69,7 +69,7 @@ export const buildGameBoards = async () => {
   appendGameBoards(user, computer);
   placeShipsOfPlayers(user, computer);
   setActive(user.boardHTML, "game-board");
-  return;
+  return runBoardSetupAnimation();
 };
 
 export const runBoardSetupAnimation = async () => {

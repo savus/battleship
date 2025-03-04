@@ -1,5 +1,3 @@
-import { alphabet } from "./main.js";
-
 export class Cell {
   htmlElement;
   constructor(status, coords) {

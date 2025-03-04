@@ -3,21 +3,18 @@ import { buildGameBoards, endGame } from "./gameplay-chapters.js";
 import { messageHandler } from "./message-box.js";
 import {
   computer,
-  currentMessageObj,
   demoComputer,
   demoComputerShips,
   demoUser,
   demoUserShips,
   getCurrentTurn,
-  messageObjIndex,
   pauseBetweenAnimations,
-  setMessageObjIndex,
   user,
   userInputField,
   userSaidNo,
   userSaidYes,
 } from "./main.js";
-import { pause, setActive } from "./utility-functions.js";
+import { pause, removeGameBoards, setActive } from "./utility-functions.js";
 import {
   beginTutorial,
   hideComputerShips,
@@ -140,6 +137,7 @@ const messageData = {
       ["Very well! Then let us begin!"],
       {
         confirmStep: () => {
+          messageHandler.closeMessageBox();
           buildGameBoards();
         },
       }
@@ -212,11 +210,23 @@ const messageData = {
       "confirm",
       "Tutorials",
       [
-        "If a tile with a ship piece is selected, a red X will appear, indicating that piece was hit",
+        "If a tile with a ship piece is selected, a red X will appear, indicating that piece was hit, and then the next player will get a turn",
       ],
       {
         confirmStep: () => {
           showSunkShip(demoUser.board, ["B2", "B3", "B4", "B5"]);
+          messageHandler.goToNextMessageData(messageData.tutorials);
+        },
+      }
+    ),
+    new MessageData(
+      "confirm",
+      "Tutorials",
+      [
+        "You will not lose your turn if you accidentally select a tile that has already been selected",
+      ],
+      {
+        confirmStep: () => {
           messageHandler.goToNextMessageData(messageData.tutorials);
         },
       }
@@ -249,7 +259,18 @@ const messageData = {
         },
       }
     ),
-    new MessageData("confirm", "Tutorials", []),
+    new MessageData(
+      "confirm",
+      "Tutorials",
+      ["That concludes the tutorial! Let us begin a real game!"],
+      {
+        confirmStep: () => {
+          removeGameBoards(demoUser, demoComputer);
+          messageHandler.closeMessageBox();
+          buildGameBoards();
+        },
+      }
+    ),
   ],
   computerThinking: [
     new MessageData("thinking", "Game Play", ["Computer is thinking..."]),
