@@ -1,4 +1,9 @@
-import { beginIntroduction, endGame } from "./gameplay-chapters.js";
+import {
+  beginIntroduction,
+  checkIfPlayedBefore,
+  endGame,
+  playGame,
+} from "./gameplay-chapters.js";
 import {
   autoConfirmMessageBox,
   removePreviousActive,
@@ -23,6 +28,11 @@ export const active = "active";
 export const dataButton = "[data-button]";
 export const root = document.documentElement;
 
+export const loadingScreenDuration = 5000;
+export const pauseBetweenAnimations = 500;
+export const pauseBetweenSetup = pauseBetweenAnimations * 5.5;
+export const computerThinkingDuration = 1300;
+
 const userInputID = "user-input";
 export const userInputField = document.getElementById(userInputID);
 
@@ -33,6 +43,7 @@ export const gameContainer = document.querySelector(gameContainerClass);
 export const user = new Player("player", boardSize, "large");
 export const computer = new Player("computer", boardSize, "large");
 
+export let hasPlayedBefore = false;
 export let textSpeed = 10;
 export let messageListIndex = 0;
 export let messageObjIndex = 0;
@@ -41,10 +52,10 @@ export let userInput = "";
 export let currentTurn = "player";
 export let debugMode = false;
 export let hardMode = false;
-let playerIndex = 1;
 export let userSaidYes = false;
 export let userSaidNo = false;
 
+export const setHasPlayedBefore = (boolean) => (hasPlayedBefore = boolean);
 export const setMessageObjIndex = (num) => (messageObjIndex = num);
 export const setCurrentMessageObj = (messageObj) =>
   (currentMessageObj = messageObj);
@@ -67,11 +78,8 @@ export const getOpposingPlayer = (player, opponent) =>
 
 // RUN APPLICATION
 
-updateOptions();
-
-// messageHandler.openMessageBox();
-// messageHandler.goToMessageData(messageData.introductions, 0);
-// beginIntroduction();
+// localStorage.removeItem("hasPlayedBefore");
+playGame();
 
 /* ============= */
 
@@ -150,9 +158,9 @@ document.addEventListener("click", (e) => {
     removePreviousActive(`.${tileClassName}`);
   }
 
-  // if (!isConfirmButton) {
-  //   autoConfirmMessageBox(true);
-  // }
+  if (!isConfirmButton) {
+    autoConfirmMessageBox(true);
+  }
 
   if (!isOptionsMenu) {
     optionsMenu.classList.remove("open");

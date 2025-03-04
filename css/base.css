@@ -262,7 +262,7 @@ input,
   }
   50% {
     opacity: 0;
-    transform: scale(2);
+    transform: scale(3);
   }
   51% {
     transform: scale(1);

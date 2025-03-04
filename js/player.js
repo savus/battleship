@@ -1,6 +1,10 @@
 import { buildBoardData, gameBoardClass } from "./board-elements.js";
 
-import { hardMode, reverseCurrentTurn } from "./main.js";
+import {
+  computerThinkingDuration,
+  hardMode,
+  reverseCurrentTurn,
+} from "./main.js";
 import { messageHandler } from "./message-box.js";
 import messageData from "./message-data-objects.js";
 import { populateShips, shipData } from "./ship.js";
@@ -108,7 +112,7 @@ export class Player {
       setActive(opponent.boardHTML, `.${gameBoardClass}`);
       messageHandler.openMessageBox();
       messageHandler.goToMessageData(messageData.computerThinking, 0);
-      await pause(3000);
+      await pause(computerThinkingDuration);
     }
 
     if (isCellOccupied(decidedCell)) {

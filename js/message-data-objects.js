@@ -4,11 +4,13 @@ import { messageHandler } from "./message-box.js";
 import {
   computer,
   getCurrentTurn,
+  pauseBetweenAnimations,
   user,
   userInputField,
   userSaidNo,
   userSaidYes,
 } from "./main.js";
+import { pause } from "./utility-functions.js";
 
 const messageData = {
   testing: [
@@ -93,8 +95,7 @@ const messageData = {
       ["Hello, and welcome to my battleship game!", "Let's begin!"],
       {
         prevStep: () => {
-          messageHandler.clearText();
-          messageHandler.closeMessageBox();
+          endGame();
         },
         nextStep: () => {
           messageHandler.clearText();
@@ -172,9 +173,11 @@ const messageData = {
       "Game Over",
       ["Thank you for playing! Good Bye!"],
       {
-        confirmStep: () => {
+        confirmStep: async () => {
           messageHandler.clearText();
           messageHandler.closeMessageBox();
+          await pause(pauseBetweenAnimations);
+          document.querySelector("*").style.display = "none";
         },
       }
     ),

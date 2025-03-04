@@ -225,29 +225,6 @@
   justify-content: space-around;
 }
 
-.board-controls .left,
-.board-controls .right {
-  cursor: pointer;
-  transition: transform 0.1s ease-in-out;
-}
-
-.game-board-container .board-controls i {
-  color: rgba(255, 255, 255, 0.9);
-  font-size: 5rem;
-  cursor: pointer;
-  pointer-events: none;
-}
-
-.game-board-container .board-controls .left:hover,
-.game-board-container .board-controls .right:hover {
-  transform: scale(1.5);
-}
-
-.game-board-container .board-controls .left:active,
-.game-board-container .board-controls .right:active {
-  transform: scale(1.2);
-}
-
 @media (max-width: 850px) {
   .game-board-container {
     margin: var(--size-10) auto 0 auto;
