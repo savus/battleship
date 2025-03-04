@@ -105,7 +105,7 @@ const messageData = {
     ),
   ],
   computerThinking: [
-    new MessageData("none", "Game Play", ["Computer is thinking..."]),
+    new MessageData("thinking", "Game Play", ["Computer is thinking..."]),
   ],
   alreadyAttempted: [
     new MessageData(

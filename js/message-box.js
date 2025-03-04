@@ -54,6 +54,11 @@ class MessageHandler {
   resetMessageListIndex = () => (this.messageListIndex = 0);
 
   readCurrentMessage = (messageObj, customMessage = null) => {
+    if (messageObj.dataState === "thinking") {
+      this.messageBox.classList.add("thinking");
+    } else {
+      this.messageBox.classList.remove("thinking");
+    }
     this.clearText();
     this.updateHeader(messageObj.header);
     this.updateControlBox(messageObj.dataState);

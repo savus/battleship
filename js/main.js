@@ -32,7 +32,6 @@ export const gameContainer = document.querySelector(gameContainerClass);
 
 export const user = new Player("player", boardSize, "large");
 export const computer = new Player("computer", boardSize, "large");
-const players = [user, computer];
 
 export let textSpeed = 10;
 export let messageListIndex = 0;
@@ -65,23 +64,14 @@ export const getCurrentPlayer = (player, opponent) =>
   getCurrentTurn() === "player" ? player : opponent;
 export const getOpposingPlayer = (player, opponent) =>
   getCurrentTurn() === "player" ? opponent : player;
-const setPlayerIndex = (num) => (playerIndex = num);
-const incrementPlayerIndex = () => {
-  const isLastIndex = playerIndex === players.length - 1;
-  setPlayerIndex(isLastIndex ? 0 : playerIndex + 1);
-  console.log(playerIndex);
-};
-const decrementPlayerIndex = () => {
-  const isFirstIndex = playerIndex === 0;
-  setPlayerIndex(isFirstIndex ? players.length - 1 : playerIndex - 1);
-  console.log(playerIndex);
-};
 
 // RUN APPLICATION
 
 updateOptions();
 
-beginIntroduction();
+messageHandler.openMessageBox();
+messageHandler.goToMessageData(messageData.introductions, 0);
+// beginIntroduction();
 
 /* ============= */
 
@@ -145,7 +135,9 @@ gameContainer.addEventListener("click", ({ target }) => {
 
   if (isGameBoard || isTile || isRow) {
     const gameBoard = target.closest(`.${gameBoardClass}`);
-    setActive(gameBoard, `.${gameBoardClass}`);
+    if (!gameBoard.classList.contains("set-up")) {
+      setActive(gameBoard, `.${gameBoardClass}`);
+    }
   }
 });
 
@@ -158,9 +150,9 @@ document.addEventListener("click", (e) => {
     removePreviousActive(`.${tileClassName}`);
   }
 
-  if (!isConfirmButton) {
-    autoConfirmMessageBox(true);
-  }
+  // if (!isConfirmButton) {
+  //   autoConfirmMessageBox(true);
+  // }
 
   if (!isOptionsMenu) {
     optionsMenu.classList.remove("open");
@@ -169,10 +161,7 @@ document.addEventListener("click", (e) => {
 
 //DEBUGGING
 let controlsToggle = false;
-// const board1 = document.getElementById("player");
-// const board2 = document.getElementById("computer");
-// setActive(board1, ".game-board");
-// console.log(board1, board2);
+
 const testControls = () => {};
 
 document.addEventListener("keyup", (e) => {

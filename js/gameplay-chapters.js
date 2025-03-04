@@ -14,7 +14,7 @@ const loader = document.querySelector(loadingClass);
 
 const loadingScreenDuration = 5000;
 export const pauseBetweenAnimations = 500;
-export const pauseBetweenSetup = pauseBetweenAnimations * 6;
+export const pauseBetweenSetup = pauseBetweenAnimations * 5.5;
 
 /* APPLICATION GAMEPLAY */
 
@@ -32,11 +32,11 @@ export const beginIntroduction = async () => {
 };
 
 export const buildGameBoards = async () => {
-  await pause(pauseBetweenAnimations);
   gameContainer.appendChild(user.boardHTML);
   gameContainer.appendChild(computer.boardHTML);
   user.placeAllShips();
   computer.placeAllShips();
+  setActive(user.boardHTML, "game-board");
   runBoardSetupAnimation();
 };
 
@@ -48,7 +48,6 @@ export const runBoardSetupAnimation = async () => {
   user.board.toggleBoardTileClass("hovering");
   computer.board.toggleBoardTileClass("set-up");
   computer.board.toggleBoardTileClass("hovering");
-  setActive(user.boardHTML, "game-board");
   await pause(pauseBetweenAnimations);
   user.board.displayAllBoardTiles();
 };

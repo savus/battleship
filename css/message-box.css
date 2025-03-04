@@ -4,18 +4,22 @@
   --s-height: 0.01;
   --s-width: 1;
   --anim-name: none;
-  --height: 18rem;
+  --height: 14rem;
   position: fixed;
   left: 0;
   right: 0;
   bottom: 0;
   height: var(--height);
   overflow: hidden;
-  background-color: #000;
+  background-color: rgba(0, 0, 0, 0.85);
   color: #fff;
-  box-shadow: inset 0px 0px 1rem 0.188rem rgba(255, 255, 255, 0.2);
+  box-shadow: inset -3px 4px 1rem 0.188rem rgba(255, 255, 255, 0.2);
   transform: scale(0);
   animation: var(--anim-name) 0.8s ease-in-out forwards;
+}
+
+.message-box.thinking {
+  height: 10rem;
 }
 
 .message-box.active {
@@ -28,7 +32,7 @@
 
 .message-box .message-box-header {
   --height: 3rem;
-  --font-size: 1.5rem;
+  --font-size: 1.2rem;
   font-size: var(--font-size);
   border-bottom: 1px solid #fff;
   height: var(--height);
@@ -48,8 +52,8 @@
 }
 
 .message-box .message-box-text {
-  --font-size: 1.2rem;
-  --height: 11rem;
+  --font-size: 1.09rem;
+  --height: 7rem;
   font-size: var(--font-size);
   height: var(--height);
   padding: 1rem;
@@ -84,6 +88,10 @@
 
 .message-box .message-box-controls .btn:active:not(:disabled) {
   top: 5px;
+}
+
+.message-box .message-box-controls[data-state="thinking"] {
+  height: 0;
 }
 
 .message-box [data-state="confirm"] .btn-confirm,
@@ -125,15 +133,6 @@
 }
 
 @media (max-width: 768px) {
-  .message-box {
-    --height: 13rem;
-  }
-
-  .message-box .message-box-header {
-    --height: 2rem;
-    --font-size: 1rem;
-  }
-
   .message-box .message-box-text {
     --font-size: 1rem;
     --height: 7rem;
