@@ -2,6 +2,8 @@ import {
   active,
   alphabet,
   currentMessageObj,
+  debugMode,
+  gameContainer,
   setUserInput,
   setUserInputField,
 } from "./main.js";
@@ -10,6 +12,7 @@ import {
   enableAllControlButtons,
   messageHandler,
 } from "./message-box.js";
+import { Ship } from "./ship.js";
 
 export const setActive = (target, selector = null) => {
   removePreviousActive(selector);
@@ -108,4 +111,40 @@ export const autoConfirmMessageBox = (isClicked) => {
       currentMessageObj.confirmStep();
     }
   }
+};
+
+export const appendGameBoards = (user, computer) => {
+  gameContainer.appendChild(user.boardHTML);
+  gameContainer.appendChild(computer.boardHTML);
+};
+
+export const placeShipsOfPlayers = (user, computer) => {
+  user.placeAllShips();
+  computer.placeAllShips();
+};
+
+export const playersSetup = (user, computer) => {
+  user.board.toggleBoardTileClass("set-up");
+  computer.board.toggleBoardTileClass("set-up");
+};
+
+export const endPlayersSetup = (user, computer) => {
+  user.board.toggleBoardTileClass("set-up");
+  computer.board.toggleBoardTileClass("set-up");
+};
+
+export const startPlayersHovering = (user, computer) => {
+  user.board.toggleBoardTileClass("hovering");
+  computer.board.toggleBoardTileClass("hovering");
+};
+
+export const displayBoardTilesOfPlayers = (user, computer) => {
+  user.board.displayAllBoardTiles();
+  if (debugMode) {
+    computer.board.displayAllBoardTiles();
+  }
+};
+
+export const populateShips = (dataList, shipBoard) => {
+  return dataList.map((shipData) => new Ship(shipData, shipBoard));
 };

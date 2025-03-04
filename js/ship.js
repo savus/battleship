@@ -85,7 +85,3 @@ export class Ship {
   getUnhitCell = () =>
     this.occupiedCells.find((cell) => cell.getStatus() !== "hit");
 }
-
-export const populateShips = (dataList, shipBoard) => {
-  return dataList.map((shipData) => new Ship(shipData, shipBoard));
-};

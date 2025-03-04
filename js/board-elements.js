@@ -111,13 +111,14 @@ const buildCellData = (controller, tileCount, coords) => {
   return [cell, tile];
 };
 
-export const buildBoardData = (size, type, controller) => {
+export const buildBoardData = (size, type, controller, demo) => {
   const boardHTML = document.createElement("div");
   const boardObj = new GameBoard(size, type, controller, boardHTML);
 
   boardHTML.id = controller;
   boardHTML.setAttribute("data-size", type);
-  boardHTML.className = gameBoardClass;
+  boardHTML.classList.add(gameBoardClass);
+  if (demo) boardHTML.classList.add("demo");
 
   let tileCount = 0;
   for (let i = 0; i < size; i++) {

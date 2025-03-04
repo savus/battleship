@@ -3,14 +3,32 @@ import { buildGameBoards, endGame } from "./gameplay-chapters.js";
 import { messageHandler } from "./message-box.js";
 import {
   computer,
+  currentMessageObj,
+  demoComputer,
+  demoComputerShips,
+  demoUser,
+  demoUserShips,
   getCurrentTurn,
+  messageObjIndex,
   pauseBetweenAnimations,
+  setMessageObjIndex,
   user,
   userInputField,
   userSaidNo,
   userSaidYes,
 } from "./main.js";
-import { pause } from "./utility-functions.js";
+import { pause, setActive } from "./utility-functions.js";
+import {
+  beginTutorial,
+  hideComputerShips,
+  placeDemoShips,
+  showGameLost,
+  showHitTile,
+  showMissedTile,
+  showSunkShip,
+} from "./tutorial-functions.js";
+import { shipData } from "./ship.js";
+import { gameBoardClass } from "./board-elements.js";
 
 const messageData = {
   testing: [
@@ -92,18 +110,146 @@ const messageData = {
     new MessageData(
       "prev-next",
       "Introduction",
-      ["Hello, and welcome to my battleship game!", "Let's begin!"],
+      ["Hello, and welcome to my battleship game!"],
       {
         prevStep: () => {
           endGame();
         },
         nextStep: () => {
-          messageHandler.clearText();
-          messageHandler.closeMessageBox();
+          messageHandler.goToNextMessageData(messageData.introductions);
+        },
+      }
+    ),
+    new MessageData(
+      "yes-no",
+      "Introduction",
+      ["Would you like a tutorial on how to play?"],
+      {
+        yesStep: () => {
+          messageHandler.goToMessageData(messageData.tutorials, 0);
+          beginTutorial(demoUser, demoComputer);
+        },
+        noStep: () => {
+          messageHandler.goToNextMessageData(messageData.introductions);
+        },
+      }
+    ),
+    new MessageData(
+      "confirm",
+      "Introductions",
+      ["Very well! Then let us begin!"],
+      {
+        confirmStep: () => {
           buildGameBoards();
         },
       }
     ),
+  ],
+  tutorials: [
+    new MessageData(
+      "confirm",
+      "Tutorials",
+      ["You and the computer will each have a board filled with tiles"],
+      {
+        confirmStep: () => {
+          placeDemoShips(
+            demoUser,
+            demoComputer,
+            demoUserShips,
+            demoComputerShips
+          );
+          messageHandler.goToNextMessageData(messageData.tutorials);
+        },
+      }
+    ),
+    new MessageData(
+      "confirm",
+      "Tutorials",
+      [
+        `You will be given ${shipData.length} ships of different lengths that will occupy the board`,
+      ],
+      {
+        confirmStep: () => {
+          setActive(demoComputer.boardHTML, `.${gameBoardClass}`);
+          hideComputerShips(demoComputer, demoComputerShips);
+          messageHandler.goToNextMessageData(messageData.tutorials);
+        },
+      }
+    ),
+    new MessageData(
+      "prev-next",
+      "Tutorials",
+      [
+        "You can swap views between your board and your opponent's board by clicking on them",
+        "You must select a tile that you think one of your opponent's ships might be hiding in",
+        "You and your opponent will take turns trying to find your own pieces",
+      ],
+      {
+        prevStep: () => {
+          messageHandler.goToPrevMessageData(messageData.tutorials);
+        },
+        nextStep: () => {
+          showMissedTile(demoComputer.board, "B2");
+          messageHandler.goToNextMessageData(messageData.tutorials);
+        },
+      }
+    ),
+    new MessageData(
+      "confirm",
+      "Tutorials",
+      [
+        "If an unoccupied tile is selected, a black X will appear, and then the next player will get a turn ",
+      ],
+      {
+        confirmStep: () => {
+          setActive(demoUser.boardHTML, `.${gameBoardClass}`);
+          showHitTile(demoUser.board, "B2");
+          messageHandler.goToNextMessageData(messageData.tutorials);
+        },
+      }
+    ),
+    new MessageData(
+      "confirm",
+      "Tutorials",
+      [
+        "If a tile with a ship piece is selected, a red X will appear, indicating that piece was hit",
+      ],
+      {
+        confirmStep: () => {
+          showSunkShip(demoUser.board, ["B2", "B3", "B4", "B5"]);
+          messageHandler.goToNextMessageData(messageData.tutorials);
+        },
+      }
+    ),
+    new MessageData(
+      "confirm",
+      "Tutorials",
+      [
+        "If all the occupied tiles belonging to a single ship are hit, that ship is considered to be sunk",
+      ],
+      {
+        confirmStep: () => {
+          setActive(demoComputer.boardHTML, `.${gameBoardClass}`);
+          showGameLost(demoComputer.board, demoComputerShips);
+          messageHandler.goToNextMessageData(messageData.tutorials);
+        },
+      }
+    ),
+    new MessageData(
+      "confirm",
+      "Tutorials",
+      [
+        "The object of the game is to sink all of your opponents pieces before they have a chance to sink yours",
+      ],
+      {
+        confirmStep: () => {
+          setActive(demoComputer.boardHTML, `.${gameBoardClass}`);
+          showGameLost(demoComputer.board, demoComputerShips);
+          messageHandler.goToNextMessageData(messageData.tutorials);
+        },
+      }
+    ),
+    new MessageData("confirm", "Tutorials", []),
   ],
   computerThinking: [
     new MessageData("thinking", "Game Play", ["Computer is thinking..."]),

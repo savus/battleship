@@ -1,4 +1,14 @@
-import { pause, removeActive, setActive } from "./utility-functions.js";
+import {
+  appendGameBoards,
+  displayBoardTilesOfPlayers,
+  endPlayersSetup,
+  pause,
+  placeShipsOfPlayers,
+  playersSetup,
+  removeActive,
+  setActive,
+  startPlayersHovering,
+} from "./utility-functions.js";
 import {
   computer,
   currentMessageObj,
@@ -52,30 +62,23 @@ export const beginIntroduction = async () => {
   messageHandler.openMessageBox();
   await pause(pauseBetweenAnimations);
   messageHandler.readCurrentMessage(currentMessageObj);
+  return;
 };
 
 export const buildGameBoards = async () => {
-  gameContainer.appendChild(user.boardHTML);
-  gameContainer.appendChild(computer.boardHTML);
-  user.placeAllShips();
-  computer.placeAllShips();
+  appendGameBoards(user, computer);
+  placeShipsOfPlayers(user, computer);
   setActive(user.boardHTML, "game-board");
-  runBoardSetupAnimation();
+  return;
 };
 
 export const runBoardSetupAnimation = async () => {
-  user.board.toggleBoardTileClass("set-up");
-  computer.board.toggleBoardTileClass("set-up");
+  playersSetup(user, computer);
   await pause(pauseBetweenSetup);
-  user.board.toggleBoardTileClass("set-up");
-  user.board.toggleBoardTileClass("hovering");
-  computer.board.toggleBoardTileClass("set-up");
-  computer.board.toggleBoardTileClass("hovering");
+  endPlayersSetup(user, computer);
+  startPlayersHovering(user, computer);
   await pause(pauseBetweenAnimations);
-  user.board.displayAllBoardTiles();
-  if (debugMode) {
-    computer.board.displayAllBoardTiles();
-  }
+  displayBoardTilesOfPlayers(user, computer);
 };
 
 export const endGame = async () => {

@@ -7,12 +7,13 @@ import {
 } from "./main.js";
 import { messageHandler } from "./message-box.js";
 import messageData from "./message-data-objects.js";
-import { populateShips, shipData } from "./ship.js";
+import { shipData } from "./ship.js";
 import {
   getRandomCell,
   isCellAlreadyAttempted,
   isCellOccupied,
   pause,
+  populateShips,
   setActive,
 } from "./utility-functions.js";
 
@@ -23,10 +24,11 @@ export class Player {
   ships;
   shipsLeft = 0;
   lastHitShip;
-  constructor(type, boardSize, boardType) {
+  constructor(type, boardSize, boardType, isDemo) {
     this.type = type;
     this.boardSize = boardSize;
     this.boardType = boardType;
+    this.isDemo = isDemo;
     this.buildBoard();
     this.ships = populateShips(shipData, this.board);
     this.shipsLeft = this.ships.length;
@@ -36,7 +38,8 @@ export class Player {
     const { element, object } = buildBoardData(
       this.boardSize,
       this.boardType,
-      this.type
+      this.type,
+      this.isDemo
     );
 
     this.board = object;

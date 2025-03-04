@@ -1,11 +1,14 @@
 import {
   beginIntroduction,
+  buildGameBoards,
   checkIfPlayedBefore,
   endGame,
   playGame,
 } from "./gameplay-chapters.js";
 import {
+  appendGameBoards,
   autoConfirmMessageBox,
+  getCell,
   removePreviousActive,
   setActive,
 } from "./utility-functions.js";
@@ -22,6 +25,14 @@ import {
   updateOptions,
 } from "./options-menu.js";
 import { gameBoardClass, tileClassName } from "./board-elements.js";
+import {
+  beginTutorial,
+  placeDemoShips,
+  showGameLost,
+  showHitTile,
+  showMissedTile,
+  showSunkShip,
+} from "./tutorial-functions.js";
 
 export const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 export const active = "active";
@@ -40,8 +51,13 @@ export const boardSize = 6;
 const gameContainerClass = ".game-board-container";
 export const gameContainer = document.querySelector(gameContainerClass);
 
-export const user = new Player("player", boardSize, "large");
-export const computer = new Player("computer", boardSize, "large");
+export const user = new Player("player", boardSize, "large", false);
+export const computer = new Player("computer", boardSize, "large", false);
+
+export const demoUser = new Player("player", 6, "large", true);
+export const demoComputer = new Player("computer", 6, "large", true);
+export const demoUserShips = ["B2", "B3", "B4", "B5", "A0", "B0", "C0", "D0"];
+export const demoComputerShips = ["C2", "C3", "C4", "C5", "E0", "F0"];
 
 export let hasPlayedBefore = false;
 export let textSpeed = 10;
@@ -78,9 +94,17 @@ export const getOpposingPlayer = (player, opponent) =>
 
 // RUN APPLICATION
 
-// localStorage.removeItem("hasPlayedBefore");
+updateOptions();
 playGame();
-
+// beginTutorial(demoUser, demoComputer);
+// placeDemoShips(demoUser, demoComputer, demoUserShips, demoComputerShips);
+// setActive(demoComputer.boardHTML, `.${gameBoardClass}`);
+// showMissedTile(demoComputer.board, "B2");
+// setActive(demoUser.boardHTML, `.${gameBoardClass}`);
+// showHitTile(demoUser.board, "B2");
+// showSunkShip(demoUser.board, ["B2", "B3", "B4", "B5"]);
+// setActive(demoComputer.boardHTML, `.${gameBoardClass}`);
+// showGameLost(demoComputer.board, demoComputerShips);
 /* ============= */
 
 /* EVENT HANDLERS */
@@ -143,7 +167,10 @@ gameContainer.addEventListener("click", ({ target }) => {
 
   if (isGameBoard || isTile || isRow) {
     const gameBoard = target.closest(`.${gameBoardClass}`);
-    if (!gameBoard.classList.contains("set-up")) {
+    if (
+      !gameBoard.classList.contains("set-up") &&
+      !gameBoard.classList.contains("demo")
+    ) {
       setActive(gameBoard, `.${gameBoardClass}`);
     }
   }
@@ -158,9 +185,9 @@ document.addEventListener("click", (e) => {
     removePreviousActive(`.${tileClassName}`);
   }
 
-  if (!isConfirmButton) {
-    autoConfirmMessageBox(true);
-  }
+  // if (!isConfirmButton) {
+  // autoConfirmMessageBox(true);
+  // }
 
   if (!isOptionsMenu) {
     optionsMenu.classList.remove("open");
