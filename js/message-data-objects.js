@@ -180,7 +180,7 @@ const messageData = {
       [
         "You can swap views between your board and your opponent's board by clicking on them",
         "You must select a tile that you think one of your opponent's ships might be hiding in",
-        "You and your opponent will take turns trying to find your own pieces",
+        "You and your opponent will take turns trying to find each other's pieces",
       ],
       {
         prevStep: () => {
@@ -214,7 +214,6 @@ const messageData = {
       ],
       {
         confirmStep: () => {
-          showSunkShip(demoUser.board, ["B2", "B3", "B4", "B5"]);
           messageHandler.goToNextMessageData(messageData.tutorials);
         },
       }
@@ -227,6 +226,7 @@ const messageData = {
       ],
       {
         confirmStep: () => {
+          showSunkShip(demoUser.board, ["B2", "B3", "B4", "B5"]);
           messageHandler.goToNextMessageData(messageData.tutorials);
         },
       }

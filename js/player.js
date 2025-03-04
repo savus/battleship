@@ -69,7 +69,7 @@ export class Player {
               ? "The enemy sunk your "
               : `You sunk the enemy's `;
           const shipsRemainingMessage =
-            this.shipsLeft > 0 ? `, ${this.shipsLeft} remaining!` : ``;
+            this.shipsLeft > 0 ? `, ${this.shipsLeft} ships remaining!` : ``;
           messageHandler.openMessageBox();
           messageHandler.goToMessageData(
             messageData.targetSunk,

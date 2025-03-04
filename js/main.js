@@ -48,7 +48,7 @@ export const demoComputer = new Player("computer", 6, "large", true);
 export const demoUserShips = ["B2", "B3", "B4", "B5", "A0", "B0", "C0", "D0"];
 export const demoComputerShips = ["C2", "C3", "C4", "C5", "E0", "F0"];
 
-export let hasPlayedBefore = false;
+export let hasPlayedBefore = "hasPlayedBefore";
 export let textSpeed = 10;
 export let messageListIndex = 0;
 export let messageObjIndex = 0;
@@ -59,8 +59,8 @@ export let debugMode = false;
 export let hardMode = false;
 export let userSaidYes = false;
 export let userSaidNo = false;
+export let tutorialMode = false;
 
-export const setHasPlayedBefore = (boolean) => (hasPlayedBefore = boolean);
 export const setMessageObjIndex = (num) => (messageObjIndex = num);
 export const setCurrentMessageObj = (messageObj) =>
   (currentMessageObj = messageObj);
@@ -80,12 +80,12 @@ export const getCurrentPlayer = (player, opponent) =>
   getCurrentTurn() === "player" ? player : opponent;
 export const getOpposingPlayer = (player, opponent) =>
   getCurrentTurn() === "player" ? opponent : player;
-
+export const setTutorialMode = (boolean) => (tutorialMode = boolean);
 // RUN APPLICATION
 
+localStorage.removeItem(hasPlayedBefore);
 updateOptions();
 setActive(startScreen);
-// playGame();
 
 /* ============= */
 
@@ -173,7 +173,7 @@ document.addEventListener("click", (e) => {
     removePreviousActive(`.${tileClassName}`);
   }
 
-  if (!isConfirmButton) {
+  if (!isConfirmButton && !tutorialMode) {
     autoConfirmMessageBox(true);
   }
 

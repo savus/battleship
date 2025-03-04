@@ -12,19 +12,18 @@ import {
 import {
   computer,
   currentMessageObj,
-  debugMode,
-  gameContainer,
   hasPlayedBefore,
   loadingScreenDuration,
   pauseBetweenAnimations,
   pauseBetweenSetup,
   setCurrentTurn,
-  setHasPlayedBefore,
+  setTutorialMode,
   user,
 } from "./main.js";
 import { messageHandler } from "./message-box.js";
 import messageData from "./message-data-objects.js";
 import { updateOptions } from "./options-menu.js";
+import { gameBoardClass } from "./board-elements.js";
 
 const loadingClass = ".loading-screen";
 const loader = document.querySelector(loadingClass);
@@ -37,14 +36,14 @@ export const playGame = () => {
 
 export const checkIfPlayedBefore = () => {
   let isLocalStorage = JSON.parse(
-    localStorage.getItem("hasPlayedBefore") || false
+    localStorage.getItem(hasPlayedBefore) || false
   );
   return isLocalStorage;
 };
 
 export const shouldRunLoadingScreen = async () => {
   if (!checkIfPlayedBefore()) {
-    localStorage.setItem("hasPlayedBefore", JSON.stringify(true));
+    localStorage.setItem(hasPlayedBefore, JSON.stringify(true));
     await beginLoading();
   }
   return;
@@ -66,9 +65,10 @@ export const beginIntroduction = async () => {
 };
 
 export const buildGameBoards = async () => {
+  setTutorialMode(false);
   appendGameBoards(user, computer);
   placeShipsOfPlayers(user, computer);
-  setActive(user.boardHTML, "game-board");
+  setActive(user.boardHTML, gameBoardClass);
   return runBoardSetupAnimation();
 };
 

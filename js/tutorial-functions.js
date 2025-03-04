@@ -1,7 +1,9 @@
 import { gameBoardClass } from "./board-elements.js";
+import { setTutorialMode } from "./main.js";
 import { appendGameBoards, getCell, setActive } from "./utility-functions.js";
 
 export const beginTutorial = (demoUser, demoComputer) => {
+  setTutorialMode(true);
   appendGameBoards(demoUser, demoComputer);
   setActive(demoUser.boardHTML, `.${gameBoardClass}`);
 };
