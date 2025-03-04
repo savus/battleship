@@ -84,7 +84,7 @@ export const getOpposingPlayer = (player, opponent) =>
 // RUN APPLICATION
 
 updateOptions();
-
+setActive(startScreen);
 // playGame();
 
 /* ============= */
