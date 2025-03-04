@@ -15,7 +15,7 @@
   position: absolute;
   background-color: #fff;
   border-radius: 10px;
-  width: 26.8125rem;
+  width: 26.8rem;
   display: flex;
   flex-direction: column;
   padding: var(--size-10);
@@ -248,7 +248,7 @@
   transform: scale(1.2);
 }
 
-@media (max-width: 800px) {
+@media (max-width: 850px) {
   .game-board-container {
     margin: var(--size-10) auto 0 auto;
     min-height: 27rem;
@@ -270,8 +270,8 @@
 
   .game-board {
     --scale: 0.3;
-    --left: -15%;
     --top: calc(var(--size-40) * -2.5);
+    --left: -10%;
   }
 
   .game-board.active {

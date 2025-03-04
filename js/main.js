@@ -69,8 +69,16 @@ export const getOpposingPlayer = (player, opponent) =>
 
 updateOptions();
 
-messageHandler.openMessageBox();
-messageHandler.goToMessageData(messageData.introductions, 0);
+gameContainer.appendChild(user.boardHTML);
+gameContainer.appendChild(computer.boardHTML);
+user.placeAllShips();
+computer.placeAllShips();
+setActive(user.boardHTML, "game-board");
+user.board.toggleBoardTileClass("hovering");
+computer.board.toggleBoardTileClass("hovering");
+
+// messageHandler.openMessageBox();
+// messageHandler.goToMessageData(messageData.introductions, 0);
 // beginIntroduction();
 
 /* ============= */
