@@ -19,7 +19,7 @@
 // } from "./options-menu.js";
 // import { gameBoardClass, tileClassName } from "./board-elements.js";
 
-import { messageBoxHandler } from "./message-box.js";
+import { MessageBoxHandler } from "./message-box.js";
 
 // export const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 // export const active = "active";
@@ -197,10 +197,31 @@ import { messageBoxHandler } from "./message-box.js";
 export const close = "close";
 export const active = "active";
 
+const messageBoxClass = ".message-box";
+const headerClass = ".message-box-header";
+const messageControls = ".message-box-controls";
+const messageTextClass = ".message-box-text";
+
+const messageBox = document.querySelector(messageBoxClass);
+const messageBoxHeader = document.querySelector(headerClass);
+const messageBoxControls = document.querySelector(messageControls);
+const messageText = document.querySelector(messageTextClass);
+
+const messageBoxHandler = new MessageBoxHandler(messageBox);
+
+export const wait = (ms) =>
+  new Promise((resolve) => {
+    return setTimeout(resolve, ms);
+  });
+
 export const setActive = (target = null, selector = null) => {
-  const selectedElement = document.querySelector(`${selector}.${active}`);
-  if (selectedElement !== null) removeActive(target);
+  removePreviousActive(selector);
   if (target !== null) target.classList.add(active);
 };
 
-messageBoxHandler.openMessage();
+export const removeActive = (target) => target.classList.remove(active);
+
+export const removePreviousActive = (selector = null) => {
+  const selectedElement = document.querySelector(`${selector}.${active}`);
+  if (selectedElement !== null) removeActive(selectedElement);
+};

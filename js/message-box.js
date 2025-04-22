@@ -8,7 +8,7 @@
 //   textSpeed,
 // } from "./main.js";
 
-import { setActive } from "./main.js";
+import { removeActive, setActive } from "./main.js";
 
 // const messageBoxClass = ".message-box";
 // const headerClass = ".message-box-header";
@@ -19,23 +19,18 @@ import { setActive } from "./main.js";
 // export const messageBoxHeader = document.querySelector(headerClass);
 // export const messageBoxControls = document.querySelector(messageControls);
 // export const messageText = document.querySelector(messageTextClass);
-const messageBoxClass = ".message-box";
-const headerClass = ".message-box-header";
-const messageControls = ".message-box-controls";
-const messageTextClass = ".message-box-text";
 
-const messageBox = document.querySelector(messageBoxClass);
-const messageBoxHeader = document.querySelector(headerClass);
-const messageBoxControls = document.querySelector(messageControls);
-const messageText = document.querySelector(messageTextClass);
-
-class MessageBoxHandler {
+export class MessageBoxHandler {
   constructor(messageBoxElem) {
     this.messageBox = messageBoxElem;
   }
 
   openMessage = () => {
     setActive(this.messageBox);
+  };
+
+  closeMessage = () => {
+    removeActive(this.messageBox);
   };
 }
 
@@ -158,5 +153,3 @@ class MessageBoxHandler {
 //     .forEach((button) => enableButton(button));
 
 // export default MessageHandler;
-
-export const messageBoxHandler = new MessageBoxHandler(messageBox);
