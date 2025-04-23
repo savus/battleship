@@ -21,8 +21,11 @@ import { removeActive, setActive } from "./main.js";
 // export const messageText = document.querySelector(messageTextClass);
 
 export class MessageBoxHandler {
-  constructor(messageBoxElem) {
-    this.messageBox = messageBoxElem;
+  constructor(messageBoxElem, header, controls, textBox) {
+    this.messageBoxElement = messageBoxElem;
+    this.header = header;
+    this.controls = controls;
+    this.textBox = textBox;
   }
 
   openMessage = () => {

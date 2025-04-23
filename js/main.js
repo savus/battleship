@@ -207,7 +207,12 @@ const messageBoxHeader = document.querySelector(headerClass);
 const messageBoxControls = document.querySelector(messageControls);
 const messageText = document.querySelector(messageTextClass);
 
-const messageBoxHandler = new MessageBoxHandler(messageBox);
+const messageBoxHandler = new MessageBoxHandler(
+  messageBox,
+  messageBoxHeader,
+  messageBoxControls,
+  messageText
+);
 
 export const wait = (ms) =>
   new Promise((resolve) => {
@@ -225,3 +230,17 @@ export const removePreviousActive = (selector = null) => {
   const selectedElement = document.querySelector(`${selector}.${active}`);
   if (selectedElement !== null) removeActive(selectedElement);
 };
+
+export const typeWords = async (textField, message, typeSpeed = 50) => {
+  // disableAllControlButtons();
+  const letters = message.split("");
+  let text = "";
+  for (let i = 0; i < letters.length; i++) {
+    text += letters[i];
+    textField.innerText = text;
+    await wait(typeSpeed);
+  }
+  // enableAllControlButtons();
+};
+
+console.log(messageBoxHandler);
