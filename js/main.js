@@ -196,6 +196,7 @@ import { MessageBoxHandler } from "./message-box.js";
 
 export const close = "close";
 export const active = "active";
+export const dataState = "data-state";
 
 const messageBoxClass = ".message-box";
 const headerClass = ".message-box-header";
@@ -214,6 +215,32 @@ const messageBoxHandler = new MessageBoxHandler(
   messageText
 );
 
+const controlButtonSelector = "[data-button]";
+const controlButtons = document.querySelectorAll(controlButtonSelector);
+
+console.log(controlButtons); /*
+  confirm,
+  prompt,
+  prev-next,
+  yes-no
+*/
+const messageObjects = [
+  {
+    state: "confirm",
+    header: "Testing",
+    textList: ["This is a test message"],
+    confirmStep: () => {
+      console.log("Confirm step activated");
+    },
+  },
+];
+
+let currentMessageIndex = 0;
+let currentMessageObject = messageObjects[currentMessageIndex];
+
+const setCurrentMessageObj = (index) =>
+  (currentMessageObject = messageObjects[currentMessageIndex]);
+
 export const wait = (ms) =>
   new Promise((resolve) => {
     return setTimeout(resolve, ms);
@@ -231,8 +258,14 @@ export const removePreviousActive = (selector = null) => {
   if (selectedElement !== null) removeActive(selectedElement);
 };
 
+const enableAllControlButtons = () =>
+  controlButtons.forEach((btn) => btn.removeAttribute("disabled"));
+
+const disableAllControlButtons = () =>
+  controlButtons.forEach((btn) => btn.setAttribute("disabled", true));
+
 export const typeWords = async (textField, message, typeSpeed = 50) => {
-  // disableAllControlButtons();
+  disableAllControlButtons();
   const letters = message.split("");
   let text = "";
   for (let i = 0; i < letters.length; i++) {
@@ -240,7 +273,10 @@ export const typeWords = async (textField, message, typeSpeed = 50) => {
     textField.innerText = text;
     await wait(typeSpeed);
   }
-  // enableAllControlButtons();
+  enableAllControlButtons();
+  return;
 };
 
-console.log(messageBoxHandler);
+wait(1000).then(() =>
+  messageBoxHandler.readCurrentMessage(currentMessageObject)
+);
