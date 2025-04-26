@@ -6,6 +6,7 @@
   --num-of-tiles: 36;
   --tile-setup-dur: 0.3;
   --tile-setup-del: 0.06;
+  --message-box-dur: 0.8;
 }
 
 @font-face {

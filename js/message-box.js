@@ -8,7 +8,13 @@
 //   textSpeed,
 // } from "./main.js";
 
-import { dataState, removeActive, setActive, typeWords, wait } from "./main.js";
+import { close, dataState, messageBoxDur } from "./main.js";
+import {
+  removeActive,
+  setActive,
+  typeWords,
+  wait,
+} from "./utility-functions.js";
 
 // const messageBoxClass = ".message-box";
 // const headerClass = ".message-box-header";
@@ -30,10 +36,12 @@ export class MessageBoxHandler {
 
   openMessage = () => {
     setActive(this.messageBoxElement);
+    this.messageBoxElement.classList.remove(close);
   };
 
   closeMessage = () => {
     removeActive(this.messageBoxElement);
+    this.messageBoxElement.classList.add(close);
   };
 
   clearText = () => (this.textField.innerHTML = "");
@@ -41,7 +49,7 @@ export class MessageBoxHandler {
   readCurrentMessage = async (messageObj) => {
     const { state, header, textList } = messageObj;
     this.openMessage();
-    await wait(1000);
+    await wait(messageBoxDur);
     this.header.innerHTML = header;
     this.controls.setAttribute(dataState, state);
     return typeWords(this.textField, textList[0]);

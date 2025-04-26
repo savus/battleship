@@ -20,6 +20,7 @@
 // import { gameBoardClass, tileClassName } from "./board-elements.js";
 
 import { MessageBoxHandler } from "./message-box.js";
+import { wait } from "./utility-functions.js";
 
 // export const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 // export const active = "active";
@@ -198,6 +199,11 @@ export const close = "close";
 export const active = "active";
 export const dataState = "data-state";
 
+const root = document.documentElement;
+
+export const messageBoxDur =
+  getComputedStyle(root).getPropertyValue("--message-box-dur") * 1000;
+
 const messageBoxClass = ".message-box";
 const headerClass = ".message-box-header";
 const messageControls = ".message-box-controls";
@@ -216,9 +222,9 @@ const messageBoxHandler = new MessageBoxHandler(
 );
 
 const controlButtonSelector = "[data-button]";
-const controlButtons = document.querySelectorAll(controlButtonSelector);
+export const controlButtons = document.querySelectorAll(controlButtonSelector);
 
-console.log(controlButtons); /*
+/*
   confirm,
   prompt,
   prev-next,
@@ -230,7 +236,7 @@ const messageObjects = [
     header: "Testing",
     textList: ["This is a test message"],
     confirmStep: () => {
-      console.log("Confirm step activated");
+      messageBoxHandler.closeMessage();
     },
   },
 ];
@@ -241,42 +247,13 @@ let currentMessageObject = messageObjects[currentMessageIndex];
 const setCurrentMessageObj = (index) =>
   (currentMessageObject = messageObjects[currentMessageIndex]);
 
-export const wait = (ms) =>
-  new Promise((resolve) => {
-    return setTimeout(resolve, ms);
-  });
+wait(100).then(() => {
+  return messageBoxHandler.readCurrentMessage(currentMessageObject);
+});
 
-export const setActive = (target = null, selector = null) => {
-  removePreviousActive(selector);
-  if (target !== null) target.classList.add(active);
-};
-
-export const removeActive = (target) => target.classList.remove(active);
-
-export const removePreviousActive = (selector = null) => {
-  const selectedElement = document.querySelector(`${selector}.${active}`);
-  if (selectedElement !== null) removeActive(selectedElement);
-};
-
-const enableAllControlButtons = () =>
-  controlButtons.forEach((btn) => btn.removeAttribute("disabled"));
-
-const disableAllControlButtons = () =>
-  controlButtons.forEach((btn) => btn.setAttribute("disabled", true));
-
-export const typeWords = async (textField, message, typeSpeed = 50) => {
-  disableAllControlButtons();
-  const letters = message.split("");
-  let text = "";
-  for (let i = 0; i < letters.length; i++) {
-    text += letters[i];
-    textField.innerText = text;
-    await wait(typeSpeed);
+messageBoxControls.addEventListener("click", ({ target }) => {
+  switch (target.dataset.button) {
+    case "confirm":
+      currentMessageObject.confirmStep();
   }
-  enableAllControlButtons();
-  return;
-};
-
-wait(1000).then(() =>
-  messageBoxHandler.readCurrentMessage(currentMessageObject)
-);
+});
