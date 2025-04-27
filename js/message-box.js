@@ -27,6 +27,7 @@ import {
 // export const messageText = document.querySelector(messageTextClass);
 
 export class MessageBoxHandler {
+  textListIndex = 0;
   constructor(messageBoxElem, header, controls, textField) {
     this.messageBoxElement = messageBoxElem;
     this.header = header;
@@ -46,13 +47,25 @@ export class MessageBoxHandler {
 
   clearText = () => (this.textField.innerHTML = "");
 
-  readCurrentMessage = async (messageObj) => {
+  readMessageObj = async (messageObj) => {
     const { state, header, textList } = messageObj;
     this.openMessage();
     await wait(messageBoxDur);
     this.header.innerHTML = header;
     this.controls.setAttribute(dataState, state);
-    return typeWords(this.textField, textList[0]);
+    await typeWords(this.textField, textList[this.textListIndex]);
+    return;
+  };
+
+  nextStep = (messageObj) => {
+    const shouldGoNext = this.textListIndex === messageObj.textList.length - 1;
+    if (shouldGoNext) {
+      this.textListIndex = 0;
+      return messageObj.nextStep();
+    } else {
+      this.textListIndex++;
+      return this.readMessageObj(messageObj);
+    }
   };
 }
 

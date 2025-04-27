@@ -236,7 +236,23 @@ const messageObjects = [
     header: "Testing",
     textList: ["This is a test message"],
     confirmStep: () => {
-      messageBoxHandler.closeMessage();
+      setCurrentMessageObj(++currentMessageIndex);
+      messageBoxHandler.readMessageObj(currentMessageObject);
+    },
+  },
+  {
+    state: "prev-next",
+    header: "Testing - 2",
+    textList: [
+      "This is going to demonstrate iterating through multiple messages in a text list dynamically",
+      "If this succeeds, then this message will be the second",
+      "And this message will be the third",
+    ],
+    prevStep: () => {
+      console.log("previous step clicked");
+    },
+    nextStep: () => {
+      console.log("next clicked");
     },
   },
 ];
@@ -248,12 +264,19 @@ const setCurrentMessageObj = (index) =>
   (currentMessageObject = messageObjects[currentMessageIndex]);
 
 wait(100).then(() => {
-  return messageBoxHandler.readCurrentMessage(currentMessageObject);
+  return messageBoxHandler.readMessageObj(currentMessageObject);
 });
 
 messageBoxControls.addEventListener("click", ({ target }) => {
   switch (target.dataset.button) {
     case "confirm":
       currentMessageObject.confirmStep();
+      break;
+    case "prev":
+      currentMessageObject.prevStep();
+      break;
+    case "next":
+      messageBoxHandler.nextStep(currentMessageObject);
+      break;
   }
 });

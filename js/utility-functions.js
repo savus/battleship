@@ -23,7 +23,7 @@ const enableAllControlButtons = () =>
 const disableAllControlButtons = () =>
   controlButtons.forEach((btn) => btn.setAttribute("disabled", true));
 
-export const typeWords = async (textField, message, typeSpeed = 50) => {
+export const typeWords = async (textField, message, typeSpeed = 5) => {
   disableAllControlButtons();
   const letters = message.split("");
   let text = "";
