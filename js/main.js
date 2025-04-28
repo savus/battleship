@@ -20,6 +20,7 @@
 // import { gameBoardClass, tileClassName } from "./board-elements.js";
 
 import { MessageBoxHandler } from "./message-box.js";
+import messageObjects from "./message-data-objects.js";
 import { wait } from "./utility-functions.js";
 
 // export const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -214,7 +215,7 @@ const messageBoxHeader = document.querySelector(headerClass);
 const messageBoxControls = document.querySelector(messageControls);
 const messageText = document.querySelector(messageTextClass);
 
-const messageBoxHandler = new MessageBoxHandler(
+export const messageBoxHandler = new MessageBoxHandler(
   messageBox,
   messageBoxHeader,
   messageBoxControls,
@@ -227,72 +228,11 @@ export const controlButtons = document.querySelectorAll(controlButtonSelector);
 const promptInputSelector = "#user-input";
 const promptInput = document.querySelector(promptInputSelector);
 
-/*
-  confirm,
-  prompt,
-  prev-next,
-  yes-no
-*/
-const messageObjects = [
-  {
-    state: "confirm",
-    header: "Testing",
-    textList: ["This is a test message"],
-    confirmStep: () => {
-      setCurrentMessageObj(++currentMessageIndex);
-      messageBoxHandler.readMessageObj(currentMessageObject);
-    },
-  },
-  {
-    state: "prev-next",
-    header: "Testing - 2",
-    textList: [
-      "This is going to demonstrate iterating through multiple messages in a text list dynamically",
-      "If this succeeds, then this message will be the second",
-      "And this message will be the third",
-    ],
-    prevStep: () => {
-      setCurrentMessageObj(--currentMessageIndex);
-      messageBoxHandler.readMessageObj(currentMessageObject);
-    },
-    nextStep: () => {
-      setCurrentMessageObj(++currentMessageIndex);
-      messageBoxHandler.readMessageObj(currentMessageObject);
-    },
-  },
-  {
-    state: "prompt",
-    header: "Testing - prompt",
-    textList: ["This is a prompt to ask for user input"],
-    promptStep: (input) => {
-      console.log(
-        `This is to test if i can extract user input from here ${input}`
-      );
-      setCurrentMessageObj(++currentMessageIndex);
-      messageBoxHandler.readMessageObj(currentMessageObject);
-    },
-  },
-  {
-    state: "yes-no",
-    header: "Testing - prompt",
-    textList: ["This is a prompt to ask for user input"],
-    yesStep: () => {
-      console.log("User clicked yes");
-      setCurrentMessageObj(++currentMessageIndex);
-      messageBoxHandler.readMessageObj(currentMessageObject);
-    },
-    noStep: () => {
-      console.log("User clicked no");
-      setCurrentMessageObj(++currentMessageIndex);
-      messageBoxHandler.readMessageObj(currentMessageObject);
-    },
-  },
-];
+export let currentMessageIndex = 0;
+export let currentMessageObject = messageObjects[currentMessageIndex];
 
-let currentMessageIndex = 0;
-let currentMessageObject = messageObjects[currentMessageIndex];
-
-const setCurrentMessageObj = (index) =>
+export const setCurrentMessageIndex = (num) => (currentMessageIndex = num);
+export const setCurrentMessageObj = (index) =>
   (currentMessageObject = messageObjects[currentMessageIndex]);
 
 wait(100).then(() => {
@@ -311,7 +251,6 @@ messageBoxControls.addEventListener("click", ({ target }) => {
       messageBoxHandler.nextStep(currentMessageObject);
       break;
     case "prompt":
-      console.log(promptInput.value);
       currentMessageObject.promptStep(promptInput.value);
       break;
     case "yes":
