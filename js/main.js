@@ -224,6 +224,9 @@ const messageBoxHandler = new MessageBoxHandler(
 const controlButtonSelector = "[data-button]";
 export const controlButtons = document.querySelectorAll(controlButtonSelector);
 
+const promptInputSelector = "#user-input";
+const promptInput = document.querySelector(promptInputSelector);
+
 /*
   confirm,
   prompt,
@@ -249,10 +252,39 @@ const messageObjects = [
       "And this message will be the third",
     ],
     prevStep: () => {
-      console.log("previous step clicked");
+      setCurrentMessageObj(--currentMessageIndex);
+      messageBoxHandler.readMessageObj(currentMessageObject);
     },
     nextStep: () => {
-      console.log("next clicked");
+      setCurrentMessageObj(++currentMessageIndex);
+      messageBoxHandler.readMessageObj(currentMessageObject);
+    },
+  },
+  {
+    state: "prompt",
+    header: "Testing - prompt",
+    textList: ["This is a prompt to ask for user input"],
+    promptStep: (input) => {
+      console.log(
+        `This is to test if i can extract user input from here ${input}`
+      );
+      setCurrentMessageObj(++currentMessageIndex);
+      messageBoxHandler.readMessageObj(currentMessageObject);
+    },
+  },
+  {
+    state: "yes-no",
+    header: "Testing - prompt",
+    textList: ["This is a prompt to ask for user input"],
+    yesStep: () => {
+      console.log("User clicked yes");
+      setCurrentMessageObj(++currentMessageIndex);
+      messageBoxHandler.readMessageObj(currentMessageObject);
+    },
+    noStep: () => {
+      console.log("User clicked no");
+      setCurrentMessageObj(++currentMessageIndex);
+      messageBoxHandler.readMessageObj(currentMessageObject);
     },
   },
 ];
@@ -273,10 +305,20 @@ messageBoxControls.addEventListener("click", ({ target }) => {
       currentMessageObject.confirmStep();
       break;
     case "prev":
-      currentMessageObject.prevStep();
+      messageBoxHandler.prevStep(currentMessageObject);
       break;
     case "next":
       messageBoxHandler.nextStep(currentMessageObject);
+      break;
+    case "prompt":
+      console.log(promptInput.value);
+      currentMessageObject.promptStep(promptInput.value);
+      break;
+    case "yes":
+      currentMessageObject.yesStep();
+      break;
+    case "no":
+      currentMessageObject.noStep();
       break;
   }
 });

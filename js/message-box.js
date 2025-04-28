@@ -48,6 +48,7 @@ export class MessageBoxHandler {
   clearText = () => (this.textField.innerHTML = "");
 
   readMessageObj = async (messageObj) => {
+    console.log(messageObj, this.textListIndex);
     const { state, header, textList } = messageObj;
     this.openMessage();
     await wait(messageBoxDur);
@@ -57,9 +58,21 @@ export class MessageBoxHandler {
     return;
   };
 
+  prevStep = (messageObj) => {
+    const shouldCallPrevStep = this.textListIndex === 0;
+    console.log(shouldCallPrevStep);
+    if (shouldCallPrevStep) {
+      return messageObj.prevStep();
+    } else {
+      this.textListIndex--;
+      return this.readMessageObj(messageObj);
+    }
+  };
+
   nextStep = (messageObj) => {
-    const shouldGoNext = this.textListIndex === messageObj.textList.length - 1;
-    if (shouldGoNext) {
+    const shouldCallNextStep =
+      this.textListIndex === messageObj.textList.length - 1;
+    if (shouldCallNextStep) {
       this.textListIndex = 0;
       return messageObj.nextStep();
     } else {
