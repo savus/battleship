@@ -51,7 +51,6 @@ export class MessageBoxHandler {
     console.log(messageObj, this.textListIndex);
     const { state, header, textList } = messageObj;
     this.openMessage();
-    await wait(messageBoxDur);
     this.header.innerHTML = header;
     this.controls.setAttribute(dataState, state);
     await typeWords(this.textField, textList[this.textListIndex]);

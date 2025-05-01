@@ -203,7 +203,9 @@ export const dataState = "data-state";
 const root = document.documentElement;
 
 export const messageBoxDur =
-  getComputedStyle(root).getPropertyValue("--message-box-dur") * 1000;
+  getComputedStyle(root).getPropertyValue("--message-box-dur") * 500;
+
+console.log(messageBoxDur);
 
 const messageBoxClass = ".message-box";
 const headerClass = ".message-box-header";
