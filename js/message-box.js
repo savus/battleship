@@ -59,7 +59,6 @@ export class MessageBoxHandler {
 
   prevStep = (messageObj) => {
     const shouldCallPrevStep = this.textListIndex === 0;
-    console.log(shouldCallPrevStep);
     if (shouldCallPrevStep) {
       return messageObj.prevStep();
     } else {
