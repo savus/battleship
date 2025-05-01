@@ -16,16 +16,6 @@ import {
   wait,
 } from "./utility-functions.js";
 
-// const messageBoxClass = ".message-box";
-// const headerClass = ".message-box-header";
-// const messageControls = ".message-box-controls";
-// const messageTextClass = ".message-box-text";
-
-// export const messageBox = document.querySelector(messageBoxClass);
-// export const messageBoxHeader = document.querySelector(headerClass);
-// export const messageBoxControls = document.querySelector(messageControls);
-// export const messageText = document.querySelector(messageTextClass);
-
 export class MessageBoxHandler {
   textListIndex = 0;
   constructor(messageBoxElem, header, controls, textField) {

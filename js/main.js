@@ -21,6 +21,7 @@
 
 import { MessageBoxHandler } from "./message-box.js";
 import messageObjects from "./message-data-objects.js";
+import Player from "./player.js";
 import { wait } from "./utility-functions.js";
 
 // export const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -207,15 +208,15 @@ export const messageBoxDur =
 
 console.log(messageBoxDur);
 
-const messageBoxClass = ".message-box";
-const headerClass = ".message-box-header";
-const messageControls = ".message-box-controls";
-const messageTextClass = ".message-box-text";
+const messageBoxClass = "message-box";
+const headerClass = "message-box-header";
+const messageControls = "message-box-controls";
+const messageTextClass = "message-box-text";
 
-const messageBox = document.querySelector(messageBoxClass);
-const messageBoxHeader = document.querySelector(headerClass);
-const messageBoxControls = document.querySelector(messageControls);
-const messageText = document.querySelector(messageTextClass);
+const messageBox = document.querySelector(`.${messageBoxClass}`);
+const messageBoxHeader = document.querySelector(`.${headerClass}`);
+const messageBoxControls = document.querySelector(`.${messageControls}`);
+const messageText = document.querySelector(`.${messageTextClass}`);
 
 export const messageBoxHandler = new MessageBoxHandler(
   messageBox,
@@ -236,6 +237,10 @@ export let currentMessageObject = messageObjects[currentMessageIndex];
 export const setCurrentMessageIndex = (num) => (currentMessageIndex = num);
 export const setCurrentMessageObj = (index) =>
   (currentMessageObject = messageObjects[currentMessageIndex]);
+
+export const gameBoardSelector = "game-board";
+const testPlayer = new Player("player1", "player");
+const testPlayer2 = new Player("player2", "computer");
 
 wait(100).then(() => {
   return messageBoxHandler.readMessageObj(currentMessageObject);
