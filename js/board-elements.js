@@ -2,12 +2,32 @@
 // import { setActive } from "./utility-functions.js";
 // import { active, alphabet, computer, getCurrentTurn, user } from "./main.js";
 
+import { alphabet } from "./main.js";
+
 class GameBoard {
-  constructor(size, type, htmlElement) {
+  grid;
+  constructor(size, type) {
     this.size = size;
     this.type = type;
-    this.boardHTML = htmlElement;
+    this.createGrid();
   }
+
+  createGrid = () => {
+    const newGrid = {};
+    const newHTMLElement = document.createElement("div");
+
+    for (let i = 0; i < this.size; i++) {
+      newGrid[alphabet[i]] = [];
+      for (let j = 0; j < this.size; j++) {
+        const cell = {
+          type: this.type,
+          status: "empty",
+        };
+        newGrid[alphabet[i]][j] = cell;
+      }
+    }
+    this.grid = newGrid;
+  };
 }
 
 export default GameBoard;

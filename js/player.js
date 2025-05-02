@@ -1,5 +1,7 @@
 // import { buildBoardData, gameBoardClass } from "./board-elements.js";
 
+import GameBoard from "./board-elements.js";
+
 // import {
 //   computerThinkingDuration,
 //   hardMode,
@@ -20,10 +22,18 @@
 class Player {
   board;
   boardHTML;
-  constructor(name, type) {
+  constructor(name, type, boardSize) {
     this.name = name;
     this.type = type;
+    this.boardSize = boardSize;
+    this.createBoard();
   }
+
+  createBoard = () => {
+    const board = new GameBoard(this.boardSize, this.type);
+
+    this.board = board;
+  };
 }
 
 export default Player;

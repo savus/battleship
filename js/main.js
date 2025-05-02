@@ -200,6 +200,7 @@ import { wait } from "./utility-functions.js";
 export const close = "close";
 export const active = "active";
 export const dataState = "data-state";
+export const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 const root = document.documentElement;
 
@@ -239,12 +240,14 @@ export const setCurrentMessageObj = (index) =>
   (currentMessageObject = messageObjects[currentMessageIndex]);
 
 export const gameBoardSelector = "game-board";
-const testPlayer = new Player("player1", "player");
-const testPlayer2 = new Player("player2", "computer");
+const testPlayer = new Player("player1", "player", 9);
+const testPlayer2 = new Player("player2", "computer", 9);
 
-wait(100).then(() => {
-  return messageBoxHandler.readMessageObj(currentMessageObject);
-});
+console.log(testPlayer.board);
+
+// wait(100).then(() => {
+//   return messageBoxHandler.readMessageObj(currentMessageObject);
+// });
 
 messageBoxControls.addEventListener("click", ({ target }) => {
   switch (target.dataset.button) {
