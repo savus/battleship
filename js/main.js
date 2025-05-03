@@ -239,11 +239,10 @@ export const setCurrentMessageIndex = (num) => (currentMessageIndex = num);
 export const setCurrentMessageObj = (index) =>
   (currentMessageObject = messageObjects[currentMessageIndex]);
 
-export const gameBoardSelector = "game-board";
+export const gameBoardSelector = "game-board-container";
+export const gameBoard = document.querySelector(`.${gameBoardSelector}`);
 const testPlayer = new Player("player1", "player", 9);
 const testPlayer2 = new Player("player2", "computer", 9);
-
-console.log(testPlayer.board);
 
 // wait(100).then(() => {
 //   return messageBoxHandler.readMessageObj(currentMessageObject);
