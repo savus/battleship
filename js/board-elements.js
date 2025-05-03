@@ -2,7 +2,7 @@
 // import { setActive } from "./utility-functions.js";
 // import { active, alphabet, computer, getCurrentTurn, user } from "./main.js";
 
-import { alphabet, gameBoard } from "./main.js";
+import { alphabet, gameBoard, tileRowSize } from "./main.js";
 
 class GameBoard {
   grid;
@@ -20,6 +20,9 @@ class GameBoard {
     boardElement.id = this.type;
     boardElement.setAttribute("data-size", "large");
     boardElement.classList.add("game-board");
+    boardElement.style.width = `${
+      0.625 * 2 + 0.9375 * (tileRowSize - 1) + 4 * tileRowSize
+    }rem`;
 
     gameBoard.appendChild(boardElement);
 

@@ -15,7 +15,6 @@
   position: absolute;
   background-color: #fff;
   border-radius: 10px;
-  width: 26.8rem;
   display: flex;
   flex-direction: column;
   padding: var(--size-10);

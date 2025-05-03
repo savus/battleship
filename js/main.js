@@ -201,13 +201,19 @@ export const close = "close";
 export const active = "active";
 export const dataState = "data-state";
 export const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+export const boardSize = 6;
 
 const root = document.documentElement;
+
+root.style.setProperty("--tile-row-size", boardSize);
 
 export const messageBoxDur =
   getComputedStyle(root).getPropertyValue("--message-box-dur") * 500;
 
-console.log(messageBoxDur);
+export let tileRowSize =
+  getComputedStyle(root).getPropertyValue("--tile-row-size");
+
+console.log(tileRowSize);
 
 const messageBoxClass = "message-box";
 const headerClass = "message-box-header";
@@ -241,8 +247,8 @@ export const setCurrentMessageObj = (index) =>
 
 export const gameBoardSelector = "game-board-container";
 export const gameBoard = document.querySelector(`.${gameBoardSelector}`);
-const testPlayer = new Player("player1", "player", 9);
-const testPlayer2 = new Player("player2", "computer", 9);
+const testPlayer = new Player("player1", "player", boardSize);
+const testPlayer2 = new Player("player2", "computer", boardSize);
 
 // wait(100).then(() => {
 //   return messageBoxHandler.readMessageObj(currentMessageObject);
