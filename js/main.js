@@ -205,15 +205,8 @@ export const boardSize = 6;
 
 const root = document.documentElement;
 
-root.style.setProperty("--tile-row-size", boardSize);
-
 export const messageBoxDur =
   getComputedStyle(root).getPropertyValue("--message-box-dur") * 500;
-
-export let tileRowSize =
-  getComputedStyle(root).getPropertyValue("--tile-row-size");
-
-console.log(tileRowSize);
 
 const messageBoxClass = "message-box";
 const headerClass = "message-box-header";

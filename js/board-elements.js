@@ -2,7 +2,7 @@
 // import { setActive } from "./utility-functions.js";
 // import { active, alphabet, computer, getCurrentTurn, user } from "./main.js";
 
-import { alphabet, gameBoard, tileRowSize } from "./main.js";
+import { alphabet, gameBoard } from "./main.js";
 
 class GameBoard {
   grid;
@@ -21,7 +21,7 @@ class GameBoard {
     boardElement.setAttribute("data-size", "large");
     boardElement.classList.add("game-board");
     boardElement.style.width = `${
-      0.625 * 2 + 0.9375 * (tileRowSize - 1) + 4 * tileRowSize
+      0.625 * 2 + 0.9375 * (this.size - 1) + 4 * this.size
     }rem`;
 
     gameBoard.appendChild(boardElement);
@@ -39,7 +39,7 @@ class GameBoard {
         const tileElement = document.createElement("div");
         tileElement.classList.add("tile");
         tileElement.setAttribute("data-status", "empty");
-        tileElement.style.setProperty("--i", i);
+        tileElement.style.setProperty("--i", j);
 
         const buttonElement = document.createElement("button");
         buttonElement.className = "btn tile-button";
@@ -58,169 +58,11 @@ class GameBoard {
     }
     this.grid = newGrid;
     this.board = boardElement;
-    // <div id="player" data-size="large" class="game-board active hovering">
-    //   <div class="row">
-    //     <div class="tile" style="--i: 1;" data-status="empty">
-    //       <button class="btn tile-button">Confirm</button>
-    //       <div class="status"></div>
-    //     </div>
-    //     <div class="tile" style="--i: 2;" data-status="empty">
-    //       <button class="btn tile-button">Confirm</button>
-    //       <div class="status"></div>
-    //     </div>
-    //     <div class="tile" style="--i: 3;" data-status="empty">
-    //       <button class="btn tile-button">Confirm</button>
-    //       <div class="status"></div>
-    //     </div>
-    //     <div class="tile" style="--i: 4;" data-status="empty">
-    //       <button class="btn tile-button">Confirm</button>
-    //       <div class="status"></div>
-    //     </div>
-    //     <div class="tile" style="--i: 5;" data-status="occupied">
-    //       <button class="btn tile-button">Confirm</button>
-    //       <div class="status"></div>
-    //     </div>
-    //     <div class="tile" style="--i: 6;" data-status="occupied">
-    //       <button class="btn tile-button">Confirm</button>
-    //       <div class="status"></div>
-    //     </div>
-    //   </div>
   };
 }
 
 export default GameBoard;
 
-//   <div class="row">
-//     <div class="tile" style="--i: 8;" data-status="empty">
-//       <button class="btn tile-button">Confirm</button>
-//       <div class="status"></div>
-//     </div>
-//     <div class="tile" style="--i: 9;" data-status="occupied">
-//       <button class="btn tile-button">Confirm</button>
-//       <div class="status"></div>
-//     </div>
-//     <div class="tile" style="--i: 10;" data-status="occupied">
-//       <button class="btn tile-button">Confirm</button>
-//       <div class="status"></div>
-//     </div>
-//     <div class="tile" style="--i: 11;" data-status="occupied">
-//       <button class="btn tile-button">Confirm</button>
-//       <div class="status"></div>
-//     </div>
-//     <div class="tile" style="--i: 12;" data-status="occupied">
-//       <button class="btn tile-button">Confirm</button>
-//       <div class="status"></div>
-//     </div>
-//     <div class="tile" style="--i: 13;" data-status="occupied">
-//       <button class="btn tile-button">Confirm</button>
-//       <div class="status"></div>
-//     </div>
-//   </div>
-//   <div class="row">
-//     <div class="tile" style="--i: 15;" data-status="occupied">
-//       <button class="btn tile-button">Confirm</button>
-//       <div class="status"></div>
-//     </div>
-//     <div class="tile" style="--i: 16;" data-status="occupied">
-//       <button class="btn tile-button">Confirm</button>
-//       <div class="status"></div>
-//     </div>
-//     <div class="tile" style="--i: 17;" data-status="occupied">
-//       <button class="btn tile-button">Confirm</button>
-//       <div class="status"></div>
-//     </div>
-//     <div class="tile" style="--i: 18;" data-status="occupied">
-//       <button class="btn tile-button">Confirm</button>
-//       <div class="status"></div>
-//     </div>
-//     <div class="tile" style="--i: 19;" data-status="occupied">
-//       <button class="btn tile-button">Confirm</button>
-//       <div class="status"></div>
-//     </div>
-//     <div class="tile" style="--i: 20;" data-status="occupied">
-//       <button class="btn tile-button">Confirm</button>
-//       <div class="status"></div>
-//     </div>
-//   </div>
-//   <div class="row">
-//     <div class="tile" style="--i: 22;" data-status="empty">
-//       <button class="btn tile-button">Confirm</button>
-//       <div class="status"></div>
-//     </div>
-//     <div class="tile" style="--i: 23;" data-status="occupied">
-//       <button class="btn tile-button">Confirm</button>
-//       <div class="status"></div>
-//     </div>
-//     <div class="tile" style="--i: 24;" data-status="empty">
-//       <button class="btn tile-button">Confirm</button>
-//       <div class="status"></div>
-//     </div>
-//     <div class="tile" style="--i: 25;" data-status="empty">
-//       <button class="btn tile-button">Confirm</button>
-//       <div class="status"></div>
-//     </div>
-//     <div class="tile" style="--i: 26;" data-status="empty">
-//       <button class="btn tile-button">Confirm</button>
-//       <div class="status"></div>
-//     </div>
-//     <div class="tile" style="--i: 27;" data-status="occupied">
-//       <button class="btn tile-button">Confirm</button>
-//       <div class="status"></div>
-//     </div>
-//   </div>
-//   <div class="row">
-//     <div class="tile" style="--i: 29;" data-status="empty">
-//       <button class="btn tile-button">Confirm</button>
-//       <div class="status"></div>
-//     </div>
-//     <div class="tile" style="--i: 30;" data-status="occupied">
-//       <button class="btn tile-button">Confirm</button>
-//       <div class="status"></div>
-//     </div>
-//     <div class="tile" style="--i: 31;" data-status="empty">
-//       <button class="btn tile-button">Confirm</button>
-//       <div class="status"></div>
-//     </div>
-//     <div class="tile" style="--i: 32;" data-status="empty">
-//       <button class="btn tile-button">Confirm</button>
-//       <div class="status"></div>
-//     </div>
-//     <div class="tile" style="--i: 33;" data-status="empty">
-//       <button class="btn tile-button">Confirm</button>
-//       <div class="status"></div>
-//     </div>
-//     <div class="tile" style="--i: 34;" data-status="empty">
-//       <button class="btn tile-button">Confirm</button>
-//       <div class="status"></div>
-//     </div>
-//   </div>
-//   <div class="row">
-//     <div class="tile" style="--i: 36;" data-status="empty">
-//       <button class="btn tile-button">Confirm</button>
-//       <div class="status"></div>
-//     </div>
-//     <div class="tile" style="--i: 37;" data-status="occupied">
-//       <button class="btn tile-button">Confirm</button>
-//       <div class="status"></div>
-//     </div>
-//     <div class="tile" style="--i: 38;" data-status="empty">
-//       <button class="btn tile-button">Confirm</button>
-//       <div class="status"></div>
-//     </div>
-//     <div class="tile" style="--i: 39;" data-status="empty">
-//       <button class="btn tile-button">Confirm</button>
-//       <div class="status"></div>
-//     </div>
-//     <div class="tile" style="--i: 40;" data-status="empty">
-//       <button class="btn tile-button">Confirm</button>
-//       <div class="status"></div>
-//     </div>
-//     <div class="tile" style="--i: 41;" data-status="empty">
-//       <button class="btn tile-button">Confirm</button>
-//       <div class="status"></div>
-//     </div>
-//   </div>
-// </div>;
 // const tileButtonClass = "tile-button";
 // export const tileClassName = "tile";
 // export const gameBoardClass = "game-board";
