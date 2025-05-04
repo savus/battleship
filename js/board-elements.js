@@ -40,6 +40,13 @@ class GameBoard {
 
         rowElement.appendChild(tileElement);
         boardElement.appendChild(rowElement);
+
+        cell.tileHTML = tileElement;
+
+        cell.tileHTML.addEventListener("click", ({ target }) => {
+          console.log(target);
+        });
+
         newGrid[alphabet[i]][j] = cell;
       }
     }
