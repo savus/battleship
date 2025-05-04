@@ -56,7 +56,7 @@
     var(--anim-delay) var(--anim-dir) var(--anim-count);
 }
 
-.game-board.hovering .tile {
+.game-board[data-state="hovering"] .tile {
   --anim-name: hoveringTile;
   --anim-duration: 1.8s;
   --anim-tf: ease-in-out;

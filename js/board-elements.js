@@ -2,7 +2,7 @@
 // import { setActive } from "./utility-functions.js";
 // import { active, alphabet, computer, getCurrentTurn, user } from "./main.js";
 
-import { alphabet, gameBoard } from "./main.js";
+import { alphabet, dataState, gameBoard } from "./main.js";
 
 const dataSize = "data-size";
 const gameBoardClass = "game-board";
@@ -15,6 +15,7 @@ const buttonClassName = "btn tile-button";
 class GameBoard {
   grid;
   html;
+  state = "none";
   constructor(size, type) {
     this.size = size;
     this.type = type;
@@ -44,14 +45,19 @@ class GameBoard {
         cell.tileHTML = tileElement;
 
         cell.tileHTML.addEventListener("click", ({ target }) => {
-          console.log(target);
+          switch (this.state) {
+            case "hovering":
+              target.setAttribute(dataStatus, "hit");
+            default:
+              console.log(target);
+          }
         });
 
         newGrid[alphabet[i]][j] = cell;
       }
     }
     this.grid = newGrid;
-    this.board = boardElement;
+    this.html = boardElement;
   };
 
   createBoard = () => {
@@ -99,6 +105,11 @@ class GameBoard {
     const statusElement = document.createElement("div");
     statusElement.className = "status";
     return statusElement;
+  };
+
+  setState = (state) => {
+    this.state = state;
+    this.html.setAttribute(dataState, this.state);
   };
 }
 
