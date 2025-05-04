@@ -243,6 +243,8 @@ export const gameBoard = document.querySelector(`.${gameBoardSelector}`);
 const testPlayer = new Player("player1", "player", boardSize);
 const testPlayer2 = new Player("player2", "computer", boardSize);
 
+console.log(testPlayer.board);
+
 // wait(100).then(() => {
 //   return messageBoxHandler.readMessageObj(currentMessageObject);
 // });

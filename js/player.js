@@ -26,10 +26,10 @@ class Player {
     this.name = name;
     this.type = type;
     this.boardSize = boardSize;
-    this.createBoard();
+    this.initializeBoard();
   }
 
-  createBoard = () => {
+  initializeBoard = () => {
     const board = new GameBoard(this.boardSize, this.type);
 
     this.board = board;

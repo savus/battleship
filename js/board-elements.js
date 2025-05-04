@@ -4,31 +4,31 @@
 
 import { alphabet, gameBoard } from "./main.js";
 
+const dataSize = "data-size";
+const gameBoardClass = "game-board";
+const rowClass = "row";
+const tileClass = "tile";
+const dataStatus = "data-status";
+const cssIndex = "--i";
+const buttonClassName = "btn tile-button";
+
 class GameBoard {
   grid;
   html;
   constructor(size, type) {
     this.size = size;
     this.type = type;
-    this.createGridAndBoard();
+    this.createBoardData();
   }
 
-  createGridAndBoard = () => {
+  createBoardData = () => {
     const newGrid = {};
-    const boardElement = document.createElement("div");
-
-    boardElement.id = this.type;
-    boardElement.setAttribute("data-size", "large");
-    boardElement.classList.add("game-board");
-    boardElement.style.width = `${
-      0.625 * 2 + 0.9375 * (this.size - 1) + 4 * this.size
-    }rem`;
+    const boardElement = this.createBoard();
 
     gameBoard.appendChild(boardElement);
 
     for (let i = 0; i < this.size; i++) {
-      const rowElement = document.createElement("div");
-      rowElement.classList.add("row");
+      const rowElement = this.createRow();
       newGrid[alphabet[i]] = [];
       for (let j = 0; j < this.size; j++) {
         const cell = {
@@ -36,20 +36,7 @@ class GameBoard {
           status: "empty",
         };
 
-        const tileElement = document.createElement("div");
-        tileElement.classList.add("tile");
-        tileElement.setAttribute("data-status", "empty");
-        tileElement.style.setProperty("--i", j);
-
-        const buttonElement = document.createElement("button");
-        buttonElement.className = "btn tile-button";
-        buttonElement.innerHTML = "Confirm";
-
-        const statusElement = document.createElement("div");
-        statusElement.className = "status";
-
-        tileElement.appendChild(buttonElement);
-        tileElement.appendChild(statusElement);
+        const tileElement = this.createTile(j);
 
         rowElement.appendChild(tileElement);
         boardElement.appendChild(rowElement);
@@ -58,6 +45,53 @@ class GameBoard {
     }
     this.grid = newGrid;
     this.board = boardElement;
+  };
+
+  createBoard = () => {
+    const boardElement = document.createElement("div");
+
+    boardElement.id = this.type;
+    boardElement.setAttribute(dataSize, "large");
+    boardElement.classList.add(gameBoardClass);
+    boardElement.style.width = `${
+      0.625 * 2 + 0.9375 * (this.size - 1) + 4 * this.size
+    }rem`;
+
+    return boardElement;
+  };
+
+  createRow = () => {
+    const rowElement = document.createElement("div");
+    rowElement.classList.add(rowClass);
+    return rowElement;
+  };
+
+  createTile = (index) => {
+    const tileElement = document.createElement("div");
+    const buttonElement = this.createButton();
+    const statusElement = this.createStatusElement();
+
+    tileElement.classList.add(tileClass);
+    tileElement.setAttribute(dataStatus, "empty");
+    tileElement.style.setProperty(cssIndex, index);
+
+    tileElement.appendChild(buttonElement);
+    tileElement.appendChild(statusElement);
+
+    return tileElement;
+  };
+
+  createButton = () => {
+    const buttonElement = document.createElement("button");
+    buttonElement.className = buttonClassName;
+    buttonElement.innerHTML = "Confirm";
+    return buttonElement;
+  };
+
+  createStatusElement = () => {
+    const statusElement = document.createElement("div");
+    statusElement.className = "status";
+    return statusElement;
   };
 }
 
