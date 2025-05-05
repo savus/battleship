@@ -25,7 +25,7 @@ class GameBoard {
   createBoardData = () => {
     const newGrid = {};
     const boardElement = this.createBoard();
-
+    let tileIndex = 0;
     gameBoard.appendChild(boardElement);
 
     for (let i = 0; i < this.size; i++) {
@@ -37,7 +37,9 @@ class GameBoard {
           status: "empty",
         };
 
-        const tileElement = this.createTile(j);
+        tileIndex++;
+
+        const tileElement = this.createTile(tileIndex);
 
         rowElement.appendChild(tileElement);
         boardElement.appendChild(rowElement);

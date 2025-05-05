@@ -65,7 +65,7 @@
   --anim-dir: forwards;
 }
 
-.game-board.set-up .tile {
+.game-board[data-state="set-up"] .tile {
   --anim-name: glideDown;
   --anim-duration: calc(var(--tile-setup-dur) * 1s);
   --anim-delay: calc(var(--i) * var(--tile-setup-del) * 1s);
