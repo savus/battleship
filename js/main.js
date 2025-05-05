@@ -22,7 +22,7 @@
 import { MessageBoxHandler } from "./message-box.js";
 import messageObjects from "./message-data-objects.js";
 import Player from "./player.js";
-import { wait } from "./utility-functions.js";
+import { setActive, wait } from "./utility-functions.js";
 
 // export const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 // export const active = "active";
@@ -200,11 +200,18 @@ import { wait } from "./utility-functions.js";
 export const close = "close";
 export const active = "active";
 export const dataState = "data-state";
+export const dataStatus = "data-status";
 export const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 export const boardSize = 6;
-
+export const rowClass = "row";
+export const tileClass = "tile";
+export const boardClickable = "board-clickable";
+export const hovering = "hovering";
+export const tileClickable = "tiles-clickable";
+export const onHoverTiles = "on-hover-tiles";
 const root = document.documentElement;
 
+export const gameBoardClass = "game-board";
 export const messageBoxDur =
   getComputedStyle(root).getPropertyValue("--message-box-dur") * 500;
 
@@ -238,19 +245,39 @@ export const setCurrentMessageIndex = (num) => (currentMessageIndex = num);
 export const setCurrentMessageObj = (index) =>
   (currentMessageObject = messageObjects[currentMessageIndex]);
 
-export const gameBoardSelector = "game-board-container";
-export const gameBoard = document.querySelector(`.${gameBoardSelector}`);
+export const gameBoardContainerClass = "game-board-container";
+export const gameBoardContainer = document.querySelector(
+  `.${gameBoardContainerClass}`
+);
+
 const testPlayer = new Player("player1", "player", boardSize);
 const testPlayer2 = new Player("player2", "computer", boardSize);
 
 testPlayer.addBoardClass(active);
-testPlayer.addBoardClass("hovering");
-testPlayer.addBoardClass("tiles-clickable");
-testPlayer2.addBoardClass("hovering");
+testPlayer.addBoardClass(hovering);
+testPlayer.addBoardClass(tileClickable);
+testPlayer.addBoardClass(boardClickable);
+testPlayer.addBoardClass(onHoverTiles);
+
+testPlayer2.addBoardClass(hovering);
+testPlayer2.addBoardClass(tileClickable);
+testPlayer2.addBoardClass(boardClickable);
+testPlayer2.addBoardClass(onHoverTiles);
 
 // wait(100).then(() => {
 //   return messageBoxHandler.readMessageObj(currentMessageObject);
 // });
+
+gameBoardContainer.addEventListener("click", ({ target }) => {
+  const isGameBoard = target.matches(`.${gameBoardClass}`);
+  const isRow = target.matches(`.${rowClass}`);
+  const isTile = target.matches(`.${tileClass}`);
+
+  if (isGameBoard || isRow || isTile) {
+    const gameBoard = target.closest(`.${gameBoardClass}`);
+    setActive(gameBoard, `.${gameBoardClass}`);
+  }
+});
 
 messageBoxControls.addEventListener("click", ({ target }) => {
   switch (target.dataset.button) {

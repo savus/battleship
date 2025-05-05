@@ -2,12 +2,18 @@
 // import { setActive } from "./utility-functions.js";
 // import { active, alphabet, computer, getCurrentTurn, user } from "./main.js";
 
-import { active, alphabet, dataState, gameBoard } from "./main.js";
+import { Cell } from "./cell.js";
+import {
+  active,
+  alphabet,
+  boardClickable,
+  gameBoardClass,
+  gameBoardContainer,
+  rowClass,
+  tileClass,
+} from "./main.js";
+import { setActive } from "./utility-functions.js";
 
-const dataSize = "data-size";
-const gameBoardClass = "game-board";
-const rowClass = "row";
-const tileClass = "tile";
 const dataStatus = "data-status";
 const cssIndex = "--i";
 const buttonClassName = "btn tile-button";
@@ -26,16 +32,13 @@ class GameBoard {
     const newGrid = {};
     const boardElement = this.createBoard();
     let tileIndex = 0;
-    gameBoard.appendChild(boardElement);
+    gameBoardContainer.appendChild(boardElement);
 
     for (let i = 0; i < this.size; i++) {
       const rowElement = this.createRow();
       newGrid[alphabet[i]] = [];
       for (let j = 0; j < this.size; j++) {
-        const cell = {
-          type: this.type,
-          status: "empty",
-        };
+        const cell = new Cell("empty", `${alphabet[i]}${j}`, this.type);
 
         tileIndex++;
 
@@ -47,10 +50,8 @@ class GameBoard {
         cell.tileHTML = tileElement;
 
         cell.tileHTML.addEventListener("click", ({ target }) => {
-          const classList = this.html.classList;
-          const isClickable = classList.contains("tiles-clickable");
-
-          if (isClickable) target.setAttribute(dataStatus, "hit");
+          const boardIsClickable = this.html.classList.contains(boardClickable);
+          const boardIsActive = this.html.classList.contains(active);
         });
 
         newGrid[alphabet[i]][j] = cell;
@@ -64,13 +65,16 @@ class GameBoard {
     const boardElement = document.createElement("div");
 
     boardElement.id = this.type;
-    boardElement.setAttribute(dataSize, "large");
     boardElement.classList.add(gameBoardClass);
     boardElement.style.width = `${
       0.625 * 2 + 0.9375 * (this.size - 1) + 4 * this.size
     }rem`;
 
-    boardElement.addEventListener("click", function () {});
+    boardElement.addEventListener("click", function ({ target }) {
+      const isClickable = target.classList.contains(boardClickable);
+      console.log(isClickable);
+      if (isClickable) setActive(target, `.${gameBoardClass}`);
+    });
     return boardElement;
   };
 
