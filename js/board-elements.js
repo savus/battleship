@@ -15,7 +15,7 @@ const buttonClassName = "btn tile-button";
 class GameBoard {
   grid;
   html;
-  state = "none";
+  opposingBoard;
   constructor(size, type) {
     this.size = size;
     this.type = type;
@@ -47,12 +47,10 @@ class GameBoard {
         cell.tileHTML = tileElement;
 
         cell.tileHTML.addEventListener("click", ({ target }) => {
-          switch (this.state) {
-            case "hovering":
-              target.setAttribute(dataStatus, "hit");
-            default:
-              console.log(target);
-          }
+          const classList = this.html.classList;
+          const isClickable = classList.contains("tiles-clickable");
+
+          if (isClickable) target.setAttribute(dataStatus, "hit");
         });
 
         newGrid[alphabet[i]][j] = cell;
@@ -72,9 +70,7 @@ class GameBoard {
       0.625 * 2 + 0.9375 * (this.size - 1) + 4 * this.size
     }rem`;
 
-    boardElement.addEventListener("click", function () {
-      if (!this.classList.contains(active)) this.classList.add(active);
-    });
+    boardElement.addEventListener("click", function () {});
     return boardElement;
   };
 
@@ -101,11 +97,6 @@ class GameBoard {
     const statusElement = document.createElement("div");
     statusElement.className = "status";
     return statusElement;
-  };
-
-  setState = (state) => {
-    this.state = state;
-    this.html.setAttribute(dataState, this.state);
   };
 }
 

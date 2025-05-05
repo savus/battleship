@@ -56,7 +56,7 @@
     var(--anim-delay) var(--anim-dir) var(--anim-count);
 }
 
-.game-board[data-state="hovering"] .tile {
+.game-board.hovering .tile {
   --anim-name: hoveringTile;
   --anim-duration: 1.8s;
   --anim-tf: ease-in-out;
@@ -65,7 +65,7 @@
   --anim-dir: forwards;
 }
 
-.game-board[data-state="set-up"] .tile {
+.game-board.set-up .tile {
   --anim-name: glideDown;
   --anim-duration: calc(var(--tile-setup-dur) * 1s);
   --anim-delay: calc(var(--i) * var(--tile-setup-del) * 1s);
@@ -75,7 +75,7 @@
   pointer-events: none;
 }
 
-.game-board:not(.set-up) .tile:hover {
+.game-board.on-hover-tiles .tile:hover {
   --anim-name: none;
   box-shadow: 1px 12px 8px 0px rgba(0, 0, 0, 0.8),
     0px 0px 12px 1px rgba(78, 247, 210, 0.8) inset;
@@ -83,7 +83,7 @@
   cursor: pointer;
 }
 
-.game-board:not(.set-up) .tile.active {
+.game-board.on-hover-tiles .tile.active {
   z-index: 1;
 }
 

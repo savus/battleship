@@ -21,7 +21,6 @@ import GameBoard from "./board-elements.js";
 
 class Player {
   board;
-  boardHTML;
   constructor(name, type, boardSize) {
     this.name = name;
     this.type = type;
@@ -33,6 +32,14 @@ class Player {
     const board = new GameBoard(this.boardSize, this.type);
 
     this.board = board;
+  };
+
+  addBoardClass = (className) => {
+    this.board.html.classList.add(className);
+  };
+
+  removeBoardClass = (className) => {
+    this.board.html.classList.remove(className);
   };
 }
 

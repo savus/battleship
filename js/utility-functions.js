@@ -36,6 +36,11 @@ export const typeWords = async (textField, message, typeSpeed = 5) => {
   return;
 };
 
+export const swapActiveBoards = (activate, deactivate) => {
+  activate.addBoardClass(active);
+  deactivate.removeClass(active);
+};
+
 // const resetYesAndNo = () => {
 //   setUserSaidNo(false);
 //   setUserSaidYes(false);
