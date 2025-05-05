@@ -244,7 +244,7 @@ const testPlayer = new Player("player1", "player", boardSize);
 // const testPlayer2 = new Player("player2", "computer", boardSize);
 
 testPlayer.board.setState("hovering");
-console.log(testPlayer.board.state);
+testPlayer.board.setState("hovering");
 // wait(100).then(() => {
 //   return messageBoxHandler.readMessageObj(currentMessageObject);
 // });

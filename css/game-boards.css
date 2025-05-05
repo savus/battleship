@@ -87,32 +87,6 @@
   z-index: 1;
 }
 
-.game-board .tile .tile-button {
-  --left: 50%;
-  --top: 60%;
-  --scale: 0;
-  --translate-x: -50%;
-  --translate-y: -50%;
-  --transition-del: 0s;
-  color: #fff;
-  font-size: 0.8rem;
-  padding: 0.3rem 0.7rem;
-  background-color: rgba(0, 0, 0, 0.9);
-  position: absolute;
-  left: var(--left);
-  top: var(--top);
-  z-index: 10;
-  transform-origin: left top;
-  transform: scale(var(--scale))
-    translate(var(--translate-x), var(--translate-y));
-  transition: all 0.3s ease-in-out var(--transition-del);
-  border-radius: var(--size-20);
-}
-
-.game-board .tile.active .tile-button {
-  --scale: 1;
-}
-
 .game-board .tile .status {
   --top: 0;
   --left: 0;

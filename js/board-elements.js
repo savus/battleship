@@ -81,24 +81,15 @@ class GameBoard {
 
   createTile = (index) => {
     const tileElement = document.createElement("div");
-    const buttonElement = this.createButton();
     const statusElement = this.createStatusElement();
 
     tileElement.classList.add(tileClass);
     tileElement.setAttribute(dataStatus, "empty");
     tileElement.style.setProperty(cssIndex, index);
 
-    tileElement.appendChild(buttonElement);
     tileElement.appendChild(statusElement);
 
     return tileElement;
-  };
-
-  createButton = () => {
-    const buttonElement = document.createElement("button");
-    buttonElement.className = buttonClassName;
-    buttonElement.innerHTML = "Confirm";
-    return buttonElement;
   };
 
   createStatusElement = () => {
