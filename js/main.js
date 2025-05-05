@@ -241,10 +241,9 @@ export const setCurrentMessageObj = (index) =>
 export const gameBoardSelector = "game-board-container";
 export const gameBoard = document.querySelector(`.${gameBoardSelector}`);
 const testPlayer = new Player("player1", "player", boardSize);
-// const testPlayer2 = new Player("player2", "computer", boardSize);
-
+const testPlayer2 = new Player("player2", "computer", boardSize);
 testPlayer.board.setState("set-up");
-testPlayer.board.setState("set-up");
+testPlayer2.board.setState("set-up");
 // wait(100).then(() => {
 //   return messageBoxHandler.readMessageObj(currentMessageObject);
 // });

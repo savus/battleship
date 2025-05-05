@@ -2,7 +2,7 @@
 // import { setActive } from "./utility-functions.js";
 // import { active, alphabet, computer, getCurrentTurn, user } from "./main.js";
 
-import { alphabet, dataState, gameBoard } from "./main.js";
+import { active, alphabet, dataState, gameBoard } from "./main.js";
 
 const dataSize = "data-size";
 const gameBoardClass = "game-board";
@@ -72,6 +72,9 @@ class GameBoard {
       0.625 * 2 + 0.9375 * (this.size - 1) + 4 * this.size
     }rem`;
 
+    boardElement.addEventListener("click", function () {
+      if (!this.classList.contains(active)) this.classList.add(active);
+    });
     return boardElement;
   };
 
