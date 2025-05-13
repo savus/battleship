@@ -1,8 +1,9 @@
-import { dataStatus } from "./main.js";
+import { dataStatus } from "./board-elements.js";
 
 export class Cell {
-  htmlElement;
-  constructor(status, coords, type) {
+  tile;
+  constructor(type, status, coords) {
+    this.type = type;
     this.status = status;
     this.coords = coords;
     this.type = type;
@@ -12,13 +13,14 @@ export class Cell {
 
   setStatus = (status) => (this.status = status);
 
-  displayStatus = () =>
-    this.htmlElement.setAttribute(dataStatus, this.getStatus());
+  displayStatus = () => this.tile.setAttribute(dataStatus, this.status);
 
-  hideStatus = () => this.htmlElement.setAttribute(dataStatus, "empty");
+  hideStatus = () => this.tile.setAttribute(dataStatus, "empty");
 
-  updateTile = (status) => {
-    this.setStatus(status);
+  updateTile = () => {
+    this.setStatus(this.status);
     this.displayStatus();
   };
+
+  getCoords = () => this.coords;
 }

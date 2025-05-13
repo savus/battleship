@@ -3,20 +3,15 @@
 // import { active, alphabet, computer, getCurrentTurn, user } from "./main.js";
 
 import { Cell } from "./cell.js";
-import {
-  active,
-  alphabet,
-  boardClickable,
-  gameBoardClass,
-  gameBoardContainer,
-  rowClass,
-  tileClass,
-} from "./main.js";
-import { setActive } from "./utility-functions.js";
+import { alphabet, gameBoard, tilesClickableClass } from "./main.js";
 
-const dataStatus = "data-status";
+const dataSize = "data-size";
+const gameBoardClass = "game-board";
+const rowClass = "row";
+const tileClass = "tile";
 const cssIndex = "--i";
 const buttonClassName = "btn tile-button";
+export const dataStatus = "data-status";
 
 class GameBoard {
   grid;
@@ -32,13 +27,14 @@ class GameBoard {
     const newGrid = {};
     const boardElement = this.createBoard();
     let tileIndex = 0;
-    gameBoardContainer.appendChild(boardElement);
+
+    gameBoard.appendChild(boardElement);
 
     for (let i = 0; i < this.size; i++) {
       const rowElement = this.createRow();
       newGrid[alphabet[i]] = [];
       for (let j = 0; j < this.size; j++) {
-        const cell = new Cell("empty", `${alphabet[i]}${j}`, this.type);
+        const cell = new Cell(this.type, "empty", `${alphabet[i]}${j}`);
 
         tileIndex++;
 
@@ -47,11 +43,11 @@ class GameBoard {
         rowElement.appendChild(tileElement);
         boardElement.appendChild(rowElement);
 
-        cell.tileHTML = tileElement;
+        cell.tile = tileElement;
 
-        cell.tileHTML.addEventListener("click", ({ target }) => {
-          const boardIsClickable = this.html.classList.contains(boardClickable);
-          const boardIsActive = this.html.classList.contains(active);
+        cell.tile.addEventListener("click", ({ target }) => {
+          const classList = this.html.classList;
+          const isClickable = classList.contains(tilesClickableClass);
         });
 
         newGrid[alphabet[i]][j] = cell;
