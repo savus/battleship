@@ -22,7 +22,6 @@
 import { MessageBoxHandler } from "./message-box.js";
 import messageObjects from "./message-data-objects.js";
 import Player from "./player.js";
-import { wait } from "./utility-functions.js";
 
 // export const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 // export const active = "active";
@@ -202,6 +201,8 @@ export const active = "active";
 export const dataState = "data-state";
 export const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 export const boardSize = 6;
+export const hoveringClass = "hovering";
+export const tilesClickableClass = "tiles-clickable";
 
 const root = document.documentElement;
 
@@ -244,9 +245,9 @@ const testPlayer = new Player("player1", "player", boardSize);
 const testPlayer2 = new Player("player2", "computer", boardSize);
 
 testPlayer.addBoardClass(active);
-testPlayer.addBoardClass("hovering");
-testPlayer.addBoardClass("tiles-clickable");
-testPlayer2.addBoardClass("hovering");
+testPlayer.addBoardClass(hoveringClass);
+testPlayer.addBoardClass(tilesClickableClass);
+testPlayer2.addBoardClass(hoveringClass);
 
 // wait(100).then(() => {
 //   return messageBoxHandler.readMessageObj(currentMessageObject);

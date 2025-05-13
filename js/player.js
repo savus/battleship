@@ -1,6 +1,7 @@
 // import { buildBoardData, gameBoardClass } from "./board-elements.js";
 
 import GameBoard from "./board-elements.js";
+import { Ship, shipData } from "./ship.js";
 
 // import {
 //   computerThinkingDuration,
@@ -21,16 +22,17 @@ import GameBoard from "./board-elements.js";
 
 class Player {
   board;
+  ships = [];
   constructor(name, type, boardSize) {
     this.name = name;
     this.type = type;
     this.boardSize = boardSize;
     this.initializeBoard();
+    this.initializeShips();
   }
 
   initializeBoard = () => {
     const board = new GameBoard(this.boardSize, this.type);
-
     this.board = board;
   };
 
@@ -40,6 +42,19 @@ class Player {
 
   removeBoardClass = (className) => {
     this.board.html.classList.remove(className);
+  };
+
+  buildShip = (shipData) => {
+    const ship = new Ship(shipData, this.board);
+
+    return ship;
+  };
+
+  initializeShips = () => {
+    shipData.forEach((data) => {
+      const newShip = this.buildShip(data);
+      this.ships.push(newShip);
+    });
   };
 }
 
