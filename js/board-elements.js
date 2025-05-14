@@ -15,9 +15,6 @@ import {
 import { setActive } from "./utility-functions.js";
 
 const dataSize = "data-size";
-const gameBoardClass = "game-board";
-const rowClass = "row";
-const tileClass = "tile";
 const cssIndex = "--i";
 const buttonClassName = "btn tile-button";
 export const dataStatus = "data-status";

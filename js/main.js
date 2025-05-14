@@ -203,8 +203,11 @@ export const dataState = "data-state";
 export const dataStatus = "data-status";
 export const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 export const boardSize = 6;
+export const rowClass = "row";
+export const tileClass = "tile";
 export const hoveringClass = "hovering";
 export const tilesClickableClass = "tiles-clickable";
+export const boardClickable = "board-clickable";
 
 const root = document.documentElement;
 
