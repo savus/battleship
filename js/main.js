@@ -22,7 +22,7 @@
 import { MessageBoxHandler } from "./message-box.js";
 import messageObjects from "./message-data-objects.js";
 import Player from "./player.js";
-import { setActive, wait } from "./utility-functions.js";
+import { setActive } from "./utility-functions.js";
 
 // export const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 // export const active = "active";
@@ -203,12 +203,9 @@ export const dataState = "data-state";
 export const dataStatus = "data-status";
 export const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 export const boardSize = 6;
-export const rowClass = "row";
-export const tileClass = "tile";
-export const boardClickable = "board-clickable";
-export const hovering = "hovering";
-export const tileClickable = "tiles-clickable";
-export const onHoverTiles = "on-hover-tiles";
+export const hoveringClass = "hovering";
+export const tilesClickableClass = "tiles-clickable";
+
 const root = document.documentElement;
 
 export const gameBoardClass = "game-board";
@@ -254,15 +251,9 @@ const testPlayer = new Player("player1", "player", boardSize);
 const testPlayer2 = new Player("player2", "computer", boardSize);
 
 testPlayer.addBoardClass(active);
-testPlayer.addBoardClass(hovering);
-testPlayer.addBoardClass(tileClickable);
-testPlayer.addBoardClass(boardClickable);
-testPlayer.addBoardClass(onHoverTiles);
-
-testPlayer2.addBoardClass(hovering);
-testPlayer2.addBoardClass(tileClickable);
-testPlayer2.addBoardClass(boardClickable);
-testPlayer2.addBoardClass(onHoverTiles);
+testPlayer.addBoardClass(hoveringClass);
+testPlayer.addBoardClass(tilesClickableClass);
+testPlayer2.addBoardClass(hoveringClass);
 
 // wait(100).then(() => {
 //   return messageBoxHandler.readMessageObj(currentMessageObject);
