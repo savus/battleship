@@ -1,21 +1,26 @@
+import { dataStatus } from "./board-elements.js";
+
 export class Cell {
-  htmlElement;
-  constructor(status, coords) {
+  tile;
+  constructor(type, status, coords) {
+    this.type = type;
     this.status = status;
     this.coords = coords;
+    this.type = type;
   }
 
   getStatus = () => this.status;
 
   setStatus = (status) => (this.status = status);
 
-  displayStatus = () =>
-    this.htmlElement.setAttribute("data-status", this.getStatus());
+  displayStatus = () => this.tile.setAttribute(dataStatus, this.status);
 
-  hideStatus = () => this.htmlElement.setAttribute("data-status", "empty");
+  hideStatus = () => this.tile.setAttribute(dataStatus, "empty");
 
-  updateTile = (status) => {
-    this.setStatus(status);
+  updateTile = () => {
+    this.setStatus(this.status);
     this.displayStatus();
   };
+
+  getCoords = () => this.coords;
 }
