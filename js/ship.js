@@ -27,6 +27,17 @@ export class Ship {
     this.board = board;
   }
 
+  resetLists = () => {
+    this.pieceCoords.length = 0;
+    this.occupiedTiles.length = 0;
+    this.occupiedCells.length = 0;
+  };
+
+  placeShipPiece = () => {
+    this.resetLists();
+    let startingPoint = this.board.getRandomCell();
+  };
+
   // recordCellData = (cell) => {
   //   this.pieceCoords.push(cell.coords);
   //   this.occupiedCells.push(cell);

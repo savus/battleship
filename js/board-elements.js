@@ -5,6 +5,7 @@
 import { Cell } from "./cell.js";
 import {
   alphabet,
+  boardSize,
   gameBoardClass,
   gameBoardContainer,
   rowClass,
@@ -97,6 +98,17 @@ class GameBoard {
     const statusElement = document.createElement("div");
     statusElement.className = "status";
     return statusElement;
+  };
+
+  getCell = (letter, number) => {
+    // console.log(testPlayer2.board.grid["A"][0]);
+    return this.grid[letter][number];
+  };
+
+  getRandomCell = () => {
+    const yCoord = alphabet[Math.floor(Math.random() * boardSize)];
+    const xCoord = Math.floor(Math.random() * boardSize);
+    return this.grid[yCoord][xCoord];
   };
 }
 

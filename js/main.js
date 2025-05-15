@@ -258,6 +258,10 @@ testPlayer.addBoardClass(hoveringClass);
 testPlayer.addBoardClass(tilesClickableClass);
 testPlayer2.addBoardClass(hoveringClass);
 
+for (let i = 0; i < 100; i++) {
+  // testPlayer.ships[0].placeShipPiece();
+}
+
 // wait(100).then(() => {
 //   return messageBoxHandler.readMessageObj(currentMessageObject);
 // });

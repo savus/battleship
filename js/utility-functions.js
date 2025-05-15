@@ -36,10 +36,16 @@ export const typeWords = async (textField, message, typeSpeed = 5) => {
   return;
 };
 
-export const swapActiveBoards = (activate, deactivate) => {
-  activate.addBoardClass(active);
-  deactivate.removeClass(active);
+export const swapActiveBoards = (activated, deactivated) => {
+  activated.removeClass(active);
+  deactivated.addBoardClass(active);
 };
+
+// export const getRandomCell = (board, boardSize) => {
+//   const randomYCoord = alphabet[Math.floor(Math.random() * boardSize)];
+//   const randomXCoord = Math.floor(Math.random() * boardSize);
+//   return getCell(board, `${randomYCoord}${randomXCoord}`);
+// };
 
 // const resetYesAndNo = () => {
 //   setUserSaidNo(false);
