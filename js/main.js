@@ -266,8 +266,8 @@ gameBoardContainer.addEventListener("click", ({ target }) => {
   const isGameBoard = target.matches(`.${gameBoardClass}`);
   const isRow = target.matches(`.${rowClass}`);
   const isTile = target.matches(`.${tileClass}`);
-
-  if (isGameBoard || isRow || isTile) {
+  const gameBoardHasBeenClicked = isGameBoard || isRow || isTile;
+  if (gameBoardHasBeenClicked) {
     const gameBoard = target.closest(`.${gameBoardClass}`);
     setActive(gameBoard, `.${gameBoardClass}`);
   }

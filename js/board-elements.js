@@ -39,7 +39,7 @@ class GameBoard {
       const rowElement = this.createRow();
       newGrid[alphabet[i]] = [];
       for (let j = 0; j < this.size; j++) {
-        const cell = new Cell(this.type, "empty", `${alphabet[i]}${j}`);
+        const cell = new Cell(this.type, "hit", `${alphabet[i]}${j}`);
 
         tileIndex++;
 
@@ -53,6 +53,8 @@ class GameBoard {
         cell.tile.addEventListener("click", ({ target }) => {
           const classList = this.html.classList;
           const isClickable = classList.contains(tilesClickableClass);
+
+          if (isClickable) cell.displayStatus();
         });
 
         newGrid[alphabet[i]][j] = cell;
@@ -71,11 +73,6 @@ class GameBoard {
       0.625 * 2 + 0.9375 * (this.size - 1) + 4 * this.size
     }rem`;
 
-    boardElement.addEventListener("click", function ({ target }) {
-      const isClickable = target.classList.contains(boardClickable);
-      console.log(isClickable);
-      if (isClickable) setActive(target, `.${gameBoardClass}`);
-    });
     return boardElement;
   };
 
