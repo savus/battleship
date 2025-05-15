@@ -5,14 +5,12 @@
 import { Cell } from "./cell.js";
 import {
   alphabet,
-  boardClickable,
   gameBoardClass,
   gameBoardContainer,
   rowClass,
   tileClass,
   tilesClickableClass,
 } from "./main.js";
-import { setActive } from "./utility-functions.js";
 
 const dataSize = "data-size";
 const cssIndex = "--i";
@@ -39,7 +37,7 @@ class GameBoard {
       const rowElement = this.createRow();
       newGrid[alphabet[i]] = [];
       for (let j = 0; j < this.size; j++) {
-        const cell = new Cell(this.type, "hit", `${alphabet[i]}${j}`);
+        const cell = new Cell(this.type, "empty", `${alphabet[i]}${j}`);
 
         tileIndex++;
 

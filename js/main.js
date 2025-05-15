@@ -207,7 +207,7 @@ export const rowClass = "row";
 export const tileClass = "tile";
 export const hoveringClass = "hovering";
 export const tilesClickableClass = "tiles-clickable";
-export const boardClickable = "board-clickable";
+export const boardClickableClass = "board-clickable";
 
 const root = document.documentElement;
 
@@ -267,9 +267,11 @@ gameBoardContainer.addEventListener("click", ({ target }) => {
   const isRow = target.matches(`.${rowClass}`);
   const isTile = target.matches(`.${tileClass}`);
   const gameBoardHasBeenClicked = isGameBoard || isRow || isTile;
+
   if (gameBoardHasBeenClicked) {
     const gameBoard = target.closest(`.${gameBoardClass}`);
-    setActive(gameBoard, `.${gameBoardClass}`);
+    const boardIsClickable = gameBoard.classList.contains(boardClickableClass);
+    if (boardIsClickable) setActive(gameBoard, `.${gameBoardClass}`);
   }
 });
 
