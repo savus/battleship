@@ -39,6 +39,13 @@ export class Ship {
     this.resetLists();
     let startingPoint = this.board.getRandomCell();
     const [yCoord, xCoord] = convertCoordsToNum(startingPoint.coords);
+    if (startingPoint.status === "occupied") return this.placeShipPiece();
+
+    startingPoint.setStatus("occupied");
+
+    //convert startpoint to numbers ie: A0 = 0 0;
+    //increase those numbers by 1 ie: A1 = 0 1 / B0 = 1 0
+    //set the cell at those new coordinates to occupied
   };
 
   // recordCellData = (cell) => {

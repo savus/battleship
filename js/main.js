@@ -262,8 +262,6 @@ testPlayer2.addBoardClass(hoveringClass);
 // testPlayer.ships[0].placeShipPiece();
 // }
 
-console.log(testPlayer.ships[0].placeShipPiece());
-
 // wait(100).then(() => {
 //   return messageBoxHandler.readMessageObj(currentMessageObject);
 // });

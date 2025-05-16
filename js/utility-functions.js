@@ -47,6 +47,10 @@ export const convertCoordsToNum = (coords) => {
   return [yCoord, xCoord];
 };
 
+export const convertNumToCoords = (y, x) => {
+  const yCoord = alphabet[y];
+};
+
 // export const getRandomCell = (board, boardSize) => {
 //   const randomYCoord = alphabet[Math.floor(Math.random() * boardSize)];
 //   const randomXCoord = Math.floor(Math.random() * boardSize);
