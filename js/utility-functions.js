@@ -1,4 +1,4 @@
-import { active, controlButtons } from "./main.js";
+import { active, alphabet, controlButtons } from "./main.js";
 
 export const wait = (ms) =>
   new Promise((resolve) => {
@@ -39,6 +39,12 @@ export const typeWords = async (textField, message, typeSpeed = 5) => {
 export const swapActiveBoards = (activated, deactivated) => {
   activated.removeClass(active);
   deactivated.addBoardClass(active);
+};
+
+export const convertCoordsToNum = (coords) => {
+  const yCoord = coords.slice(0, 1).toLowerCase().charCodeAt() - 97;
+  const xCoord = parseInt(coords.slice(1));
+  return [yCoord, xCoord];
 };
 
 // export const getRandomCell = (board, boardSize) => {

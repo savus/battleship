@@ -7,6 +7,8 @@
 //   isCellOccupied,
 // } from "./utility-functions.js";
 
+import { convertCoordsToNum } from "./utility-functions.js";
+
 export const shipData = [
   { name: "Carrier", lives: 5, length: 5 },
   { name: "Battleship", lives: 4, length: 4 },
@@ -36,6 +38,7 @@ export class Ship {
   placeShipPiece = () => {
     this.resetLists();
     let startingPoint = this.board.getRandomCell();
+    const [yCoord, xCoord] = convertCoordsToNum(startingPoint.coords);
   };
 
   // recordCellData = (cell) => {

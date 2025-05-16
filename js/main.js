@@ -22,7 +22,7 @@
 import { MessageBoxHandler } from "./message-box.js";
 import messageObjects from "./message-data-objects.js";
 import Player from "./player.js";
-import { setActive } from "./utility-functions.js";
+import { convertCoordsToNum, setActive } from "./utility-functions.js";
 
 // export const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 // export const active = "active";
@@ -258,9 +258,11 @@ testPlayer.addBoardClass(hoveringClass);
 testPlayer.addBoardClass(tilesClickableClass);
 testPlayer2.addBoardClass(hoveringClass);
 
-for (let i = 0; i < 100; i++) {
-  // testPlayer.ships[0].placeShipPiece();
-}
+// for (let i = 0; i < 100; i++) {
+// testPlayer.ships[0].placeShipPiece();
+// }
+
+console.log(testPlayer.ships[0].placeShipPiece());
 
 // wait(100).then(() => {
 //   return messageBoxHandler.readMessageObj(currentMessageObject);
