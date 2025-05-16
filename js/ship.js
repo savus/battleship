@@ -7,7 +7,12 @@
 //   isCellOccupied,
 // } from "./utility-functions.js";
 
-import { convertCoordsToNum } from "./utility-functions.js";
+import { boardSize } from "./main.js";
+import {
+  areCoordsWithinBoard,
+  convertCoordsToNum,
+  convertNumToCoords,
+} from "./utility-functions.js";
 
 export const shipData = [
   { name: "Carrier", lives: 5, length: 5 },
@@ -35,17 +40,37 @@ export class Ship {
     this.occupiedCells.length = 0;
   };
 
-  placeShipPiece = () => {
+  placeShipPieces = () => {
     this.resetLists();
     let startingPoint = this.board.getRandomCell();
-    const [yCoord, xCoord] = convertCoordsToNum(startingPoint.coords);
-    if (startingPoint.status === "occupied") return this.placeShipPiece();
+    let [yCoord, xCoord] = convertCoordsToNum(startingPoint.coords);
+    if (startingPoint.status === "occupied") return this.placeShipPieces();
 
-    startingPoint.setStatus("occupied");
+    this.occupiedCells.push(startingPoint);
 
-    //convert startpoint to numbers ie: A0 = 0 0;
-    //increase those numbers by 1 ie: A1 = 0 1 / B0 = 1 0
-    //set the cell at those new coordinates to occupied
+    if (!this.areAllCellsValid(yCoord, xCoord)) return this.placeShipPieces();
+
+    this.occupyAllCells();
+  };
+
+  areAllCellsValid = (yCoord, xCoord) => {
+    for (let i = 1; i < this.length; i++) {
+      this.isHorizontal === true ? xCoord++ : yCoord++;
+      const [letter, number] = convertNumToCoords(yCoord, xCoord);
+      const stringified = `${letter}${number}`;
+      if (!areCoordsWithinBoard(stringified)) return false;
+      const newCell = this.board.getCell(letter, number);
+      if (newCell.status === "occupied") return false;
+      this.occupiedCells.push(newCell);
+    }
+    return true;
+  };
+
+  occupyAllCells = () => {
+    for (let i = 0; i < this.occupiedCells.length; i++) {
+      this.occupiedCells[i].setStatus("occupied");
+      this.occupiedCells[i].displayStatus();
+    }
   };
 
   // recordCellData = (cell) => {

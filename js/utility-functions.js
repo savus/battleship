@@ -1,4 +1,4 @@
-import { active, alphabet, controlButtons } from "./main.js";
+import { active, alphabet, boardSize, controlButtons } from "./main.js";
 
 export const wait = (ms) =>
   new Promise((resolve) => {
@@ -48,7 +48,14 @@ export const convertCoordsToNum = (coords) => {
 };
 
 export const convertNumToCoords = (y, x) => {
-  const yCoord = alphabet[y];
+  const letter = alphabet[y];
+  const num = x;
+  return [letter, num];
+};
+
+export const areCoordsWithinBoard = (coords) => {
+  const [yCoord, xCoord] = convertCoordsToNum(coords);
+  return yCoord < boardSize && xCoord < boardSize;
 };
 
 // export const getRandomCell = (board, boardSize) => {
