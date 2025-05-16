@@ -45,7 +45,7 @@ class Player {
   };
 
   buildShip = (shipData) => {
-    const ship = new Ship(shipData, this.board);
+    const ship = new Ship(shipData, this.board, this.type);
 
     return ship;
   };

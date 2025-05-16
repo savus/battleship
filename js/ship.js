@@ -27,11 +27,12 @@ export class Ship {
   pieceCoords = [];
   occupiedTiles = [];
   occupiedCells = [];
-  constructor({ name, lives, length }, board) {
+  constructor({ name, lives, length }, board, type) {
     this.name = name;
     this.lives = lives;
     this.length = length;
     this.board = board;
+    this.type = type;
   }
 
   resetLists = () => {
@@ -69,7 +70,7 @@ export class Ship {
   occupyAllCells = () => {
     for (let i = 0; i < this.occupiedCells.length; i++) {
       this.occupiedCells[i].setStatus("occupied");
-      this.occupiedCells[i].displayStatus();
+      if (this.type === "player") this.occupiedCells[i].displayStatus();
     }
   };
 

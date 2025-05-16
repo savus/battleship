@@ -260,13 +260,13 @@ const testPlayer2 = new Player("player2", "computer", boardSize);
 testPlayer.addBoardClass(active);
 testPlayer.addBoardClass(hoveringClass);
 testPlayer.addBoardClass(tilesClickableClass);
+testPlayer.addBoardClass(boardClickableClass);
 testPlayer2.addBoardClass(hoveringClass);
+testPlayer2.addBoardClass(tilesClickableClass);
+testPlayer2.addBoardClass(boardClickableClass);
 
 testPlayer.ships.forEach((ship) => ship.placeShipPieces());
 testPlayer2.ships.forEach((ship) => ship.placeShipPieces());
-// for (let i = 0; i < 100; i++) {
-// testPlayer.ships[0].placeShipPieces();
-// }
 
 // wait(100).then(() => {
 //   return messageBoxHandler.readMessageObj(currentMessageObject);

@@ -53,7 +53,16 @@ class GameBoard {
           const classList = this.html.classList;
           const isClickable = classList.contains(tilesClickableClass);
 
-          if (isClickable) cell.displayStatus();
+          if (isClickable) {
+            switch (cell.status) {
+              case "empty":
+                cell.setStatus("miss");
+                break;
+              case "occupied":
+                cell.setStatus("hit");
+            }
+            cell.displayStatus();
+          }
         });
 
         newGrid[alphabet[i]][j] = cell;
