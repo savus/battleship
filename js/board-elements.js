@@ -5,6 +5,7 @@
 import { Cell } from "./cell.js";
 import {
   alphabet,
+  boardClickableClass,
   boardSize,
   gameBoardClass,
   gameBoardContainer,
@@ -12,6 +13,7 @@ import {
   tileClass,
   tilesClickableClass,
 } from "./main.js";
+import { setActive } from "./utility-functions.js";
 
 const dataSize = "data-size";
 const cssIndex = "--i";
@@ -31,6 +33,7 @@ class GameBoard {
   createBoardData = () => {
     const newGrid = {};
     const boardElement = this.createBoard();
+
     let tileIndex = 0;
     gameBoardContainer.appendChild(boardElement);
 

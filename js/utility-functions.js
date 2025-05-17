@@ -1,4 +1,10 @@
-import { active, alphabet, boardSize, controlButtons } from "./main.js";
+import {
+  active,
+  alphabet,
+  boardSize,
+  controlButtons,
+  tilesClickableClass,
+} from "./main.js";
 
 export const wait = (ms) =>
   new Promise((resolve) => {
@@ -36,9 +42,11 @@ export const typeWords = async (textField, message, typeSpeed = 5) => {
   return;
 };
 
-export const swapActiveBoards = (activated, deactivated) => {
-  activated.removeClass(active);
-  deactivated.addBoardClass(active);
+export const swapPlayerBoards = (activePlayer, inactivePlayer) => {
+  activePlayer.removeBoardClass(active);
+  activePlayer.addBoardClass(tilesClickableClass);
+  inactivePlayer.addBoardClass(active);
+  inactivePlayer.removeBoardClass(tilesClickableClass);
 };
 
 export const convertCoordsToNum = (coords) => {

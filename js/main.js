@@ -26,6 +26,7 @@ import {
   convertCoordsToNum,
   convertNumToCoords,
   setActive,
+  swapPlayerBoards,
 } from "./utility-functions.js";
 
 // export const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -259,10 +260,8 @@ const testPlayer2 = new Player("player2", "computer", boardSize);
 
 testPlayer.addBoardClass(active);
 testPlayer.addBoardClass(hoveringClass);
-testPlayer.addBoardClass(tilesClickableClass);
 testPlayer.addBoardClass(boardClickableClass);
 testPlayer2.addBoardClass(hoveringClass);
-testPlayer2.addBoardClass(tilesClickableClass);
 testPlayer2.addBoardClass(boardClickableClass);
 
 testPlayer.ships.forEach((ship) => ship.placeShipPieces());
@@ -277,11 +276,11 @@ gameBoardContainer.addEventListener("click", ({ target }) => {
   const isRow = target.matches(`.${rowClass}`);
   const isTile = target.matches(`.${tileClass}`);
   const gameBoardHasBeenClicked = isGameBoard || isRow || isTile;
-
   if (gameBoardHasBeenClicked) {
     const gameBoard = target.closest(`.${gameBoardClass}`);
     const boardIsClickable = gameBoard.classList.contains(boardClickableClass);
-    if (boardIsClickable) setActive(gameBoard, `.${gameBoardClass}`);
+    if (boardIsClickable) {
+    }
   }
 });
 
