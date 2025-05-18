@@ -19,6 +19,8 @@
 // } from "./options-menu.js";
 // import { gameBoardClass, tileClassName } from "./board-elements.js";
 
+import { messageBoxControlsHandler } from "./click-functions.js";
+import { clickGameBoard } from "./click-functions.js";
 import { MessageBoxHandler } from "./message-box.js";
 import messageObjects from "./message-data-objects.js";
 import Player from "./player.js";
@@ -241,7 +243,7 @@ const controlButtonSelector = "[data-button]";
 export const controlButtons = document.querySelectorAll(controlButtonSelector);
 
 const promptInputSelector = "#user-input";
-const promptInput = document.querySelector(promptInputSelector);
+export const promptInput = document.querySelector(promptInputSelector);
 
 export let currentMessageIndex = 0;
 export let currentMessageObject = messageObjects[currentMessageIndex];
@@ -271,38 +273,6 @@ testPlayer2.ships.forEach((ship) => ship.placeShipPieces());
 //   return messageBoxHandler.readMessageObj(currentMessageObject);
 // });
 
-gameBoardContainer.addEventListener("click", ({ target }) => {
-  const isGameBoard = target.matches(`.${gameBoardClass}`);
-  const isRow = target.matches(`.${rowClass}`);
-  const isTile = target.matches(`.${tileClass}`);
-  const gameBoardHasBeenClicked = isGameBoard || isRow || isTile;
-  if (gameBoardHasBeenClicked) {
-    const gameBoard = target.closest(`.${gameBoardClass}`);
-    const boardIsClickable = gameBoard.classList.contains(boardClickableClass);
-    if (boardIsClickable) {
-    }
-  }
-});
+gameBoardContainer.addEventListener("click", clickGameBoard);
 
-messageBoxControls.addEventListener("click", ({ target }) => {
-  switch (target.dataset.button) {
-    case "confirm":
-      currentMessageObject.confirmStep();
-      break;
-    case "prev":
-      messageBoxHandler.prevStep(currentMessageObject);
-      break;
-    case "next":
-      messageBoxHandler.nextStep(currentMessageObject);
-      break;
-    case "prompt":
-      currentMessageObject.promptStep(promptInput.value);
-      break;
-    case "yes":
-      currentMessageObject.yesStep();
-      break;
-    case "no":
-      currentMessageObject.noStep();
-      break;
-  }
-});
+messageBoxControls.addEventListener("click", messageBoxControlsHandler);
