@@ -3,7 +3,6 @@ import {
   alphabet,
   boardSize,
   controlButtons,
-  players,
   tilesClickableClass,
 } from "./main.js";
 
@@ -82,6 +81,7 @@ export const findShipByCell = (player, cell) =>
   player.ships.find((ship) =>
     ship.occupiedCells.find((item) => item.coords === cell.coords)
   );
+
 // export const getRandomCell = (board, boardSize) => {
 //   const randomYCoord = alphabet[Math.floor(Math.random() * boardSize)];
 //   const randomXCoord = Math.floor(Math.random() * boardSize);

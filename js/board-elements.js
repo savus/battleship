@@ -7,18 +7,14 @@ import {
   alphabet,
   boardClickableClass,
   boardSize,
+  computer,
   gameBoardClass,
   gameBoardContainer,
-  players,
   rowClass,
   tileClass,
   tilesClickableClass,
+  user,
 } from "./main.js";
-import {
-  findPlayerByCell,
-  findShipByCell,
-  setActive,
-} from "./utility-functions.js";
 
 const dataSize = "data-size";
 const cssIndex = "--i";
@@ -75,26 +71,28 @@ class GameBoard {
           const classList = this.html.classList;
           const isClickable = classList.contains(tilesClickableClass);
           if (isClickable) {
-            switch (cell.status) {
-              case "empty":
-                cell.setStatus("miss");
-                break;
-              case "occupied":
-                const player = findPlayerByCell(cell);
-                const ship = findShipByCell(player, cell);
-                cell.setStatus("hit");
-                ship.reduceLives(1);
-                console.log(player.battleMessage(ship));
-                if (ship.checkIfSunk()) {
-                  ship.setIsSunk(true);
-                  player.reduceLives(1);
-                  console.log(player.sunkMessage(ship));
-                  if (player.checkIfLost()) {
-                    return console.log(player.gameLostMessage());
-                  }
-                  console.log(`${player.getShipsRemaining()} remaning!`);
-                }
-            }
+            user.attack(computer, cell);
+            // switch (cell.status) {
+            //   case "empty":
+            //     cell.setStatus("miss");
+            //     break;
+            //   case "occupied":
+            //   const player = findPlayerByCell(cell);
+            //   const ship = findShipByCell(player, cell);
+            //   cell.setStatus("hit");
+            //   ship.reduceLives(1);
+            //   console.log(player.battleMessage(ship));
+            //   if (ship.checkIfSunk()) {
+            //     ship.setIsSunk(true);
+            //     player.reduceLives(1);
+            //     console.log(player.sunkMessage(ship));
+            //     if (player.checkIfLost()) {
+            //       return console.log(player.gameLostMessage());
+            //     }
+            //     console.log(`${player.getShipsRemaining()} remaning!`);
+            //   }
+            //   break;
+            // }
             cell.displayStatus();
           }
         });

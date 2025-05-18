@@ -2,6 +2,7 @@
 
 import GameBoard from "./board-elements.js";
 import { Ship } from "./ship.js";
+import { findShipByCell } from "./utility-functions.js";
 
 export const shipData = [
   { name: "Carrier", lives: 5, length: 5 },
@@ -75,11 +76,44 @@ export class Player {
 
   checkIfLost = () => this.lives === 0;
 
-  battleMessage = (ship) => `Your ${ship.name} has been hit!`;
+  hitMessage = (ship) => `Your ${ship.name} has been hit!`;
+
+  missMessage = () => `You missed!`;
 
   sunkMessage = (ship) => `Your ${ship.name} has been sunk!`;
 
   gameLostMessage = () => `You lost!`;
+
+  attack = (opponent, cell) => {
+    switch (cell.status) {
+      case "miss":
+        console.log("you've already picked this");
+        break;
+      case "hit":
+        console.log("you've already picked this");
+        break;
+      case "empty":
+        cell.setStatus("miss");
+        console.log("missed");
+        opponent.attack(this);
+        break;
+      case "occupied":
+        const ship = findShipByCell(opponent, cell);
+        cell.setStatus("hit");
+        ship.reduceLives(1);
+        if (ship.checkIfSunk()) {
+          console.log(opponent.sunkMessage(ship));
+          opponent.reduceLives(1);
+          if (opponent.checkIfLost())
+            return console.log(opponent.gameLostMessage());
+          console.log(`${opponent.getShipsRemaining()} ships remaining!`);
+        } else {
+          console.log(opponent.hitMessage(ship));
+        }
+        opponent.attack(this);
+        break;
+    }
+  };
 }
 
 export class Computer extends Player {
@@ -87,11 +121,17 @@ export class Computer extends Player {
     super(name, type, boardSize);
   }
 
-  battleMessage = (ship) => `You hit the enemy ${ship.name}`;
+  hitMessage = (ship) => `You hit the enemy ${ship.name}`;
+
+  missMessage = () => `The opponent missed!`;
 
   sunkMessage = (ship) => `You sunk the enemy ${ship.name}`;
 
   gameLostMessage = () => `You won!`;
+
+  attack = (opponent) => {
+    console.log("the opponent attacked");
+  };
 }
 
 // export class Player {
@@ -133,14 +173,14 @@ export class Computer extends Player {
 
 //   hasLost = () => this.shipsLeft === 0;
 
-//   assessDamage = (cell, opponent) => {
+//   assessDamage = (cell, this) => {
 //     this.ships.forEach((ship) => {
 //       if (ship.doesCellBelongToShip(cell)) {
-//         opponent.lastHitShip = ship;
+//         this.lastHitShip = ship;
 //         ship.takeDamage(1);
 //         if (ship.checkIfSunk()) {
 //           this.subtractShipsLeft(1);
-//           opponent.lastHitShip = undefined;
+//           this.lastHitShip = undefined;
 //           const sunkMessage =
 //             this.type === "player"
 //               ? "The enemy sunk your "
@@ -161,26 +201,26 @@ export class Computer extends Player {
 //     return this.hasLost();
 //   };
 
-//   computersDecision = (opponent) => {
+//   computersDecision = (this) => {
 //     let cell;
 //     if (hardMode) {
-//       const notSunkShip = this.lastHitShip || opponent.getUnsunkShip();
+//       const notSunkShip = this.lastHitShip || this.getUnsunkShip();
 //       cell = notSunkShip.getUnhitCell();
 //     } else {
 //       cell = this.lastHitShip
 //         ? this.lastHitShip.getUnhitCell()
-//         : getRandomCell(opponent.board, opponent.board.size);
+//         : getRandomCell(this.board, this.board.size);
 
-//       if (isCellAlreadyAttempted(cell)) return this.computersDecision(opponent);
+//       if (isCellAlreadyAttempted(cell)) return this.computersDecision(this);
 //     }
 
 //     return cell;
 //   };
 
-//   playTurn = async (opponent, cell = null) => {
+//   playTurn = async (this, cell = null) => {
 //     const isPlayer = this.type === "player";
 //     const playerReference = isPlayer ? "You" : "The Computer";
-//     const decidedCell = isPlayer ? cell : this.computersDecision(opponent);
+//     const decidedCell = isPlayer ? cell : this.computersDecision(this);
 
 //     if (isPlayer && isCellAlreadyAttempted(decidedCell)) {
 //       messageHandler.openMessageBox();
@@ -189,7 +229,7 @@ export class Computer extends Player {
 //     }
 
 //     if (!isPlayer) {
-//       setActive(opponent.boardHTML, `.${gameBoardClass}`);
+//       setActive(this.boardHTML, `.${gameBoardClass}`);
 //       messageHandler.openMessageBox();
 //       messageHandler.goToMessageData(messageData.computerThinking, 0);
 //       await pause(computerThinkingDuration);
@@ -203,7 +243,7 @@ export class Computer extends Player {
 //         `${playerReference} scored a hit`
 //       );
 //       decidedCell.updateTile("hit");
-//       if (opponent.assessDamage(decidedCell, this)) return;
+//       if (this.assessDamage(decidedCell, this)) return;
 //     }
 
 //     if (decidedCell.getStatus() === "empty") {
