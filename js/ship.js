@@ -27,11 +27,10 @@ export class Ship {
   pieceCoords = [];
   occupiedTiles = [];
   occupiedCells = [];
-  constructor({ name, lives, length }, board, type) {
+  constructor({ name, lives, length }, type) {
     this.name = name;
     this.lives = lives;
     this.length = length;
-    this.board = board;
     this.type = type;
   }
 
@@ -43,7 +42,7 @@ export class Ship {
 
   placeShipPieces = () => {
     this.resetLists();
-    let startingPoint = this.board.getRandomCell();
+    let startingPoint = this.getRandomCell();
     let [yCoord, xCoord] = convertCoordsToNum(startingPoint.coords);
     if (startingPoint.status === "occupied") return this.placeShipPieces();
 
@@ -60,7 +59,7 @@ export class Ship {
       const [letter, number] = convertNumToCoords(yCoord, xCoord);
       const stringified = `${letter}${number}`;
       if (!areCoordsWithinBoard(stringified)) return false;
-      const newCell = this.board.getCell(letter, number);
+      const newCell = this.getCell(letter, number);
       if (newCell.status === "occupied") return false;
       this.occupiedCells.push(newCell);
     }
@@ -94,7 +93,7 @@ export class Ship {
   //     this.isHorizontal ? row++ : column++;
   //     let stringified = convertCoordsToString({ column, row });
   //     if (!areCoordsWithinBoard(stringified, boardSize)) return false;
-  //     const newCell = getCell(this.board, stringified);
+  //     const newCell = getCell(this., stringified);
   //     if (isCellOccupied(newCell)) return false;
   //     this.recordCellData(newCell);
   //   }
@@ -102,7 +101,7 @@ export class Ship {
   // };
   // placeShipPieces = (boardSize) => {
   //   this.resetLists();
-  //   let startPoint = getRandomCell(this.board, boardSize);
+  //   let startPoint = getRandomCell(this., boardSize);
   //   let { column, row } = convertCoordsToNumber(startPoint.coords);
   //   if (isCellOccupied(startPoint)) return this.placeShipPieces(boardSize);
   //   this.recordCellData(startPoint);

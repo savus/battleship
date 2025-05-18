@@ -269,13 +269,9 @@ testPlayer2.addBoardClass(boardClickableClass);
 testPlayer.ships.forEach((ship) => ship.placeShipPieces());
 testPlayer2.ships.forEach((ship) => ship.placeShipPieces());
 
-const { board } = testPlayer;
-console.log(
-  board.boardPadding,
-  board.flexGapWidth,
-  board.tileWidth,
-  board.numOfTiles
-);
+testPlayer.ships[0].reduceLives(1);
+console.log(testPlayer.lives);
+
 // wait(100).then(() => {
 //   return messageBoxHandler.readMessageObj(currentMessageObject);
 // });

@@ -45,7 +45,10 @@ class Player {
   };
 
   buildShip = (shipData) => {
-    const ship = new Ship(shipData, this.board, this.type);
+    const ship = new Ship(shipData, this.type);
+    ship.getRandomCell = this.board.getRandomCell;
+    ship.getCell = this.board.getCell;
+    ship.reduceLives = this.reduceLives;
 
     return ship;
   };
@@ -55,7 +58,10 @@ class Player {
       const newShip = this.buildShip(data);
       this.ships.push(newShip);
     });
+    this.lives = this.ships.length;
   };
+
+  reduceLives = (num) => (this.lives -= num);
 }
 
 export default Player;

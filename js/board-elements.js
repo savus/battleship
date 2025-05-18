@@ -3,6 +3,7 @@
 // import { active, alphabet, computer, getCurrentTurn, user } from "./main.js";
 
 import { Cell } from "./cell.js";
+import { tileClickHandler } from "./click-functions.js";
 import {
   alphabet,
   boardClickableClass,
@@ -65,20 +66,8 @@ class GameBoard {
 
         cell.tile = tileElement;
 
-        cell.tile.addEventListener("click", ({ target }) => {
-          const classList = this.html.classList;
-          const isClickable = classList.contains(tilesClickableClass);
-
-          if (isClickable) {
-            switch (cell.status) {
-              case "empty":
-                cell.setStatus("miss");
-                break;
-              case "occupied":
-                cell.setStatus("hit");
-            }
-            cell.displayStatus();
-          }
+        cell.tile.addEventListener("click", () => {
+          tileClickHandler(this.html, cell);
         });
 
         newGrid[alphabet[i]][j] = cell;
