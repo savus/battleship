@@ -24,10 +24,23 @@ class GameBoard {
   grid;
   html;
   opposingBoard;
+  boardPadding = 0.625 * 2;
+  tileWidth = 4;
+  flexGapWidth;
+  numOfTiles;
+  boardWidth;
+
   constructor(size, type) {
     this.size = size;
     this.type = type;
     this.createBoardData();
+    this.flexGapWidth = 0.9375 * this.size - 1;
+    this.numOfTiles = this.size;
+    this.boardWidth =
+      this.boardPadding +
+      this.tileWidth +
+      this.flexGapWidth +
+      this.numOfTiles * this.tileWidth;
   }
 
   createBoardData = () => {
@@ -80,9 +93,11 @@ class GameBoard {
 
     boardElement.id = this.type;
     boardElement.classList.add(gameBoardClass);
-    boardElement.style.width = `${
-      0.625 * 2 + 0.9375 * (this.size - 1) + 4 * this.size
-    }rem`;
+    //0.625 * 2 = padding on both sides
+    //0.9375 = width of flex gap
+    // this.size - 1 = number of gaps
+    // 4 * this.size = number of tiles at 4 rem
+    boardElement.style.width = `${this.boardWidth}rem`;
 
     return boardElement;
   };

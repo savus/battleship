@@ -19,7 +19,6 @@
 // } from "./options-menu.js";
 // import { gameBoardClass, tileClassName } from "./board-elements.js";
 
-import { gameBoardClickHandler } from "./click-functions.js";
 import { messageBoxControlsHandler } from "./click-functions.js";
 import { gameBoardClickHandler } from "./click-functions.js";
 import { MessageBoxHandler } from "./message-box.js";
@@ -270,6 +269,13 @@ testPlayer2.addBoardClass(boardClickableClass);
 testPlayer.ships.forEach((ship) => ship.placeShipPieces());
 testPlayer2.ships.forEach((ship) => ship.placeShipPieces());
 
+const { board } = testPlayer;
+console.log(
+  board.boardPadding,
+  board.flexGapWidth,
+  board.tileWidth,
+  board.numOfTiles
+);
 // wait(100).then(() => {
 //   return messageBoxHandler.readMessageObj(currentMessageObject);
 // });
