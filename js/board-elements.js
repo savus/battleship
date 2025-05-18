@@ -3,18 +3,22 @@
 // import { active, alphabet, computer, getCurrentTurn, user } from "./main.js";
 
 import { Cell } from "./cell.js";
-import { tileClickHandler } from "./click-functions.js";
 import {
   alphabet,
   boardClickableClass,
   boardSize,
   gameBoardClass,
   gameBoardContainer,
+  players,
   rowClass,
   tileClass,
   tilesClickableClass,
 } from "./main.js";
-import { setActive } from "./utility-functions.js";
+import {
+  findPlayerByCell,
+  findShipByCell,
+  setActive,
+} from "./utility-functions.js";
 
 const dataSize = "data-size";
 const cssIndex = "--i";
@@ -31,7 +35,7 @@ class GameBoard {
   numOfTiles;
   boardWidth;
 
-  constructor(size, type) {
+  constructor(size, type, getLives) {
     this.size = size;
     this.type = type;
     this.createBoardData();
@@ -42,6 +46,7 @@ class GameBoard {
       this.tileWidth +
       this.flexGapWidth +
       this.numOfTiles * this.tileWidth;
+    this.getLives = getLives;
   }
 
   createBoardData = () => {
@@ -67,7 +72,41 @@ class GameBoard {
         cell.tile = tileElement;
 
         cell.tile.addEventListener("click", () => {
-          tileClickHandler(this.html, cell);
+          const classList = this.html.classList;
+          const isClickable = classList.contains(tilesClickableClass);
+          if (isClickable) {
+            switch (cell.status) {
+              case "empty":
+                cell.setStatus("miss");
+                break;
+              case "occupied":
+                const player = findPlayerByCell(cell);
+                const ship = findShipByCell(player, cell);
+                cell.setStatus("hit");
+                ship.reduceLives(1);
+                const battleMessage =
+                  player.type === "player"
+                    ? `Your ${ship.name} has been hit!`
+                    : `You hit the enemy ${ship.name}`;
+                console.log(battleMessage);
+                if (ship.checkIfSunk()) {
+                  const sunkMessage =
+                    player.type === "player"
+                      ? `Your ${ship.name} has been sunk!`
+                      : `You sunk the enemy ${ship.name}`;
+                  ship.setIsSunk(true);
+                  player.reduceLives(1);
+                  console.log(sunkMessage);
+                  if (player.checkIfLost()) {
+                    const winLoseMessage =
+                      player.type === "player" ? `You've lost!` : `You've won!`;
+                    return console.log(winLoseMessage);
+                  }
+                  console.log(`${player.getShipsRemaining()} remaning!`);
+                }
+            }
+            cell.displayStatus();
+          }
         });
 
         newGrid[alphabet[i]][j] = cell;
@@ -114,17 +153,6 @@ class GameBoard {
     const statusElement = document.createElement("div");
     statusElement.className = "status";
     return statusElement;
-  };
-
-  getCell = (letter, number) => {
-    // console.log(testPlayer2.board.grid["A"][0]);
-    return this.grid[letter][number];
-  };
-
-  getRandomCell = () => {
-    const yCoord = alphabet[Math.floor(Math.random() * boardSize)];
-    const xCoord = Math.floor(Math.random() * boardSize);
-    return this.grid[yCoord][xCoord];
   };
 }
 

@@ -52,7 +52,7 @@ export const messageBoxControlsHandler = ({ target }) => {
   }
 };
 
-export const tileClickHandler = (html, cell) => {
+export const tileClickHandler = (html, cell, cb) => {
   const classList = html.classList;
   const isClickable = classList.contains(tilesClickableClass);
 
@@ -63,6 +63,7 @@ export const tileClickHandler = (html, cell) => {
         break;
       case "occupied":
         cell.setStatus("hit");
+        cb(1);
     }
     cell.displayStatus();
   }

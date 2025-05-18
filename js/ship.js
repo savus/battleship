@@ -7,31 +7,26 @@
 //   isCellOccupied,
 // } from "./utility-functions.js";
 
-import { boardSize } from "./main.js";
 import {
   areCoordsWithinBoard,
   convertCoordsToNum,
   convertNumToCoords,
+  getCell,
+  getRandomCell,
 } from "./utility-functions.js";
-
-export const shipData = [
-  { name: "Carrier", lives: 5, length: 5 },
-  { name: "Battleship", lives: 4, length: 4 },
-  { name: "Cruiser", lives: 3, length: 3 },
-  { name: "Submarine", lives: 3, length: 3 },
-  { name: "Destroyer", lives: 2, length: 2 },
-];
 
 export class Ship {
   isHorizontal = Math.floor(Math.random() * 2) + 1 === 1 ? true : false;
   pieceCoords = [];
   occupiedTiles = [];
   occupiedCells = [];
-  constructor({ name, lives, length }, type) {
+  isSunk = false;
+  constructor({ name, lives, length }, board, type) {
     this.name = name;
     this.lives = lives;
     this.length = length;
     this.type = type;
+    this.board = board;
   }
 
   resetLists = () => {
@@ -42,7 +37,7 @@ export class Ship {
 
   placeShipPieces = () => {
     this.resetLists();
-    let startingPoint = this.getRandomCell();
+    let startingPoint = getRandomCell(this.board.grid);
     let [yCoord, xCoord] = convertCoordsToNum(startingPoint.coords);
     if (startingPoint.status === "occupied") return this.placeShipPieces();
 
@@ -59,7 +54,7 @@ export class Ship {
       const [letter, number] = convertNumToCoords(yCoord, xCoord);
       const stringified = `${letter}${number}`;
       if (!areCoordsWithinBoard(stringified)) return false;
-      const newCell = this.getCell(letter, number);
+      const newCell = getCell(letter, number, this.board.grid);
       if (newCell.status === "occupied") return false;
       this.occupiedCells.push(newCell);
     }
@@ -72,6 +67,12 @@ export class Ship {
       if (this.type === "player") this.occupiedCells[i].displayStatus();
     }
   };
+
+  reduceLives = (num) => (this.lives -= num);
+
+  checkIfSunk = () => this.lives === 0;
+
+  setIsSunk = (bool) => (this.isSunk = bool);
 
   // recordCellData = (cell) => {
   //   this.pieceCoords.push(cell.coords);

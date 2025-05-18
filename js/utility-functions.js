@@ -3,6 +3,7 @@ import {
   alphabet,
   boardSize,
   controlButtons,
+  players,
   tilesClickableClass,
 } from "./main.js";
 
@@ -66,6 +67,21 @@ export const areCoordsWithinBoard = (coords) => {
   return yCoord < boardSize && xCoord < boardSize;
 };
 
+export const getCell = (letter, number, grid) => grid[letter][number];
+
+export const getRandomCell = (grid) => {
+  const yCoord = alphabet[Math.floor(Math.random() * boardSize)];
+  const xCoord = Math.floor(Math.random() * boardSize);
+  return grid[yCoord][xCoord];
+};
+
+export const findPlayerByCell = (cell) =>
+  players.find((player) => player.type === cell.type);
+
+export const findShipByCell = (player, cell) =>
+  player.ships.find((ship) =>
+    ship.occupiedCells.find((item) => item.coords === cell.coords)
+  );
 // export const getRandomCell = (board, boardSize) => {
 //   const randomYCoord = alphabet[Math.floor(Math.random() * boardSize)];
 //   const randomXCoord = Math.floor(Math.random() * boardSize);

@@ -1,7 +1,15 @@
 // import { buildBoardData, gameBoardClass } from "./board-elements.js";
 
 import GameBoard from "./board-elements.js";
-import { Ship, shipData } from "./ship.js";
+import { Ship } from "./ship.js";
+
+export const shipData = [
+  { name: "Carrier", lives: 5, length: 5 },
+  { name: "Battleship", lives: 4, length: 4 },
+  { name: "Cruiser", lives: 3, length: 3 },
+  { name: "Submarine", lives: 3, length: 3 },
+  { name: "Destroyer", lives: 2, length: 2 },
+];
 
 // import {
 //   computerThinkingDuration,
@@ -32,7 +40,8 @@ class Player {
   }
 
   initializeBoard = () => {
-    const board = new GameBoard(this.boardSize, this.type);
+    const board = new GameBoard(this.boardSize, this.type, this.getLives);
+    board.reduceLives = this.reduceLives;
     this.board = board;
   };
 
@@ -45,10 +54,7 @@ class Player {
   };
 
   buildShip = (shipData) => {
-    const ship = new Ship(shipData, this.type);
-    ship.getRandomCell = this.board.getRandomCell;
-    ship.getCell = this.board.getCell;
-    ship.reduceLives = this.reduceLives;
+    const ship = new Ship(shipData, this.board, this.type);
 
     return ship;
   };
@@ -62,6 +68,12 @@ class Player {
   };
 
   reduceLives = (num) => (this.lives -= num);
+
+  getLives = () => this.lives;
+
+  getShipsRemaining = () => this.ships.filter((ship) => !ship.isSunk).length;
+
+  checkIfLost = () => this.lives === 0;
 }
 
 export default Player;

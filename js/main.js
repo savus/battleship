@@ -260,6 +260,8 @@ export const gameBoardContainer = document.querySelector(
 const testPlayer = new Player("player1", "player", boardSize);
 const testPlayer2 = new Player("player2", "computer", boardSize);
 
+export const players = [testPlayer, testPlayer2];
+
 testPlayer.addBoardClass(active);
 testPlayer.addBoardClass(hoveringClass);
 testPlayer.addBoardClass(boardClickableClass);
@@ -268,9 +270,6 @@ testPlayer2.addBoardClass(boardClickableClass);
 
 testPlayer.ships.forEach((ship) => ship.placeShipPieces());
 testPlayer2.ships.forEach((ship) => ship.placeShipPieces());
-
-testPlayer.ships[0].reduceLives(1);
-console.log(testPlayer.lives);
 
 // wait(100).then(() => {
 //   return messageBoxHandler.readMessageObj(currentMessageObject);
