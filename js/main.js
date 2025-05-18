@@ -19,8 +19,9 @@
 // } from "./options-menu.js";
 // import { gameBoardClass, tileClassName } from "./board-elements.js";
 
+import { gameBoardClickHandler } from "./click-functions.js";
 import { messageBoxControlsHandler } from "./click-functions.js";
-import { clickGameBoard } from "./click-functions.js";
+import { gameBoardClickHandler } from "./click-functions.js";
 import { MessageBoxHandler } from "./message-box.js";
 import messageObjects from "./message-data-objects.js";
 import Player from "./player.js";
@@ -273,6 +274,6 @@ testPlayer2.ships.forEach((ship) => ship.placeShipPieces());
 //   return messageBoxHandler.readMessageObj(currentMessageObject);
 // });
 
-gameBoardContainer.addEventListener("click", clickGameBoard);
+gameBoardContainer.addEventListener("click", gameBoardClickHandler);
 
 messageBoxControls.addEventListener("click", messageBoxControlsHandler);

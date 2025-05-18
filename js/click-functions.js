@@ -10,7 +10,7 @@ import {
 } from "./main.js";
 import { setActive } from "./utility-functions.js";
 
-export const clickGameBoard = ({ target }) => {
+export const gameBoardClickHandler = ({ target }) => {
   const isGameBoard = target.matches(`.${gameBoardClass}`);
   const isRow = target.matches(`.${rowClass}`);
   const isTile = target.matches(`.${tileClass}`);
