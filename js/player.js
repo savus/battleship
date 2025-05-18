@@ -28,7 +28,7 @@ export const shipData = [
 //   setActive,
 // } from "./utility-functions.js";
 
-class Player {
+export class Player {
   board;
   ships = [];
   constructor(name, type, boardSize) {
@@ -74,9 +74,25 @@ class Player {
   getShipsRemaining = () => this.ships.filter((ship) => !ship.isSunk).length;
 
   checkIfLost = () => this.lives === 0;
+
+  battleMessage = (ship) => `Your ${ship.name} has been hit!`;
+
+  sunkMessage = (ship) => `Your ${ship.name} has been sunk!`;
+
+  gameLostMessage = () => `You lost!`;
 }
 
-export default Player;
+export class Computer extends Player {
+  constructor(name, type, boardSize) {
+    super(name, type, boardSize);
+  }
+
+  battleMessage = (ship) => `You hit the enemy ${ship.name}`;
+
+  sunkMessage = (ship) => `You sunk the enemy ${ship.name}`;
+
+  gameLostMessage = () => `You won!`;
+}
 
 // export class Player {
 //   score = 0;

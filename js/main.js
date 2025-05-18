@@ -23,7 +23,7 @@ import { messageBoxControlsHandler } from "./click-functions.js";
 import { gameBoardClickHandler } from "./click-functions.js";
 import { MessageBoxHandler } from "./message-box.js";
 import messageObjects from "./message-data-objects.js";
-import Player from "./player.js";
+import { Computer, Player } from "./player.js";
 import {
   convertCoordsToNum,
   convertNumToCoords,
@@ -257,19 +257,19 @@ export const gameBoardContainer = document.querySelector(
   `.${gameBoardContainerClass}`
 );
 
-const testPlayer = new Player("player1", "player", boardSize);
-const testPlayer2 = new Player("player2", "computer", boardSize);
+const user = new Player("player1", "player", boardSize);
+const computer = new Computer("player2", "computer", boardSize);
 
-export const players = [testPlayer, testPlayer2];
+export const players = [user, computer];
 
-testPlayer.addBoardClass(active);
-testPlayer.addBoardClass(hoveringClass);
-testPlayer.addBoardClass(boardClickableClass);
-testPlayer2.addBoardClass(hoveringClass);
-testPlayer2.addBoardClass(boardClickableClass);
+user.addBoardClass(active);
+user.addBoardClass(hoveringClass);
+user.addBoardClass(boardClickableClass);
+computer.addBoardClass(hoveringClass);
+computer.addBoardClass(boardClickableClass);
 
-testPlayer.ships.forEach((ship) => ship.placeShipPieces());
-testPlayer2.ships.forEach((ship) => ship.placeShipPieces());
+user.ships.forEach((ship) => ship.placeShipPieces());
+computer.ships.forEach((ship) => ship.placeShipPieces());
 
 // wait(100).then(() => {
 //   return messageBoxHandler.readMessageObj(currentMessageObject);

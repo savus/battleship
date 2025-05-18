@@ -84,23 +84,13 @@ class GameBoard {
                 const ship = findShipByCell(player, cell);
                 cell.setStatus("hit");
                 ship.reduceLives(1);
-                const battleMessage =
-                  player.type === "player"
-                    ? `Your ${ship.name} has been hit!`
-                    : `You hit the enemy ${ship.name}`;
-                console.log(battleMessage);
+                console.log(player.battleMessage(ship));
                 if (ship.checkIfSunk()) {
-                  const sunkMessage =
-                    player.type === "player"
-                      ? `Your ${ship.name} has been sunk!`
-                      : `You sunk the enemy ${ship.name}`;
                   ship.setIsSunk(true);
                   player.reduceLives(1);
-                  console.log(sunkMessage);
+                  console.log(player.sunkMessage(ship));
                   if (player.checkIfLost()) {
-                    const winLoseMessage =
-                      player.type === "player" ? `You've lost!` : `You've won!`;
-                    return console.log(winLoseMessage);
+                    return console.log(player.gameLostMessage());
                   }
                   console.log(`${player.getShipsRemaining()} remaning!`);
                 }
