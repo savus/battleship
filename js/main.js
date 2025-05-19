@@ -52,11 +52,11 @@ import {
 // const gameContainerClass = ".game-board-container";
 // export const gameContainer = document.querySelector(gameContainerClass);
 
-// export const user = new Player("player", boardSize, "large", false);
-// export const computer = new Player("computer", boardSize, "large", false);
+// export const user = new Player(userType, boardSize, "large", false);
+// export const computer = new Player(computerType, boardSize, "large", false);
 
-// export const demoUser = new Player("player", 6, "large", true);
-// export const demoComputer = new Player("computer", 6, "large", true);
+// export const demoUser = new Player(userType, 6, "large", true);
+// export const demoComputer = new Player(computerType, 6, "large", true);
 // export const demoUserShips = ["B2", "B3", "B4", "B5", "A0", "B0", "C0", "D0"];
 // export const demoComputerShips = ["C2", "C3", "C4", "C5", "E0", "F0"];
 
@@ -66,7 +66,7 @@ import {
 // export let messageObjIndex = 0;
 // export let currentMessageObj = messageData.introductions[messageObjIndex];
 // export let userInput = "";
-// export let currentTurn = "player";
+// export let currentTurn = userType;
 // export let debugMode = false;
 // export let hardMode = false;
 // export let userSaidYes = false;
@@ -83,15 +83,15 @@ import {
 // export const getCurrentTurn = () => currentTurn;
 // export const setCurrentTurn = (string) => (currentTurn = string);
 // export const reverseCurrentTurn = () => {
-//   const oppositeTurn = getCurrentTurn() === "player" ? "computer" : "player";
+//   const oppositeTurn = getCurrentTurn() === userType ? computerType : userType;
 //   setCurrentTurn(oppositeTurn);
 // };
 // export const setDebugMode = (boolean) => (debugMode = boolean);
 // export const setHardMode = (boolean) => (hardMode = boolean);
 // export const getCurrentPlayer = (player, opponent) =>
-//   getCurrentTurn() === "player" ? player : opponent;
+//   getCurrentTurn() === userType ? player : opponent;
 // export const getOpposingPlayer = (player, opponent) =>
-//   getCurrentTurn() === "player" ? opponent : player;
+//   getCurrentTurn() === userType ? opponent : player;
 // export const setTutorialMode = (boolean) => (tutorialMode = boolean);
 // // RUN APPLICATION
 
@@ -215,6 +215,8 @@ export const tileClass = "tile";
 export const hoveringClass = "hovering";
 export const tilesClickableClass = "tiles-clickable";
 export const boardClickableClass = "board-clickable";
+export const userType = "user";
+export const computerType = "computer";
 
 const root = document.documentElement;
 
@@ -257,8 +259,8 @@ export const gameBoardContainer = document.querySelector(
   `.${gameBoardContainerClass}`
 );
 
-export const user = new Player("player1", "player", boardSize);
-export const computer = new Computer("player2", "computer", boardSize);
+export const user = new Player("player1", userType, boardSize);
+export const computer = new Computer("player2", computerType, boardSize);
 
 user.addBoardClass(active);
 user.addBoardClass(hoveringClass);

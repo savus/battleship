@@ -1,7 +1,12 @@
 // import { buildBoardData, gameBoardClass } from "./board-elements.js";
 
 import GameBoard from "./board-elements.js";
-import { active, boardClickableClass, tilesClickableClass } from "./main.js";
+import {
+  active,
+  boardClickableClass,
+  tilesClickableClass,
+  userType,
+} from "./main.js";
 import { Ship } from "./ship.js";
 import { findShipByCell, getRandomCell } from "./utility-functions.js";
 
@@ -87,22 +92,23 @@ export class Player {
 
   gameLostMessage = () => `You lost!`;
 
-  attack = (opponent, cell) => {
-    switch (cell.status) {
+  attack = (opponent, cell = null) => {
+    const chosenCell =
+      this.type === userType ? cell : getRandomCell(opponent.board.grid);
+    switch (chosenCell.status) {
       case "miss":
-        console.log(this.alreadyTargetedMessage());
         break;
       case "hit":
         console.log(this.alreadyTargetedMessage());
         break;
       case "empty":
-        cell.setStatus("miss");
+        chosenCell.setStatus("miss");
         console.log(this.missMessage());
-        opponent.attack(this);
+        if (this.type === userType) opponent.attack(this);
         break;
       case "occupied":
-        const ship = findShipByCell(opponent, cell);
-        cell.setStatus("hit");
+        const ship = findShipByCell(opponent, chosenCell);
+        chosenCell.setStatus("hit");
         ship.reduceLives(1);
         if (ship.checkIfSunk()) {
           console.log(opponent.sunkMessage(ship));
@@ -113,7 +119,7 @@ export class Player {
         } else {
           console.log(opponent.hitMessage(ship));
         }
-        opponent.attack(this);
+        if (this.type === userType) opponent.attack(this);
         break;
     }
   };
@@ -132,47 +138,47 @@ export class Computer extends Player {
 
   gameLostMessage = () => `You won!`;
 
-  attack = async (opponent) => {
-    const opponentGrid = opponent.board.grid;
-    const randomCell = getRandomCell(opponentGrid);
+  // attack = async (opponent) => {
+  //   const opponentGrid = opponent.board.grid;
+  //   const randomCell = getRandomCell(opponentGrid);
 
-    if (randomCell.status === "miss" || randomCell.status === "hit")
-      return this.attack(opponent);
+  //   if (randomCell.status === "miss" || randomCell.status === "hit")
+  //     return this.attack(opponent);
 
-    this.addBoardClass(active);
-    opponent.removeBoardClass(active);
-    opponent.removeBoardClass(boardClickableClass);
-    opponent.removeBoardClass(tilesClickableClass);
+  //   this.addBoardClass(active);
+  //   opponent.removeBoardClass(active);
+  //   opponent.removeBoardClass(boardClickableClass);
+  //   opponent.removeBoardClass(tilesClickableClass);
 
-    if (randomCell.status === "empty") {
-      randomCell.setStatus("miss");
-      randomCell.displayStatus();
-      console.log(this.missMessage());
-    }
+  //   if (randomCell.status === "empty") {
+  //     randomCell.setStatus("miss");
+  //     randomCell.displayStatus();
+  //     console.log(this.missMessage());
+  //   }
 
-    if (randomCell.status === "occupied") {
-      const ship = findShipByCell(opponent, randomCell);
-      //display hit message
-      randomCell.setStatus("hit");
-      randomCell.displayStatus();
-      console.log(opponent.hitMessage(ship));
-      ship.reduceLives(1);
-      if (ship.checkIfSunk()) {
-        console.log(opponent.sunkMessage(ship));
-        opponent.reduceLives(1);
-        if (opponent.checkIfLost()) {
-          return console.log(opponent.gameLostMessage());
-        }
-        console.log(`${opponent.getShipsRemaining()} ships remaining!`);
-        opponent.addBoardClass(boardClickableClass);
-        opponent.addBoardClass(tilesClickableClass);
-        this.removeBoardClass(tilesClickableClass);
-      }
-      opponent.addBoardClass(boardClickableClass);
-      opponent.addBoardClass(tilesClickableClass);
-      this.removeBoardClass(tilesClickableClass);
-    }
-  };
+  //   if (randomCell.status === "occupied") {
+  //     const ship = findShipByCell(opponent, randomCell);
+  //     //display hit message
+  //     randomCell.setStatus("hit");
+  //     randomCell.displayStatus();
+  //     console.log(opponent.hitMessage(ship));
+  //     ship.reduceLives(1);
+  //     if (ship.checkIfSunk()) {
+  //       console.log(opponent.sunkMessage(ship));
+  //       opponent.reduceLives(1);
+  //       if (opponent.checkIfLost()) {
+  //         return console.log(opponent.gameLostMessage());
+  //       }
+  //       console.log(`${opponent.getShipsRemaining()} ships remaining!`);
+  //       opponent.addBoardClass(boardClickableClass);
+  //       opponent.addBoardClass(tilesClickableClass);
+  //       this.removeBoardClass(tilesClickableClass);
+  //     }
+  //     opponent.addBoardClass(boardClickableClass);
+  //     opponent.addBoardClass(tilesClickableClass);
+  //     this.removeBoardClass(tilesClickableClass);
+  //   }
+  // };
 }
 
 // export class Player {
@@ -223,7 +229,7 @@ export class Computer extends Player {
 //           this.subtractShipsLeft(1);
 //           this.lastHitShip = undefined;
 //           const sunkMessage =
-//             this.type === "player"
+//             this.type === userType
 //               ? "The enemy sunk your "
 //               : `You sunk the enemy's `;
 //           const shipsRemainingMessage =
@@ -259,7 +265,7 @@ export class Computer extends Player {
 //   };
 
 //   playTurn = async (this, cell = null) => {
-//     const isPlayer = this.type === "player";
+//     const isPlayer = this.type === userType;
 //     const playerReference = isPlayer ? "You" : "The Computer";
 //     const decidedCell = isPlayer ? cell : this.computersDecision(this);
 
@@ -305,7 +311,7 @@ export class Computer extends Player {
 //   lostGame = () => {
 //     if (this.hasLost()) {
 //       const endGameMessage =
-//         this.type === "player"
+//         this.type === userType
 //           ? "The enemy sunk all your ships! You lost!"
 //           : "You sunk all ships! You won!";
 //       messageHandler.openMessageBox();

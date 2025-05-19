@@ -117,7 +117,7 @@
   border-radius: 50%;
 }
 
-#player .tile[data-status="occupied"] .status {
+#user .tile[data-status="occupied"] .status {
   background-color: rgb(0, 34, 128);
 }
 
