@@ -125,6 +125,7 @@ export class Player {
 }
 
 export class Computer extends Player {
+  lastShipHit = null;
   constructor(name, type, boardSize) {
     super(name, type, boardSize);
   }
