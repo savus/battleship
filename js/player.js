@@ -97,6 +97,7 @@ export class Player {
   attack = (opponent, cell = null) => {
     const isUser = this.type === userType;
     let chosenCell = isUser ? cell : this.chooseCell(opponent);
+    const ship = findShipByCell(opponent, chosenCell);
 
     if (chosenCell.status === "miss" || chosenCell.status === "hit") {
       if (!isUser) return this.attack(opponent);
@@ -105,26 +106,40 @@ export class Player {
       }
     }
 
-    if (chosenCell.status === "empty") {
-      chosenCell.updateTile("miss");
-      console.log(this.missMessage());
-    }
+    this.handleEmptyTile(chosenCell);
 
-    const ship = findShipByCell(opponent, chosenCell);
-    this.handleOccupiedCell(chosenCell, opponent, isUser, ship);
+    if (this.hasShipBeenHit(chosenCell, isUser, ship)) {
+      if (this.hasShipSunk(ship, opponent, isUser)) {
+        //check if game lost
+        if (this.isGameOver(opponent)) {
+          return console.log(this.gameLostMessage());
+        } else {
+          console.log(opponent.shipsRemainingMessage());
+        }
+      } else {
+        //ship has not sunk
+        console.log(this.hitMessage(ship));
+      }
+    }
 
     if (isUser) {
       opponent.attack(this);
     }
   };
 
-  handleOccupiedCell = (chosenCell, opponent, isUser, ship) => {
+  handleEmptyTile = (chosenCell) => {
+    if (chosenCell.status === "empty") {
+      chosenCell.updateTile("miss");
+      console.log(this.missMessage());
+    }
+  };
+
+  hasShipBeenHit = (chosenCell, isUser, ship) => {
     if (chosenCell.status === "occupied") {
       chosenCell.updateTile("hit");
       if (!isUser) this.lastShipHit = ship;
       ship.reduceLives(1);
-      if (this.hasShipSunk(ship, opponent, isUser)) return;
-      console.log(this.hitMessage(ship));
+      return true;
     }
   };
 
@@ -133,12 +148,12 @@ export class Player {
       opponent.reduceLives(1);
       console.log(this.sunkMessage(ship));
       if (!isUser) this.lastShipHit = null;
-      if (opponent.checkIfLost()) {
-        console.log(this.gameLostMessage());
-        return true;
-      }
-      console.log(opponent.shipsRemainingMessage());
+      return true;
     }
+  };
+
+  isGameOver = (opponent) => {
+    return opponent.checkIfLost();
   };
 }
 
