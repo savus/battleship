@@ -262,7 +262,7 @@ export const gameBoardContainer = document.querySelector(
 export const user = new Player("player1", userType, boardSize);
 export const computer = new Computer("player2", computerType, boardSize);
 
-user.addBoardClass(active);
+computer.addBoardClass(active);
 user.addBoardClass(hoveringClass);
 user.addBoardClass(boardClickableClass);
 computer.addBoardClass(hoveringClass);

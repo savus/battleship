@@ -17,8 +17,8 @@ export class Cell {
 
   hideStatus = () => this.tile.setAttribute(dataStatus, "empty");
 
-  updateTile = () => {
-    this.setStatus(this.status);
+  updateTile = (status) => {
+    this.setStatus(status);
     this.displayStatus();
   };
 

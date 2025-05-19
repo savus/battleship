@@ -80,48 +80,47 @@ export class Player {
 
   getShipsRemaining = () => this.ships.filter((ship) => !ship.isSunk).length;
 
+  shipsRemainingMessage = () => `${this.getShipsRemaining()} ships remaining!`;
+
   checkIfLost = () => this.lives === 0;
 
-  hitMessage = (ship) => `Your ${ship.name} has been hit!`;
+  hitMessage = (ship) => `You hit the enemy ${ship.name}`;
 
   alreadyTargetedMessage = () => `You've already picked this!`;
 
   missMessage = () => `You missed!`;
 
-  sunkMessage = (ship) => `Your ${ship.name} has been sunk!`;
+  sunkMessage = (ship) => `You sunk the enemy ${ship.name}`;
 
-  gameLostMessage = () => `You lost!`;
+  gameLostMessage = () => `You won!`;
 
   attack = (opponent, cell = null) => {
-    const chosenCell =
-      this.type === userType ? cell : getRandomCell(opponent.board.grid);
-    switch (chosenCell.status) {
-      case "miss":
-        break;
-      case "hit":
-        console.log(this.alreadyTargetedMessage());
-        break;
-      case "empty":
-        chosenCell.setStatus("miss");
-        console.log(this.missMessage());
-        if (this.type === userType) opponent.attack(this);
-        break;
-      case "occupied":
-        const ship = findShipByCell(opponent, chosenCell);
-        chosenCell.setStatus("hit");
-        ship.reduceLives(1);
-        if (ship.checkIfSunk()) {
-          console.log(opponent.sunkMessage(ship));
-          opponent.reduceLives(1);
-          if (opponent.checkIfLost())
-            return console.log(opponent.gameLostMessage());
-          console.log(`${opponent.getShipsRemaining()} ships remaining!`);
-        } else {
-          console.log(opponent.hitMessage(ship));
+    const isUser = this.type === userType;
+    const chosenCell = isUser ? cell : getRandomCell(opponent.board.grid);
+
+    if (chosenCell.status === "miss" || chosenCell.status === "hit") {
+      if (!isUser) return this.attack(opponent);
+      else {
+        return console.log(this.alreadyTargetedMessage());
+      }
+    } else if (chosenCell.status === "empty") {
+      chosenCell.updateTile("miss");
+      console.log(this.missMessage());
+    } else if (chosenCell.status === "occupied") {
+      const ship = findShipByCell(opponent, chosenCell);
+      chosenCell.updateTile("hit");
+      ship.reduceLives(1);
+      if (ship.checkIfSunk()) {
+        opponent.reduceLives(1);
+        console.log(this.sunkMessage(ship));
+        if (opponent.checkIfLost()) {
+          return console.log(this.gameLostMessage());
         }
-        if (this.type === userType) opponent.attack(this);
-        break;
+        console.log(opponent.shipsRemainingMessage());
+      }
+      console.log(this.hitMessage(ship));
     }
+    if (isUser) opponent.attack(this);
   };
 }
 
@@ -130,13 +129,13 @@ export class Computer extends Player {
     super(name, type, boardSize);
   }
 
-  hitMessage = (ship) => `You hit the enemy ${ship.name}`;
+  hitMessage = (ship) => `Your ${ship.name} has been hit!`;
 
   missMessage = () => `The opponent missed!`;
 
-  sunkMessage = (ship) => `You sunk the enemy ${ship.name}`;
+  sunkMessage = (ship) => `Your ${ship.name} has been sunk!`;
 
-  gameLostMessage = () => `You won!`;
+  gameLostMessage = () => `You lost!`;
 
   // attack = async (opponent) => {
   //   const opponentGrid = opponent.board.grid;

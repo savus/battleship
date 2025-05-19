@@ -72,7 +72,6 @@ class GameBoard {
           const isClickable = classList.contains(tilesClickableClass);
           if (isClickable) {
             user.attack(computer, cell);
-            cell.displayStatus();
           }
         });
 
