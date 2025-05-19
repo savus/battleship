@@ -18,8 +18,6 @@ import {
 
 export class Ship {
   isHorizontal = Math.floor(Math.random() * 2) + 1 === 1 ? true : false;
-  pieceCoords = [];
-  occupiedTiles = [];
   occupiedCells = [];
   isSunk = false;
   constructor({ name, lives, length }, board, type) {
@@ -31,8 +29,6 @@ export class Ship {
   }
 
   resetLists = () => {
-    this.pieceCoords.length = 0;
-    this.occupiedTiles.length = 0;
     this.occupiedCells.length = 0;
   };
 

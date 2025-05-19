@@ -96,7 +96,21 @@ export class Player {
 
   attack = (opponent, cell = null) => {
     const isUser = this.type === userType;
-    const chosenCell = isUser ? cell : getRandomCell(opponent.board.grid);
+    // const chosenCell = isUser ? cell : getRandomCell(opponent.board.grid);
+    let chosenCell;
+
+    if (isUser) {
+      chosenCell = cell;
+    } else {
+      if (this.lastShipHit) {
+        const cellNotHit = this.lastShipHit.occupiedCells.find(
+          (cell) => cell.status === "occupied"
+        );
+        chosenCell = cellNotHit;
+      } else {
+        chosenCell = getRandomCell(opponent.board.grid);
+      }
+    }
 
     if (chosenCell.status === "miss" || chosenCell.status === "hit") {
       if (!isUser) return this.attack(opponent);
@@ -109,10 +123,12 @@ export class Player {
     } else if (chosenCell.status === "occupied") {
       const ship = findShipByCell(opponent, chosenCell);
       chosenCell.updateTile("hit");
+      if (!isUser) this.lastShipHit = ship;
       ship.reduceLives(1);
       if (ship.checkIfSunk()) {
         opponent.reduceLives(1);
         console.log(this.sunkMessage(ship));
+        if (!isUser) this.lastShipHit = null;
         if (opponent.checkIfLost()) {
           return console.log(this.gameLostMessage());
         }
@@ -120,7 +136,9 @@ export class Player {
       }
       console.log(this.hitMessage(ship));
     }
-    if (isUser) opponent.attack(this);
+    if (isUser) {
+      opponent.attack(this);
+    }
   };
 }
 
