@@ -262,6 +262,8 @@ export const gameBoardContainer = document.querySelector(
 export const user = new Player("player1", userType, boardSize);
 export const computer = new Computer("player2", computerType, boardSize);
 
+export const players = [user, computer];
+
 computer.addBoardClass(active);
 user.addBoardClass(hoveringClass);
 user.addBoardClass(boardClickableClass);
@@ -274,7 +276,5 @@ computer.ships.forEach((ship) => ship.placeShipPieces());
 // wait(100).then(() => {
 //   return messageBoxHandler.readMessageObj(currentMessageObject);
 // });
-
-gameBoardContainer.addEventListener("click", gameBoardClickHandler);
 
 messageBoxControls.addEventListener("click", messageBoxControlsHandler);

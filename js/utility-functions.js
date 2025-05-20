@@ -2,8 +2,11 @@ import {
   active,
   alphabet,
   boardSize,
+  computerType,
   controlButtons,
+  players,
   tilesClickableClass,
+  userType,
 } from "./main.js";
 
 export const wait = (ms) =>
@@ -42,11 +45,13 @@ export const typeWords = async (textField, message, typeSpeed = 5) => {
   return;
 };
 
-export const swapPlayerBoards = (activePlayer, inactivePlayer) => {
-  activePlayer.removeBoardClass(active);
-  activePlayer.addBoardClass(tilesClickableClass);
-  inactivePlayer.addBoardClass(active);
-  inactivePlayer.removeBoardClass(tilesClickableClass);
+export const swapPlayerBoards = (player1, player2) => {
+  const isComputer = player1.type === computerType;
+  player1.addBoardClass(active);
+  if (isComputer) player1.addBoardClass(tilesClickableClass);
+
+  player2.removeBoardClass(active);
+  player2.removeBoardClass(tilesClickableClass);
 };
 
 export const convertCoordsToNum = (coords) => {
@@ -74,8 +79,14 @@ export const getRandomCell = (grid) => {
   return grid[yCoord][xCoord];
 };
 
+export const findPlayerByType = (type) =>
+  players.find((player) => player.type === type);
+
 export const findPlayerByCell = (cell) =>
   players.find((player) => player.type === cell.type);
+
+export const findPlayerByOtherType = (type) =>
+  players.find((player) => player.type !== type);
 
 export const findShipByCell = (player, cell) =>
   player.ships.find((ship) =>

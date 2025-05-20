@@ -8,26 +8,25 @@ import {
   tileClass,
   tilesClickableClass,
 } from "./main.js";
-import { setActive } from "./utility-functions.js";
+import {
+  findPlayerByOtherType,
+  findPlayerByType,
+  swapPlayerBoards,
+} from "./utility-functions.js";
 
-export const gameBoardClickHandler = ({ target }) => {
-  const isGameBoard = target.matches(`.${gameBoardClass}`);
+export function gameBoardClickHandler({ target }) {
   const isRow = target.matches(`.${rowClass}`);
   const isTile = target.matches(`.${tileClass}`);
-  const gameBoardHasBeenClicked = isGameBoard || isRow || isTile;
+  const gameBoardHasBeenClicked = isRow || isTile;
   if (gameBoardHasBeenClicked) {
-    const gameBoard = target.closest(`.${gameBoardClass}`);
-    const boardIsClickable = gameBoard.classList.contains(boardClickableClass);
+    const boardIsClickable = this.classList.contains(boardClickableClass);
     if (boardIsClickable) {
-      const boards = document.querySelectorAll(`.${gameBoardClass}`);
-      boards.forEach((board) => {
-        board.classList.remove(tilesClickableClass);
-      });
-      setActive(gameBoard, `.${gameBoardClass}`);
-      gameBoard.classList.add(tilesClickableClass);
+      const player = findPlayerByType(this.id);
+      const opposingPlayer = findPlayerByOtherType(this.id);
+      swapPlayerBoards(player, opposingPlayer);
     }
   }
-};
+}
 
 export const messageBoxControlsHandler = ({ target }) => {
   switch (target.dataset.button) {

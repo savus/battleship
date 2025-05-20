@@ -4,11 +4,16 @@ import GameBoard from "./board-elements.js";
 import {
   active,
   boardClickableClass,
+  gameBoardClass,
   tilesClickableClass,
   userType,
 } from "./main.js";
 import { Ship } from "./ship.js";
-import { findShipByCell, getRandomCell } from "./utility-functions.js";
+import {
+  findShipByCell,
+  getRandomCell,
+  setActive,
+} from "./utility-functions.js";
 
 export const shipData = [
   { name: "Carrier", lives: 5, length: 5 },

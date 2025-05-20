@@ -3,6 +3,7 @@
 // import { active, alphabet, computer, getCurrentTurn, user } from "./main.js";
 
 import { Cell } from "./cell.js";
+import { gameBoardClickHandler } from "./click-functions.js";
 import {
   alphabet,
   boardClickableClass,
@@ -92,6 +93,8 @@ class GameBoard {
     // this.size - 1 = number of gaps
     // 4 * this.size = number of tiles at 4 rem
     boardElement.style.width = `${this.boardWidth}rem`;
+
+    boardElement.addEventListener("click", gameBoardClickHandler);
 
     return boardElement;
   };
