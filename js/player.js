@@ -4,6 +4,7 @@ import GameBoard from "./game-board.js";
 import { messageBoxHandler, userType } from "./main.js";
 import { Ship } from "./ship.js";
 import {
+  basicConfirmMessage,
   enablePlayerBoards,
   findShipByCell,
   getRandomCell,
@@ -106,15 +107,8 @@ export class Player {
       if (!isUser) return this.attack(opponent);
       else {
         enablePlayerBoards(false);
-        readCustomMessageObj({
-          state: "confirm",
-          header: "Game-Play",
-          textList: [this.alreadyTargetedMessage],
-          confirm: () => {
-            messageBoxHandler.closeMessage();
-            enablePlayerBoards(true);
-          },
-        });
+        basicConfirmMessage(this.alreadyTargetedMessage(), "Game Play");
+
         return;
       }
     }
@@ -125,36 +119,14 @@ export class Player {
       if (this.hasShipSunk(ship, opponent, isUser)) {
         //check if game lost
         if (this.isGameOver(opponent)) {
-          readCustomMessageObj({
-            state: "confirm",
-            header: "Game-Play",
-            textList: [this.gameLostMessage],
-            confirmStep: () => {
-              messageBoxHandler.closeMessage();
-            },
-          });
+          basicConfirmMessage(this.gameLostMessage, "Game Play");
           return;
         } else {
-          readCustomMessageObj({
-            state: "confirm",
-            header: "Game-Play",
-            textList: [opponent.shipsRemainingMessage()],
-            confirmStep: () => {
-              messageBoxHandler.closeMessage();
-            },
-          });
+          basicConfirmMessage(opponent.shipsRemainingMessage(), "Game Play");
         }
       } else {
         enablePlayerBoards(false);
-        readCustomMessageObj({
-          state: "confirm",
-          header: "Game-Play",
-          textList: [this.hitMessage(ship)],
-          confirmStep: () => {
-            messageBoxHandler.closeMessage();
-            enablePlayerBoards(true);
-          },
-        });
+        basicConfirmMessage(this.hitMessage(ship), "Game Play");
       }
     }
 
@@ -167,15 +139,7 @@ export class Player {
     if (chosenCell.status === "empty") {
       chosenCell.updateTile("miss");
       enablePlayerBoards(false);
-      readCustomMessageObj({
-        state: "confirm",
-        header: "Game-Play",
-        textList: [this.missMessage],
-        confirmStep: () => {
-          messageBoxHandler.closeMessage();
-          enablePlayerBoards(true);
-        },
-      });
+      basicConfirmMessage(this.missMessage, "Game Play");
     }
   };
 
@@ -191,11 +155,7 @@ export class Player {
   hasShipSunk = (ship, opponent, isUser) => {
     if (ship.checkIfSunk()) {
       opponent.reduceLives(1);
-      readCustomMessageObj({
-        state: "confirm",
-        header: "Game-Play",
-        textList: [this.sunkMessage(ship)],
-      });
+      basicConfirmMessage(this.sunkMessage(ship));
       if (!isUser) this.lastShipHit = null;
       return true;
     }

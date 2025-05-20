@@ -60,6 +60,17 @@ export const readCustomMessageObj = (obj) => {
   messageBoxHandler.readMessageObj(currentMessageObject);
 };
 
+export const basicConfirmMessage = (text, header) => {
+  readCustomMessageObj({
+    state: "confirm",
+    header: header,
+    textList: [text],
+    confirmStep: () => {
+      messageBoxHandler.closeMessage();
+    },
+  });
+};
+
 export const typeWords = async (textField, message, typeSpeed = 5) => {
   disableAllControlButtons();
   const letters = message.split("");
