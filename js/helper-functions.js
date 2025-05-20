@@ -1,12 +1,17 @@
 import {
   active,
   alphabet,
+  boardClickableClass,
   boardSize,
   computerType,
   controlButtons,
+  currentMessageIndex,
+  currentMessageObject,
+  messageBoxHandler,
   players,
+  setCurrentMessageIndex,
+  setCurrentMessageObj,
   tilesClickableClass,
-  userType,
 } from "./main.js";
 
 export const wait = (ms) =>
@@ -32,6 +37,29 @@ const enableAllControlButtons = () =>
 const disableAllControlButtons = () =>
   controlButtons.forEach((btn) => btn.setAttribute("disabled", true));
 
+export const goToPrevMessageObj = (array) => {
+  setCurrentMessageIndex(currentMessageIndex - 1);
+  setCurrentMessageObj(array[currentMessageIndex]);
+  messageBoxHandler.readMessageObj(currentMessageObject);
+};
+
+export const goToNextMessageObj = (array) => {
+  setCurrentMessageIndex(currentMessageIndex + 1);
+  setCurrentMessageObj(array[currentMessageIndex]);
+  messageBoxHandler.readMessageObj(currentMessageObject);
+};
+
+export const goToMessageObj = (array, index) => {
+  setCurrentMessageIndex(index);
+  setCurrentMessageObj(array[currentMessageIndex]);
+  messageBoxHandler.readMessageObj(currentMessageObject);
+};
+
+export const readCustomMessageObj = (obj) => {
+  setCurrentMessageObj(obj);
+  messageBoxHandler.readMessageObj(currentMessageObject);
+};
+
 export const typeWords = async (textField, message, typeSpeed = 5) => {
   disableAllControlButtons();
   const letters = message.split("");
@@ -43,6 +71,19 @@ export const typeWords = async (textField, message, typeSpeed = 5) => {
   }
   enableAllControlButtons();
   return;
+};
+
+export const enablePlayerBoards = (bool) => {
+  players.forEach((player) => {
+    if (bool) {
+      player.addBoardClass(boardClickableClass);
+      if (player.type === computerType)
+        player.addBoardClass(tilesClickableClass);
+    } else {
+      player.removeBoardClass(boardClickableClass);
+      player.removeBoardClass(tilesClickableClass);
+    }
+  });
 };
 
 export const swapPlayerBoards = (player1, player2) => {

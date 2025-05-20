@@ -27,10 +27,12 @@
 // import { shipData } from "./ship.js";
 // import { gameBoardClass } from "./board-elements.js";
 
+import { goToNextMessageObj, goToPrevMessageObj } from "./helper-functions.js";
 import {
   currentMessageIndex,
   currentMessageObject,
   messageBoxHandler,
+  promptInput,
   setCurrentMessageIndex,
   setCurrentMessageObj,
 } from "./main.js";
@@ -361,63 +363,54 @@ import {
 
 // export default messageData;
 
-const messageObjects = [
-  {
-    state: "confirm",
-    header: "Testing",
-    textList: ["This is a test message"],
-    confirmStep: () => {
-      setCurrentMessageIndex(currentMessageIndex + 1);
-      setCurrentMessageObj(currentMessageIndex);
-      messageBoxHandler.readMessageObj(currentMessageObject);
+const messageObjects = {
+  introduction: [
+    {
+      state: "confirm",
+      header: "Testing",
+      textList: ["This is a test message"],
+      confirmStep: () => {
+        goToNextMessageObj(messageObjects.introduction);
+      },
     },
-  },
-  {
-    state: "prev-next",
-    header: "Testing - 2",
-    textList: [
-      "This is going to demonstrate iterating through multiple messages in a text list dynamically",
-      "If this succeeds, then this message will be the second",
-      "And this message will be the third",
-    ],
-    prevStep: () => {
-      setCurrentMessageIndex(currentMessageIndex - 1);
-      setCurrentMessageObj(currentMessageIndex);
-      messageBoxHandler.readMessageObj(currentMessageObject);
+    {
+      state: "prev-next",
+      header: "Testing - 2",
+      textList: [
+        "This is going to demonstrate iterating through multiple messages in a text list dynamically",
+        "If this succeeds, then this message will be the second",
+        "And this message will be the third",
+      ],
+      prevStep: () => {
+        goToPrevMessageObj(messageObjects.introduction);
+      },
+      nextStep: () => {
+        goToNextMessageObj(messageObjects.introduction);
+      },
     },
-    nextStep: () => {
-      setCurrentMessageIndex(currentMessageIndex + 1);
-      setCurrentMessageObj(currentMessageIndex);
-      messageBoxHandler.readMessageObj(currentMessageObject);
+    {
+      state: "prompt",
+      header: "Testing - prompt",
+      textList: ["This is a prompt to ask for user input"],
+      promptStep: (input) => {
+        console.log("user said ", input);
+        goToNextMessageObj(messageObjects.introduction);
+      },
     },
-  },
-  {
-    state: "prompt",
-    header: "Testing - prompt",
-    textList: ["This is a prompt to ask for user input"],
-    promptStep: (input) => {
-      setCurrentMessageIndex(currentMessageIndex + 1);
-      setCurrentMessageObj(currentMessageIndex);
-      messageBoxHandler.readMessageObj(currentMessageObject);
+    {
+      state: "yes-no",
+      header: "Testing - prompt",
+      textList: ["This is a prompt to ask for user input"],
+      yesStep: () => {
+        console.log("User clicked yes");
+        goToNextMessageObj(messageObjects.introduction);
+      },
+      noStep: () => {
+        console.log("User clicked no");
+        goToNextMessageObj(messageObjects.introduction);
+      },
     },
-  },
-  {
-    state: "yes-no",
-    header: "Testing - prompt",
-    textList: ["This is a prompt to ask for user input"],
-    yesStep: () => {
-      console.log("User clicked yes");
-      setCurrentMessageIndex(currentMessageIndex + 1);
-      setCurrentMessageObj(currentMessageIndex);
-      messageBoxHandler.readMessageObj(currentMessageObject);
-    },
-    noStep: () => {
-      console.log("User clicked no");
-      setCurrentMessageIndex(currentMessageIndex + 1);
-      setCurrentMessageObj(currentMessageIndex);
-      messageBoxHandler.readMessageObj(currentMessageObject);
-    },
-  },
-];
+  ],
+};
 
 export default messageObjects;

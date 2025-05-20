@@ -1,19 +1,16 @@
 // import { buildBoardData, gameBoardClass } from "./board-elements.js";
 
-import GameBoard from "./board-elements.js";
-import {
-  active,
-  boardClickableClass,
-  gameBoardClass,
-  tilesClickableClass,
-  userType,
-} from "./main.js";
+import GameBoard from "./game-board.js";
+import { messageBoxHandler, userType } from "./main.js";
 import { Ship } from "./ship.js";
 import {
+  enablePlayerBoards,
   findShipByCell,
   getRandomCell,
-  setActive,
-} from "./utility-functions.js";
+  readCustomMessageObj,
+  swapPlayerBoards,
+  wait,
+} from "./helper-functions.js";
 
 export const shipData = [
   { name: "Carrier", lives: 5, length: 5 },
@@ -65,16 +62,10 @@ export class Player {
     this.board.html.classList.remove(className);
   };
 
-  buildShip = (shipData) => {
-    const ship = new Ship(shipData, this.board, this.type);
-
-    return ship;
-  };
-
   initializeShips = () => {
     shipData.forEach((data) => {
-      const newShip = this.buildShip(data);
-      this.ships.push(newShip);
+      const ship = new Ship(data, this.board, this.type);
+      this.ships.push(ship);
     });
     this.lives = this.ships.length;
   };
@@ -91,23 +82,40 @@ export class Player {
 
   hitMessage = (ship) => `You hit the enemy ${ship.name}`;
 
-  alreadyTargetedMessage = () => `You've already picked this!`;
+  alreadyTargetedMessage = `You've already picked this!`;
 
-  missMessage = () => `You missed!`;
+  missMessage = `You missed!`;
 
   sunkMessage = (ship) => `You sunk the enemy ${ship.name}`;
 
-  gameLostMessage = () => `You won!`;
+  gameLostMessage = `You won!`;
 
-  attack = (opponent, cell = null) => {
+  attack = async (opponent, cell = null) => {
     const isUser = this.type === userType;
     let chosenCell = isUser ? cell : this.chooseCell(opponent);
     const ship = findShipByCell(opponent, chosenCell);
 
+    if (!isUser) {
+      enablePlayerBoards(false);
+      console.log("computer is thinking...");
+      await wait(3000);
+      enablePlayerBoards(true);
+    }
+
     if (chosenCell.status === "miss" || chosenCell.status === "hit") {
       if (!isUser) return this.attack(opponent);
       else {
-        return console.log(this.alreadyTargetedMessage());
+        enablePlayerBoards(false);
+        readCustomMessageObj({
+          state: "confirm",
+          header: "Game-Play",
+          textList: [this.alreadyTargetedMessage],
+          confirm: () => {
+            messageBoxHandler.closeMessage();
+            enablePlayerBoards(true);
+          },
+        });
+        return;
       }
     }
 
@@ -117,13 +125,36 @@ export class Player {
       if (this.hasShipSunk(ship, opponent, isUser)) {
         //check if game lost
         if (this.isGameOver(opponent)) {
-          return console.log(this.gameLostMessage());
+          readCustomMessageObj({
+            state: "confirm",
+            header: "Game-Play",
+            textList: [this.gameLostMessage],
+            confirmStep: () => {
+              messageBoxHandler.closeMessage();
+            },
+          });
+          return;
         } else {
-          console.log(opponent.shipsRemainingMessage());
+          readCustomMessageObj({
+            state: "confirm",
+            header: "Game-Play",
+            textList: [opponent.shipsRemainingMessage()],
+            confirmStep: () => {
+              messageBoxHandler.closeMessage();
+            },
+          });
         }
       } else {
-        //ship has not sunk
-        console.log(this.hitMessage(ship));
+        enablePlayerBoards(false);
+        readCustomMessageObj({
+          state: "confirm",
+          header: "Game-Play",
+          textList: [this.hitMessage(ship)],
+          confirmStep: () => {
+            messageBoxHandler.closeMessage();
+            enablePlayerBoards(true);
+          },
+        });
       }
     }
 
@@ -135,7 +166,16 @@ export class Player {
   handleEmptyTile = (chosenCell) => {
     if (chosenCell.status === "empty") {
       chosenCell.updateTile("miss");
-      console.log(this.missMessage());
+      enablePlayerBoards(false);
+      readCustomMessageObj({
+        state: "confirm",
+        header: "Game-Play",
+        textList: [this.missMessage],
+        confirmStep: () => {
+          messageBoxHandler.closeMessage();
+          enablePlayerBoards(true);
+        },
+      });
     }
   };
 
@@ -151,7 +191,11 @@ export class Player {
   hasShipSunk = (ship, opponent, isUser) => {
     if (ship.checkIfSunk()) {
       opponent.reduceLives(1);
-      console.log(this.sunkMessage(ship));
+      readCustomMessageObj({
+        state: "confirm",
+        header: "Game-Play",
+        textList: [this.sunkMessage(ship)],
+      });
       if (!isUser) this.lastShipHit = null;
       return true;
     }
@@ -170,22 +214,18 @@ export class Computer extends Player {
 
   hitMessage = (ship) => `Your ${ship.name} has been hit!`;
 
-  missMessage = () => `The opponent missed!`;
+  missMessage = `The opponent missed!`;
 
   sunkMessage = (ship) => `Your ${ship.name} has been sunk!`;
 
-  gameLostMessage = () => `You lost!`;
+  gameLostMessage = `You lost!`;
 
-  chooseCell = (opponent) => {
-    if (this.lastShipHit) {
-      const cellNotHit = this.lastShipHit.occupiedCells.find(
-        (cell) => cell.status === "occupied"
-      );
-      return cellNotHit;
-    } else {
-      return getRandomCell(opponent.board.grid);
-    }
-  };
+  chooseCell = (opponent) =>
+    this.lastShipHit
+      ? this.lastShipHit.occupiedCells.find(
+          (cell) => cell.status === "occupied"
+        )
+      : getRandomCell(opponent.board.grid);
 
   // attack = async (opponent) => {
   //   const opponentGrid = opponent.board.grid;

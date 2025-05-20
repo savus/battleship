@@ -14,7 +14,7 @@ import {
   setActive,
   typeWords,
   wait,
-} from "./utility-functions.js";
+} from "./helper-functions.js";
 
 export class MessageBoxHandler {
   textListIndex = 0;
@@ -38,7 +38,6 @@ export class MessageBoxHandler {
   clearText = () => (this.textField.innerHTML = "");
 
   readMessageObj = async (messageObj) => {
-    console.log(messageObj, this.textListIndex);
     const { state, header, textList } = messageObj;
     this.openMessage();
     this.header.innerHTML = header;

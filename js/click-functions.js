@@ -12,12 +12,13 @@ import {
   findPlayerByOtherType,
   findPlayerByType,
   swapPlayerBoards,
-} from "./utility-functions.js";
+} from "./helper-functions.js";
 
 export function gameBoardClickHandler({ target }) {
+  const isGameBoard = target.matches(`.${gameBoardClass}`);
   const isRow = target.matches(`.${rowClass}`);
   const isTile = target.matches(`.${tileClass}`);
-  const gameBoardHasBeenClicked = isRow || isTile;
+  const gameBoardHasBeenClicked = isGameBoard || isRow || isTile;
   if (gameBoardHasBeenClicked) {
     const boardIsClickable = this.classList.contains(boardClickableClass);
     if (boardIsClickable) {

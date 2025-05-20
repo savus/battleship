@@ -6,8 +6,6 @@ import { Cell } from "./cell.js";
 import { gameBoardClickHandler } from "./click-functions.js";
 import {
   alphabet,
-  boardClickableClass,
-  boardSize,
   computer,
   gameBoardClass,
   gameBoardContainer,
@@ -17,9 +15,7 @@ import {
   user,
 } from "./main.js";
 
-const dataSize = "data-size";
 const cssIndex = "--i";
-const buttonClassName = "btn tile-button";
 export const dataStatus = "data-status";
 
 class GameBoard {

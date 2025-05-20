@@ -14,7 +14,7 @@ import {
   convertNumToCoords,
   getCell,
   getRandomCell,
-} from "./utility-functions.js";
+} from "./helper-functions.js";
 
 export class Ship {
   isHorizontal = Math.floor(Math.random() * 2) + 1 === 1 ? true : false;

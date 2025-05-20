@@ -20,16 +20,14 @@
 // import { gameBoardClass, tileClassName } from "./board-elements.js";
 
 import { messageBoxControlsHandler } from "./click-functions.js";
-import { gameBoardClickHandler } from "./click-functions.js";
-import { MessageBoxHandler } from "./message-box.js";
+import {
+  goToMessageObj,
+  readCustomMessageObj,
+  wait,
+} from "./helper-functions.js";
+import { MessageBoxHandler } from "./message-box-handler.js";
 import messageObjects from "./message-data-objects.js";
 import { Computer, Player } from "./player.js";
-import {
-  convertCoordsToNum,
-  convertNumToCoords,
-  setActive,
-  swapPlayerBoards,
-} from "./utility-functions.js";
 
 // export const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 // export const active = "active";
@@ -248,11 +246,12 @@ const promptInputSelector = "#user-input";
 export const promptInput = document.querySelector(promptInputSelector);
 
 export let currentMessageIndex = 0;
-export let currentMessageObject = messageObjects[currentMessageIndex];
+export let currentMessageObject =
+  messageObjects.introduction[currentMessageIndex];
 
 export const setCurrentMessageIndex = (num) => (currentMessageIndex = num);
-export const setCurrentMessageObj = (index) =>
-  (currentMessageObject = messageObjects[currentMessageIndex]);
+
+export const setCurrentMessageObj = (obj) => (currentMessageObject = obj);
 
 export const gameBoardContainerClass = "game-board-container";
 export const gameBoardContainer = document.querySelector(
@@ -264,10 +263,11 @@ export const computer = new Computer("player2", computerType, boardSize);
 
 export const players = [user, computer];
 
-computer.addBoardClass(active);
 user.addBoardClass(hoveringClass);
 user.addBoardClass(boardClickableClass);
+computer.addBoardClass(active);
 computer.addBoardClass(hoveringClass);
+computer.addBoardClass(tilesClickableClass);
 computer.addBoardClass(boardClickableClass);
 
 user.ships.forEach((ship) => ship.placeShipPieces());
@@ -275,6 +275,19 @@ computer.ships.forEach((ship) => ship.placeShipPieces());
 
 // wait(100).then(() => {
 //   return messageBoxHandler.readMessageObj(currentMessageObject);
+// });
+
+// readCustomMessageObj({
+//   state: "confirm",
+//   header: "custom-message",
+//   textList: [
+//     "This is a test to confirm custom message objects and their effecacy",
+//   ],
+//   confirmStep: () => {
+//     messageBoxHandler.closeMessage();
+//     console.log(currentMessageIndex, currentMessageObject);
+//     goToMessageObj(messageObjects.introduction, 0);
+//   },
 // });
 
 messageBoxControls.addEventListener("click", messageBoxControlsHandler);

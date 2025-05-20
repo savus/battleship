@@ -1,4 +1,4 @@
-import { dataStatus } from "./board-elements.js";
+import { dataStatus } from "./game-board.js";
 
 export class Cell {
   tile;
