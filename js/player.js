@@ -129,28 +129,17 @@ export class Player {
       if (this.hasShipSunk(ship, this, opponent)) {
         //check if game lost
         if (this.isGameOver(opponent)) {
-          gamePlayConfirmMessage(
-            this.gameLostMessage,
-            "Game Play",
-            this,
-            opponent
-          );
+          gamePlayConfirmMessage(this.gameLostMessage, this, opponent);
           return;
         } else {
           gamePlayConfirmMessage(
             opponent.shipsRemainingMessage(),
-            "Game Play",
             this,
             opponent
           );
         }
       } else {
-        gamePlayConfirmMessage(
-          this.hitMessage(ship),
-          "Game Play",
-          this,
-          opponent
-        );
+        gamePlayConfirmMessage(this.hitMessage(ship), this, opponent);
       }
     }
 
@@ -162,12 +151,7 @@ export class Player {
   handleEmptyTile = (chosenCell, currentPlayer, opposingPlayer) => {
     if (chosenCell.status === "empty") {
       chosenCell.updateTile("miss");
-      gamePlayConfirmMessage(
-        this.missMessage,
-        "Game Play",
-        currentPlayer,
-        opposingPlayer
-      );
+      gamePlayConfirmMessage(this.missMessage, currentPlayer, opposingPlayer);
     }
   };
 
@@ -185,7 +169,6 @@ export class Player {
       opposingPlayer.reduceLives(1);
       gamePlayConfirmMessage(
         this.sunkMessage(ship),
-        "Game Play",
         currentPlayer,
         opposingPlayer
       );

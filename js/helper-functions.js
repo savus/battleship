@@ -60,15 +60,10 @@ export const readCustomMessageObj = async (obj) => {
   return messageBoxHandler.readMessageObj(currentMessageObject);
 };
 
-export const gamePlayConfirmMessage = (
-  text,
-  header,
-  currentPlayer,
-  opposingPlayer
-) => {
+export const gamePlayConfirmMessage = (text, currentPlayer, opposingPlayer) => {
   return readCustomMessageObj({
     state: "confirm",
-    header: header,
+    header: "Game Play ",
     textList: [text],
     confirmStep: async () => {
       messageBoxHandler.closeMessage();
