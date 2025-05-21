@@ -55,18 +55,27 @@ export const goToMessageObj = (array, index) => {
   messageBoxHandler.readMessageObj(currentMessageObject);
 };
 
-export const readCustomMessageObj = (obj) => {
+export const readCustomMessageObj = async (obj) => {
   setCurrentMessageObj(obj);
-  messageBoxHandler.readMessageObj(currentMessageObject);
+  return messageBoxHandler.readMessageObj(currentMessageObject);
 };
 
-export const basicConfirmMessage = (text, header) => {
-  readCustomMessageObj({
+export const gamePlayConfirmMessage = (
+  text,
+  header,
+  currentPlayer,
+  opposingPlayer
+) => {
+  return readCustomMessageObj({
     state: "confirm",
     header: header,
     textList: [text],
-    confirmStep: () => {
+    confirmStep: async () => {
       messageBoxHandler.closeMessage();
+      if (opposingPlayer.type === computerType) {
+        opposingPlayer.attack(currentPlayer);
+      }
+      enablePlayerBoards(true);
     },
   });
 };
