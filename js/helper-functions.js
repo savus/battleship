@@ -65,7 +65,7 @@ export const gamePlayConfirmMessage = (text, currentPlayer, opposingPlayer) => {
     state: "confirm",
     header: "Game Play ",
     textList: [text],
-    confirmStep: async () => {
+    confirmStep: () => {
       messageBoxHandler.closeMessage();
       if (opposingPlayer.type === computerType) {
         opposingPlayer.attack(currentPlayer);

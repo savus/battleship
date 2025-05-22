@@ -1,7 +1,7 @@
 // import { buildBoardData, gameBoardClass } from "./board-elements.js";
 
 import GameBoard from "./game-board.js";
-import { computerType, messageBoxHandler, userType } from "./main.js";
+import { computer, computerType, messageBoxHandler, userType } from "./main.js";
 import { Ship } from "./ship.js";
 import {
   gamePlayConfirmMessage,
@@ -95,7 +95,23 @@ export class Player {
     const isUser = this.type === userType;
     let chosenCell = isUser ? cell : this.chooseCell(opponent);
     const ship = findShipByCell(opponent, chosenCell);
+
     enablePlayerBoards(false);
+
+    if (chosenCell.status === "miss" || chosenCell.status === "hit") {
+      //target already hit
+      if (!isUser) return this.attack(opponent);
+
+      readCustomMessageObj({
+        state: "confirm",
+        header: "Game Play",
+        textList: [this.alreadyTargetedMessage],
+        confirmStep: () => {
+          messageBoxHandler.closeMessage();
+          enablePlayerBoards(true);
+        },
+      });
+    }
 
     if (!isUser) {
       readCustomMessageObj({
@@ -104,45 +120,113 @@ export class Player {
         textList: ["Computer is thinking..."],
       });
 
-      await wait(1000);
+      await wait(500);
     }
 
-    if (chosenCell.status === "miss" || chosenCell.status === "hit") {
-      if (!isUser) return this.attack(opponent);
-      else {
-        readCustomMessageObj({
-          state: "confirm",
-          header: "Game Play",
-          textList: [this.alreadyTargetedMessage],
-          confirmStep: () => {
-            messageBoxHandler.closeMessage();
-            enablePlayerBoards(true);
-          },
-        });
-        return;
-      }
+    if (chosenCell.status === "empty") {
+      chosenCell.updateTile("miss");
+      readCustomMessageObj({
+        state: "confirm",
+        header: "Game Play",
+        textList: [this.missMessage],
+        confirmStep: () => {
+          messageBoxHandler.closeMessage();
+          if (opponent.type === computerType) {
+            opponent.attack(this);
+          }
+          enablePlayerBoards(true);
+        },
+      });
     }
-
-    this.handleEmptyTile(chosenCell, this, opponent);
 
     if (this.hasShipBeenHit(chosenCell, isUser, ship)) {
       if (this.hasShipSunk(ship, this, opponent)) {
         //check if game lost
         if (this.isGameOver(opponent)) {
-          gamePlayConfirmMessage(this.gameLostMessage, this, opponent);
+          readCustomMessageObj({
+            state: "confirm",
+            header: "Game Play",
+            textList: [this.gameLostMessage],
+            confirmStep: () => {
+              messageBoxHandler.closeMessage();
+            },
+          });
           return;
         } else {
-          gamePlayConfirmMessage(
-            opponent.shipsRemainingMessage(),
-            this,
-            opponent
-          );
+          readCustomMessageObj({
+            state: "confirm",
+            header: "Game Play",
+            textList: [this.sunkMessage(ship)],
+            confirmStep: () => {
+              readCustomMessageObj({
+                state: "confirm",
+                header: "Game Play",
+                textList: [this.shipsRemainingMessage()],
+                confirmStep: () => {
+                  messageBoxHandler.closeMessage();
+                  enablePlayerBoards(true);
+                },
+              });
+            },
+          });
         }
       } else {
-        gamePlayConfirmMessage(this.hitMessage(ship), this, opponent);
+        readCustomMessageObj({
+          state: "confirm",
+          header: "Game Play",
+          textList: [this.hitMessage(ship)],
+          confirmStep: () => {
+            messageBoxHandler.closeMessage();
+            if (opponent.type === computerType) {
+              opponent.attack(this);
+            }
+            enablePlayerBoards(true);
+          },
+        });
       }
     }
 
+    // if (!isUser) {
+    //   readCustomMessageObj({
+    //     state: "none",
+    //     header: "Game Play",
+    //     textList: ["Computer is thinking..."],
+    //   });
+    //   await wait(1000);
+    // }
+    // if (chosenCell.status === "miss" || chosenCell.status === "hit") {
+    //   if (!isUser) return this.attack(opponent);
+    //   else {
+    //     readCustomMessageObj({
+    //       state: "confirm",
+    //       header: "Game Play",
+    //       textList: [this.alreadyTargetedMessage],
+    //       confirmStep: () => {
+    //         messageBoxHandler.closeMessage();
+    //         enablePlayerBoards(true);
+    //       },
+    //     });
+    //     return;
+    //   }
+    // }
+    // this.handleEmptyTile(chosenCell, this, opponent);
+    // if (this.hasShipBeenHit(chosenCell, isUser, ship)) {
+    //   if (this.hasShipSunk(ship, this, opponent)) {
+    //     //check if game lost
+    //     if (this.isGameOver(opponent)) {
+    //       gamePlayConfirmMessage(this.gameLostMessage, this, opponent);
+    //       return;
+    //     } else {
+    //       gamePlayConfirmMessage(
+    //         opponent.shipsRemainingMessage(),
+    //         this,
+    //         opponent
+    //       );
+    //     }
+    //   } else {
+    //     gamePlayConfirmMessage(this.hitMessage(ship), this, opponent);
+    //   }
+    // }
     // if (isUser) {
     //   opponent.attack(this);
     // }
@@ -167,11 +251,6 @@ export class Player {
   hasShipSunk = (ship, currentPlayer, opposingPlayer) => {
     if (ship.checkIfSunk()) {
       opposingPlayer.reduceLives(1);
-      gamePlayConfirmMessage(
-        this.sunkMessage(ship),
-        currentPlayer,
-        opposingPlayer
-      );
       if (currentPlayer.type === computerType) this.lastShipHit = null;
       return true;
     }
