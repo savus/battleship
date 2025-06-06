@@ -18,6 +18,8 @@ import {
 
 export class MessageBoxHandler {
   textListIndex = 0;
+  state = "none";
+  canBeClicked = false;
   constructor(messageBoxElem, header, controls, textField) {
     this.messageBoxElement = messageBoxElem;
     this.header = header;
@@ -33,6 +35,7 @@ export class MessageBoxHandler {
   closeMessage = () => {
     removeActive(this.messageBoxElement);
     this.messageBoxElement.classList.add(close);
+    this.canBeClicked = false;
   };
 
   clearText = () => (this.textField.innerHTML = "");
@@ -42,7 +45,10 @@ export class MessageBoxHandler {
     this.openMessage();
     this.header.innerHTML = header;
     this.controls.setAttribute(dataState, state);
+    this.canBeClicked = false;
+    this.state = state;
     await typeWords(this.textField, textList[this.textListIndex]);
+    this.canBeClicked = true;
     return;
   };
 

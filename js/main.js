@@ -19,7 +19,10 @@
 // } from "./options-menu.js";
 // import { gameBoardClass, tileClassName } from "./board-elements.js";
 
-import { messageBoxControlsHandler } from "./click-functions.js";
+import {
+  documentClickHandler,
+  messageBoxControlsHandler,
+} from "./click-functions.js";
 import {
   goToMessageObj,
   readCustomMessageObj,
@@ -291,3 +294,5 @@ computer.ships.forEach((ship) => ship.placeShipPieces());
 // });
 
 messageBoxControls.addEventListener("click", messageBoxControlsHandler);
+
+document.addEventListener("click", documentClickHandler);

@@ -68,3 +68,16 @@ export const tileClickHandler = (html, cell, cb) => {
     cell.displayStatus();
   }
 };
+
+export const documentClickHandler = () => {
+  if (messageBoxHandler.canBeClicked) {
+    switch (messageBoxHandler.state) {
+      case "confirm":
+        currentMessageObject.confirmStep();
+        break;
+      case "prev-next":
+        currentMessageObject.nextStep();
+        break;
+    }
+  }
+};
