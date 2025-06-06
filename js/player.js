@@ -1,7 +1,13 @@
 // import { buildBoardData, gameBoardClass } from "./board-elements.js";
 
 import GameBoard from "./game-board.js";
-import { computer, computerType, messageBoxHandler, userType } from "./main.js";
+import {
+  computer,
+  computerThinkingDuration,
+  computerType,
+  messageBoxHandler,
+  userType,
+} from "./main.js";
 import { Ship } from "./ship.js";
 import {
   gamePlayConfirmMessage,
@@ -108,7 +114,6 @@ export class Player {
         textList: [this.alreadyTargetedMessage],
         confirmStep: () => {
           messageBoxHandler.closeMessage();
-          enablePlayerBoards(true);
         },
       });
     }
@@ -120,7 +125,7 @@ export class Player {
         textList: ["Computer is thinking..."],
       });
 
-      await wait(500);
+      await wait(computerThinkingDuration);
     }
 
     if (chosenCell.status === "empty") {
@@ -134,7 +139,6 @@ export class Player {
           if (opponent.type === computerType) {
             opponent.attack(this);
           }
-          enablePlayerBoards(true);
         },
       });
     }
@@ -164,7 +168,6 @@ export class Player {
                 textList: [this.shipsRemainingMessage()],
                 confirmStep: () => {
                   messageBoxHandler.closeMessage();
-                  enablePlayerBoards(true);
                 },
               });
             },
@@ -180,11 +183,12 @@ export class Player {
             if (opponent.type === computerType) {
               opponent.attack(this);
             }
-            enablePlayerBoards(true);
           },
         });
       }
     }
+
+    enablePlayerBoards(true);
 
     // if (!isUser) {
     //   readCustomMessageObj({

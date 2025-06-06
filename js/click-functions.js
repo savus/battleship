@@ -52,32 +52,32 @@ export const messageBoxControlsHandler = ({ target }) => {
   }
 };
 
-export const tileClickHandler = (html, cell, cb) => {
-  const classList = html.classList;
-  const isClickable = classList.contains(tilesClickableClass);
+// export const tileClickHandler = (html, cell, cb) => {
+//   const classList = html.classList;
+//   const isClickable = classList.contains(tilesClickableClass);
 
-  if (isClickable) {
-    switch (cell.status) {
-      case "empty":
-        cell.setStatus("miss");
-        break;
-      case "occupied":
-        cell.setStatus("hit");
-        cb(1);
-    }
-    cell.displayStatus();
-  }
-};
+//   if (isClickable) {
+//     switch (cell.status) {
+//       case "empty":
+//         cell.setStatus("miss");
+//         break;
+//       case "occupied":
+//         cell.setStatus("hit");
+//         cb(1);
+//     }
+//     cell.displayStatus();
+//   }
+// };
 
 export const documentClickHandler = () => {
-  if (messageBoxHandler.canBeClicked) {
-    switch (messageBoxHandler.state) {
-      case "confirm":
-        currentMessageObject.confirmStep();
-        break;
-      case "prev-next":
-        currentMessageObject.nextStep();
-        break;
-    }
-  }
+  // if (messageBoxHandler.canBeClicked) {
+  //   switch (messageBoxHandler.state) {
+  //     case "confirm":
+  //       currentMessageObject.confirmStep();
+  //       break;
+  //     case "prev-next":
+  //       currentMessageObject.nextStep();
+  //       break;
+  //   }
+  // }
 };

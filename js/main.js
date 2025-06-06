@@ -218,6 +218,7 @@ export const tilesClickableClass = "tiles-clickable";
 export const boardClickableClass = "board-clickable";
 export const userType = "user";
 export const computerType = "computer";
+export const computerThinkingDuration = 3000;
 
 const root = document.documentElement;
 
