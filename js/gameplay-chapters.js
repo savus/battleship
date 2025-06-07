@@ -26,6 +26,7 @@
 // import { gameBoardClass } from "./board-elements.js";
 
 import {
+  getRandomCell,
   resetGame,
   setUpBoards,
   setUpDemoBoards,
@@ -113,9 +114,29 @@ export const beginTutorial = () => {
   setUpShips();
 };
 
-export const damagedPieceTutorial = () => {
-  const tutorialCell = computer.ships[0].occupiedCells[0];
+export const tutorialMissTile = () => {
+  const cell = getRandomCell(computer.board.grid);
+  cell.updateTile("miss");
+};
+
+export const tutorialHitPiece = (player) => {
+  const tutorialCell = player.ships[0].occupiedCells[0];
   tutorialCell.updateTile("hit");
+};
+
+export const tutorialSunkShip = () => {
+  const tutorialShip = computer.ships[0];
+  tutorialShip.occupiedCells.forEach((cell) => {
+    cell.updateTile("hit");
+  });
+};
+
+export const tutorialSinkAllShips = () => {
+  computer.ships.forEach((ship) => {
+    ship.occupiedCells.forEach((cell) => {
+      cell.updateTile("hit");
+    });
+  });
 };
 
 export const beginGame = () => {

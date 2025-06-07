@@ -17,6 +17,7 @@
   box-shadow: inset -3px 4px 1rem 0.188rem rgba(255, 255, 255, 0.2);
   transform: scale(0);
   animation: var(--anim-name) var(--anim-dur) ease-in-out forwards;
+  user-select: none;
 }
 
 .message-box.thinking {
