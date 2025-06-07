@@ -23,9 +23,11 @@ import {
   documentClickHandler,
   messageBoxControlsHandler,
 } from "./click-functions.js";
+import { beginIntro } from "./gameplay-chapters.js";
 import {
   goToMessageObj,
   readCustomMessageObj,
+  resetGame,
   wait,
 } from "./helper-functions.js";
 import { MessageBoxHandler } from "./message-box-handler.js";
@@ -262,20 +264,15 @@ export const gameBoardContainer = document.querySelector(
   `.${gameBoardContainerClass}`
 );
 
-export const user = new Player("player1", userType, boardSize);
-export const computer = new Computer("player2", computerType, boardSize);
+export let user;
+export let computer;
 
-export const players = [user, computer];
+export const setUser = (obj) => (user = obj);
+export const setComputer = (obj) => (computer = obj);
 
-user.addBoardClass(hoveringClass);
-user.addBoardClass(boardClickableClass);
-computer.addBoardClass(active);
-computer.addBoardClass(hoveringClass);
-computer.addBoardClass(tilesClickableClass);
-computer.addBoardClass(boardClickableClass);
+export const players = [];
 
-user.ships.forEach((ship) => ship.placeShipPieces());
-computer.ships.forEach((ship) => ship.placeShipPieces());
+beginIntro();
 
 // wait(100).then(() => {
 //   return messageBoxHandler.readMessageObj(currentMessageObject);

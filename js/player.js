@@ -2,7 +2,6 @@
 
 import GameBoard from "./game-board.js";
 import {
-  computer,
   computerThinkingDuration,
   computerType,
   messageBoxHandler,
@@ -10,15 +9,13 @@ import {
 } from "./main.js";
 import { Ship } from "./ship.js";
 import {
-  gamePlayConfirmMessage,
   enablePlayerBoards,
   findShipByCell,
   getRandomCell,
   readCustomMessageObj,
-  swapPlayerBoards,
   wait,
-  gameOver,
 } from "./helper-functions.js";
+import { gameOver } from "./gameplay-chapters.js";
 
 export const shipData = [
   { name: "Carrier", lives: 5, length: 5 },

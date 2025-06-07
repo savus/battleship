@@ -27,7 +27,13 @@
 // import { shipData } from "./ship.js";
 // import { gameBoardClass } from "./board-elements.js";
 
-import { goToNextMessageObj, goToPrevMessageObj } from "./helper-functions.js";
+import { beginGame, beginTutorial } from "./gameplay-chapters.js";
+import {
+  goToMessageObj,
+  goToNextMessageObj,
+  goToPrevMessageObj,
+  resetGame,
+} from "./helper-functions.js";
 import {
   currentMessageIndex,
   currentMessageObject,
@@ -367,47 +373,41 @@ const messageObjects = {
   introduction: [
     {
       state: "confirm",
-      header: "Testing",
-      textList: ["This is a test message"],
+      header: "Introduction",
+      textList: ["Hello, and welcome to my battleship game!"],
       confirmStep: () => {
         goToNextMessageObj(messageObjects.introduction);
       },
     },
     {
-      state: "prev-next",
-      header: "Testing - 2",
-      textList: [
-        "This is going to demonstrate iterating through multiple messages in a text list dynamically",
-        "If this succeeds, then this message will be the second",
-        "And this message will be the third",
-      ],
-      prevStep: () => {
-        goToPrevMessageObj(messageObjects.introduction);
-      },
-      nextStep: () => {
-        goToNextMessageObj(messageObjects.introduction);
-      },
-    },
-    {
-      state: "prompt",
-      header: "Testing - prompt",
-      textList: ["This is a prompt to ask for user input"],
-      promptStep: (input) => {
-        console.log("user said ", input);
-        goToNextMessageObj(messageObjects.introduction);
-      },
-    },
-    {
       state: "yes-no",
-      header: "Testing - prompt",
-      textList: ["This is a prompt to ask for user input"],
+      header: "Introduction",
+      textList: ["Would you like a tutorial on how to play?"],
       yesStep: () => {
-        console.log("User clicked yes");
-        goToNextMessageObj(messageObjects.introduction);
+        beginTutorial();
+        goToMessageObj(messageObjects.tutorials, 0);
       },
       noStep: () => {
-        console.log("User clicked no");
         goToNextMessageObj(messageObjects.introduction);
+      },
+    },
+    {
+      state: "confirm",
+      header: "Introduction",
+      textList: ["Very well, then let us begin!"],
+      confirmStep: () => {
+        messageBoxHandler.closeMessage();
+        beginGame();
+      },
+    },
+  ],
+  tutorials: [
+    {
+      state: "confirm",
+      header: "Tutorial",
+      textList: ["This is the first message of the tutorial"],
+      confirmStep: () => {
+        messageBoxHandler.closeMessage();
       },
     },
   ],

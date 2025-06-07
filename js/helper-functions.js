@@ -3,16 +3,24 @@ import {
   alphabet,
   boardClickableClass,
   boardSize,
+  computer,
   computerType,
   controlButtons,
   currentMessageIndex,
   currentMessageObject,
+  gameBoardContainer,
+  hoveringClass,
   messageBoxHandler,
   players,
+  setComputer,
   setCurrentMessageIndex,
   setCurrentMessageObj,
+  setUser,
   tilesClickableClass,
+  user,
+  userType,
 } from "./main.js";
+import { Computer, Player } from "./player.js";
 
 export const wait = (ms) =>
   new Promise((resolve) => {
@@ -110,10 +118,6 @@ export const swapPlayerBoards = (player1, player2) => {
   player2.removeBoardClass(tilesClickableClass);
 };
 
-export const gameOver = () => {
-  document.body.innerHTML = "";
-};
-
 export const convertCoordsToNum = (coords) => {
   const yCoord = coords.slice(0, 1).toLowerCase().charCodeAt() - 97;
   const xCoord = parseInt(coords.slice(1));
@@ -152,6 +156,32 @@ export const findShipByCell = (player, cell) =>
   player.ships.find((ship) =>
     ship.occupiedCells.find((item) => item.coords === cell.coords)
   );
+
+export const resetGame = () => {
+  gameBoardContainer.innerHTML = "";
+  players.length = 0;
+  setUser(new Player("player1", userType, boardSize));
+  setComputer(new Computer("player2", computerType, boardSize));
+  players.push(user, computer);
+};
+
+export const setUpDemoBoards = () => {
+  user.addBoardClass(active);
+};
+
+export const setUpBoards = () => {
+  user.addBoardClass(hoveringClass);
+  user.addBoardClass(boardClickableClass);
+  computer.addBoardClass(active);
+  computer.addBoardClass(hoveringClass);
+  computer.addBoardClass(tilesClickableClass);
+  computer.addBoardClass(boardClickableClass);
+};
+
+export const setUpShips = () => {
+  user.ships.forEach((ship) => ship.placeShipPieces());
+  computer.ships.forEach((ship) => ship.placeShipPieces());
+};
 
 // export const getRandomCell = (board, boardSize) => {
 //   const randomYCoord = alphabet[Math.floor(Math.random() * boardSize)];
