@@ -27,20 +27,27 @@
 // import { shipData } from "./ship.js";
 // import { gameBoardClass } from "./board-elements.js";
 
-import { beginGame, beginTutorial } from "./gameplay-chapters.js";
+import {
+  beginGame,
+  beginTutorial,
+  damagedPieceTutorial,
+} from "./gameplay-chapters.js";
 import {
   goToMessageObj,
   goToNextMessageObj,
   goToPrevMessageObj,
   resetGame,
+  swapPlayerBoards,
 } from "./helper-functions.js";
 import {
+  computer,
   currentMessageIndex,
   currentMessageObject,
   messageBoxHandler,
   promptInput,
   setCurrentMessageIndex,
   setCurrentMessageObj,
+  user,
 } from "./main.js";
 
 // const messageData = {
@@ -405,7 +412,31 @@ const messageObjects = {
     {
       state: "confirm",
       header: "Tutorial",
-      textList: ["This is the first message of the tutorial"],
+      textList: [
+        "You and your opponent each start with a board populated by ship pieces",
+      ],
+      confirmStep: () => {
+        goToNextMessageObj(messageObjects.tutorials);
+        swapPlayerBoards(computer, user);
+      },
+    },
+    {
+      state: "confirm",
+      header: "Tutorial",
+      textList: [
+        "Your pieces are represented by these circles, while your opponent's pieces are hidden",
+      ],
+      confirmStep: () => {
+        damagedPieceTutorial();
+        goToNextMessageObj(messageObjects.tutorials);
+      },
+    },
+    {
+      state: "confirm",
+      header: "Tutorial",
+      textList: [
+        "If you click on a tile occupied by one of the enemy ships, you will land a hit!",
+      ],
       confirmStep: () => {
         messageBoxHandler.closeMessage();
       },

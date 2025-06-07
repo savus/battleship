@@ -109,10 +109,10 @@ export const enablePlayerBoards = (bool) => {
   });
 };
 
-export const swapPlayerBoards = (player1, player2) => {
+export const swapPlayerBoards = (player1, player2, isDemo = false) => {
   const isComputer = player1.type === computerType;
   player1.addBoardClass(active);
-  if (isComputer) player1.addBoardClass(tilesClickableClass);
+  if (isComputer && !isDemo) player1.addBoardClass(tilesClickableClass);
 
   player2.removeBoardClass(active);
   player2.removeBoardClass(tilesClickableClass);

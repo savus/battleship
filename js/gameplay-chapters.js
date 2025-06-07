@@ -113,6 +113,11 @@ export const beginTutorial = () => {
   setUpShips();
 };
 
+export const damagedPieceTutorial = () => {
+  const tutorialCell = computer.ships[0].occupiedCells[0];
+  tutorialCell.updateTile("hit");
+};
+
 export const beginGame = () => {
   resetGame();
 
