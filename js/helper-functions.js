@@ -110,6 +110,10 @@ export const swapPlayerBoards = (player1, player2) => {
   player2.removeBoardClass(tilesClickableClass);
 };
 
+export const gameOver = () => {
+  document.body.innerHTML = "";
+};
+
 export const convertCoordsToNum = (coords) => {
   const yCoord = coords.slice(0, 1).toLowerCase().charCodeAt() - 97;
   const xCoord = parseInt(coords.slice(1));

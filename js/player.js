@@ -17,6 +17,7 @@ import {
   readCustomMessageObj,
   swapPlayerBoards,
   wait,
+  gameOver,
 } from "./helper-functions.js";
 
 export const shipData = [
@@ -104,19 +105,7 @@ export class Player {
 
     enablePlayerBoards(false);
 
-    if (chosenCell.status === "miss" || chosenCell.status === "hit") {
-      //target already hit
-      if (!isUser) return this.attack(opponent);
-
-      readCustomMessageObj({
-        state: "confirm",
-        header: "Game Play",
-        textList: [this.alreadyTargetedMessage],
-        confirmStep: () => {
-          messageBoxHandler.closeMessage();
-        },
-      });
-    }
+    this.handleReclickedTile(chosenCell, this, opponent, isUser);
 
     if (!isUser) {
       readCustomMessageObj({
@@ -128,69 +117,9 @@ export class Player {
       await wait(computerThinkingDuration);
     }
 
-    if (chosenCell.status === "empty") {
-      chosenCell.updateTile("miss");
-      readCustomMessageObj({
-        state: "confirm",
-        header: "Game Play",
-        textList: [this.missMessage],
-        confirmStep: () => {
-          messageBoxHandler.closeMessage();
-          if (opponent.type === computerType) {
-            opponent.attack(this);
-          } else {
-            enablePlayerBoards(true);
-          }
-        },
-      });
-    }
+    this.handleEmptyTile(chosenCell, this, opponent);
 
-    if (this.hasShipBeenHit(chosenCell, isUser, ship)) {
-      if (this.hasShipSunk(ship, this, opponent)) {
-        //check if game lost
-        if (this.isGameOver(opponent)) {
-          readCustomMessageObj({
-            state: "confirm",
-            header: "Game Play",
-            textList: [this.gameLostMessage],
-            confirmStep: () => {
-              messageBoxHandler.closeMessage();
-            },
-          });
-          return;
-        } else {
-          readCustomMessageObj({
-            state: "confirm",
-            header: "Game Play",
-            textList: [this.sunkMessage(ship)],
-            confirmStep: () => {
-              readCustomMessageObj({
-                state: "confirm",
-                header: "Game Play",
-                textList: [this.shipsRemainingMessage()],
-                confirmStep: () => {
-                  messageBoxHandler.closeMessage();
-                },
-              });
-            },
-          });
-        }
-      } else {
-        readCustomMessageObj({
-          state: "confirm",
-          header: "Game Play",
-          textList: [this.hitMessage(ship)],
-          confirmStep: () => {
-            messageBoxHandler.closeMessage();
-            if (opponent.type === computerType) {
-              opponent.attack(this);
-            } else {
-              enablePlayerBoards(true);
-            }
-          },
-        });
-      }
-    }
+    this.handleOccupiedTile(chosenCell, this, ship, opponent, isUser);
 
     // if (!isUser) {
     //   readCustomMessageObj({
@@ -238,10 +167,91 @@ export class Player {
     // }
   };
 
-  handleEmptyTile = (chosenCell, currentPlayer, opposingPlayer) => {
+  handleReclickedTile = (chosenCell, currentPlayer, opponent, isUser) => {
+    if (chosenCell.status === "miss" || chosenCell.status === "hit") {
+      //target already hit
+      if (!isUser) return currentPlayer.attack(opponent);
+
+      readCustomMessageObj({
+        state: "confirm",
+        header: "Game Play",
+        textList: [currentPlayer.alreadyTargetedMessage],
+        confirmStep: () => {
+          messageBoxHandler.closeMessage();
+          enablePlayerBoards(true);
+        },
+      });
+    }
+  };
+
+  handleEmptyTile = (chosenCell, currentPlayer, opponent) => {
     if (chosenCell.status === "empty") {
       chosenCell.updateTile("miss");
-      gamePlayConfirmMessage(this.missMessage, currentPlayer, opposingPlayer);
+      readCustomMessageObj({
+        state: "confirm",
+        header: "Game Play",
+        textList: [currentPlayer.missMessage],
+        confirmStep: () => {
+          messageBoxHandler.closeMessage();
+          if (opponent.type === computerType) {
+            opponent.attack(currentPlayer);
+          } else {
+            enablePlayerBoards(true);
+          }
+        },
+      });
+    }
+  };
+
+  handleOccupiedTile = (chosenCell, currentPlayer, ship, opponent, isUser) => {
+    if (currentPlayer.hasShipBeenHit(chosenCell, isUser, ship)) {
+      if (currentPlayer.hasShipSunk(ship, currentPlayer, opponent)) {
+        //check if game lost
+        if (currentPlayer.isGameOver(opponent)) {
+          readCustomMessageObj({
+            state: "confirm",
+            header: "Game Play",
+            textList: [currentPlayer.gameLostMessage],
+            confirmStep: async () => {
+              messageBoxHandler.closeMessage();
+              await wait(1000);
+              gameOver();
+            },
+          });
+          return;
+        } else {
+          readCustomMessageObj({
+            state: "confirm",
+            header: "Game Play",
+            textList: [currentPlayer.sunkMessage(ship)],
+            confirmStep: () => {
+              readCustomMessageObj({
+                state: "confirm",
+                header: "Game Play",
+                textList: [currentPlayer.shipsRemainingMessage()],
+                confirmStep: () => {
+                  messageBoxHandler.closeMessage();
+                  enablePlayerBoards(true);
+                },
+              });
+            },
+          });
+        }
+      } else {
+        readCustomMessageObj({
+          state: "confirm",
+          header: "Game Play",
+          textList: [this.hitMessage(ship)],
+          confirmStep: () => {
+            messageBoxHandler.closeMessage();
+            if (opponent.type === computerType) {
+              opponent.attack(this);
+            } else {
+              enablePlayerBoards(true);
+            }
+          },
+        });
+      }
     }
   };
 

@@ -70,14 +70,14 @@ export const messageBoxControlsHandler = ({ target }) => {
 // };
 
 export const documentClickHandler = () => {
-  // if (messageBoxHandler.canBeClicked) {
-  //   switch (messageBoxHandler.state) {
-  //     case "confirm":
-  //       currentMessageObject.confirmStep();
-  //       break;
-  //     case "prev-next":
-  //       currentMessageObject.nextStep();
-  //       break;
-  //   }
-  // }
+  if (messageBoxHandler.canBeClicked) {
+    switch (messageBoxHandler.state) {
+      case "confirm":
+        currentMessageObject.confirmStep();
+        break;
+      case "prev-next":
+        currentMessageObject.nextStep();
+        break;
+    }
+  }
 };
