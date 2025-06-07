@@ -138,6 +138,8 @@ export class Player {
           messageBoxHandler.closeMessage();
           if (opponent.type === computerType) {
             opponent.attack(this);
+          } else {
+            enablePlayerBoards(true);
           }
         },
       });
@@ -182,13 +184,13 @@ export class Player {
             messageBoxHandler.closeMessage();
             if (opponent.type === computerType) {
               opponent.attack(this);
+            } else {
+              enablePlayerBoards(true);
             }
           },
         });
       }
     }
-
-    enablePlayerBoards(true);
 
     // if (!isUser) {
     //   readCustomMessageObj({
