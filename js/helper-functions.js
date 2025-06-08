@@ -15,8 +15,10 @@ import {
   setComputer,
   setCurrentMessageIndex,
   setCurrentMessageObj,
+  setUpClass,
   setUser,
   tilesClickableClass,
+  tileSetupAnimLength,
   user,
   userType,
 } from "./main.js";
@@ -169,13 +171,27 @@ export const setUpDemoBoards = () => {
   user.addBoardClass(active);
 };
 
-export const setUpBoards = () => {
-  user.addBoardClass(hoveringClass);
+export const setUpBoards = async () => {
   user.addBoardClass(boardClickableClass);
+  user.addBoardClass(setUpClass);
+
   computer.addBoardClass(active);
-  computer.addBoardClass(hoveringClass);
   computer.addBoardClass(tilesClickableClass);
   computer.addBoardClass(boardClickableClass);
+  computer.addBoardClass(setUpClass);
+
+  //CSS ANIMATION CONFLICT:
+  //Remove setUpClass before adding hoveringClass
+
+  await wait(tileSetupAnimLength);
+
+  user.removeBoardClass(setUpClass);
+  computer.removeBoardClass(setUpClass);
+
+  user.addBoardClass(hoveringClass);
+  computer.addBoardClass(hoveringClass);
+
+  await wait(1000);
 };
 
 export const setUpShips = () => {
@@ -275,13 +291,13 @@ export const setUpShips = () => {
 // };
 
 // export const playersSetup = (user, computer) => {
-//   user.board.toggleBoardTileClass("set-up");
-//   computer.board.toggleBoardTileClass("set-up");
+//   user.board.toggleBoardTileClass(setUpClass);
+//   computer.board.toggleBoardTileClass(setUpClass);
 // };
 
 // export const endPlayersSetup = (user, computer) => {
-//   user.board.toggleBoardTileClass("set-up");
-//   computer.board.toggleBoardTileClass("set-up");
+//   user.board.toggleBoardTileClass(setUpClass);
+//   computer.board.toggleBoardTileClass(setUpClass);
 // };
 
 // export const startPlayersHovering = (user, computer) => {

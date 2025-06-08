@@ -23,7 +23,7 @@ import {
   documentClickHandler,
   messageBoxControlsHandler,
 } from "./click-functions.js";
-import { beginIntro } from "./gameplay-chapters.js";
+import { beginGame, beginIntro } from "./gameplay-chapters.js";
 import {
   goToMessageObj,
   readCustomMessageObj,
@@ -216,6 +216,7 @@ export const boardSize = 6;
 export const rowClass = "row";
 export const tileClass = "tile";
 export const hoveringClass = "hovering";
+export const setUpClass = "set-up";
 export const tilesClickableClass = "tiles-clickable";
 export const boardClickableClass = "board-clickable";
 export const userType = "user";
@@ -227,6 +228,14 @@ const root = document.documentElement;
 export const gameBoardClass = "game-board";
 export const messageBoxDur =
   getComputedStyle(root).getPropertyValue("--message-box-dur") * 500;
+
+export const tileSetupDuration =
+  getComputedStyle(root).getPropertyValue("--tile-setup-dur") * 1000;
+export const tileSetupDelay =
+  getComputedStyle(root).getPropertyValue("--tile-setup-del") * 1000;
+
+export const tileSetupAnimLength =
+  boardSize ** 2 * tileSetupDelay + tileSetupDuration;
 
 const messageBoxClass = "message-box";
 const headerClass = "message-box-header";
@@ -274,22 +283,19 @@ export const players = [];
 
 beginIntro();
 
-// wait(100).then(() => {
-//   return messageBoxHandler.readMessageObj(currentMessageObject);
-// });
+// setUser(new Player("player1", userType, boardSize));
+// setComputer(new Computer("player2", computerType, boardSize));
+// players.push(user, computer);
 
-// readCustomMessageObj({
-//   state: "confirm",
-//   header: "custom-message",
-//   textList: [
-//     "This is a test to confirm custom message objects and their effecacy",
-//   ],
-//   confirmStep: () => {
-//     messageBoxHandler.closeMessage();
-//     console.log(currentMessageIndex, currentMessageObject);
-//     goToMessageObj(messageObjects.introduction, 0);
-//   },
-// });
+// user.addBoardClass(active);
+// user.addBoardClass(setUpClass);
+
+// await wait(3000);
+
+// user.removeBoardClass(setUpClass);
+// user.addBoardClass(hoveringClass);
+
+// console.log(players);
 
 messageBoxControls.addEventListener("click", messageBoxControlsHandler);
 

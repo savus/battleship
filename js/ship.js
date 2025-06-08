@@ -20,6 +20,7 @@ export class Ship {
   isHorizontal = Math.floor(Math.random() * 2) + 1 === 1 ? true : false;
   occupiedCells = [];
   isSunk = false;
+
   constructor({ name, lives, length }, board, type) {
     this.name = name;
     this.lives = lives;
@@ -48,10 +49,14 @@ export class Ship {
   areAllCellsValid = (yCoord, xCoord) => {
     for (let i = 1; i < this.length; i++) {
       this.isHorizontal === true ? xCoord++ : yCoord++;
+
       const [letter, number] = convertNumToCoords(yCoord, xCoord);
       const stringified = `${letter}${number}`;
+
       if (!areCoordsWithinBoard(stringified)) return false;
+
       const newCell = getCell(letter, number, this.board.grid);
+
       if (newCell.status === "occupied") return false;
       this.occupiedCells.push(newCell);
     }

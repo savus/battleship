@@ -203,7 +203,6 @@ export class Player {
   handleOccupiedTile = (chosenCell, currentPlayer, ship, opponent, isUser) => {
     if (currentPlayer.hasShipBeenHit(chosenCell, isUser, ship)) {
       if (currentPlayer.hasShipSunk(ship, currentPlayer, opponent)) {
-        //check if game lost
         if (currentPlayer.isGameOver(opponent)) {
           readCustomMessageObj({
             state: "confirm",

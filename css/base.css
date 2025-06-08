@@ -4,8 +4,8 @@
   --size-20: 1.25rem;
   --size-40: 2.5rem;
   --num-of-tiles: 36;
-  --tile-setup-dur: 0.3;
-  --tile-setup-del: 0.06;
+  --tile-setup-dur: 0.7;
+  --tile-setup-del: 0.1;
   --message-box-dur: 0.8;
 }
 

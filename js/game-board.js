@@ -28,6 +28,11 @@ class GameBoard {
   numOfTiles;
   boardWidth;
 
+  //0.625 * 2 = padding on both sides
+  //0.9375 = width of flex gap
+  // this.size - 1 = number of gaps
+  // 4 * this.size = number of tiles at 4 rem
+
   constructor(size, type, getLives) {
     this.size = size;
     this.type = type;
@@ -84,10 +89,6 @@ class GameBoard {
 
     boardElement.id = this.type;
     boardElement.classList.add(gameBoardClass);
-    //0.625 * 2 = padding on both sides
-    //0.9375 = width of flex gap
-    // this.size - 1 = number of gaps
-    // 4 * this.size = number of tiles at 4 rem
     boardElement.style.width = `${this.boardWidth}rem`;
 
     boardElement.addEventListener("click", gameBoardClickHandler);
