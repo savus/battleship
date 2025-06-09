@@ -39,19 +39,10 @@ import {
   goToMessageObj,
   goToNextMessageObj,
   goToPrevMessageObj,
-  resetGame,
+  restartGame,
   swapPlayerBoards,
 } from "./helper-functions.js";
-import {
-  computer,
-  currentMessageIndex,
-  currentMessageObject,
-  messageBoxHandler,
-  promptInput,
-  setCurrentMessageIndex,
-  setCurrentMessageObj,
-  user,
-} from "./main.js";
+import { computer, messageBoxHandler, user } from "./main.js";
 
 // const messageData = {
 //   testing: [
@@ -386,7 +377,7 @@ const messageObjects = {
       header: "Introduction",
       textList: ["Hello, and welcome to my battleship game!"],
       confirmStep: () => {
-        goToNextMessageObj(messageObjects.introduction);
+        goToNextMessageObj();
       },
     },
     {
@@ -398,7 +389,7 @@ const messageObjects = {
         goToMessageObj(messageObjects.tutorials, 0);
       },
       noStep: () => {
-        goToNextMessageObj(messageObjects.introduction);
+        goToNextMessageObj();
       },
     },
     {
@@ -406,7 +397,7 @@ const messageObjects = {
       header: "Introduction",
       textList: ["Very well, then let us begin!"],
       prevStep: () => {
-        goToPrevMessageObj(messageObjects.introduction);
+        goToPrevMessageObj();
       },
       nextStep: () => {
         messageBoxHandler.closeMessage();
@@ -434,7 +425,7 @@ const messageObjects = {
       ],
       confirmStep: () => {
         tutorialMissTile();
-        goToNextMessageObj(messageObjects.tutorials);
+        goToNextMessageObj();
       },
     },
     {
@@ -445,7 +436,7 @@ const messageObjects = {
       ],
       confirmStep: () => {
         tutorialHitPiece(computer);
-        goToNextMessageObj(messageObjects.tutorials);
+        goToNextMessageObj();
       },
     },
     {
@@ -456,7 +447,7 @@ const messageObjects = {
       ],
       confirmStep: () => {
         tutorialSunkShip();
-        goToNextMessageObj(messageObjects.tutorials);
+        goToNextMessageObj();
       },
     },
     {
@@ -467,7 +458,7 @@ const messageObjects = {
       ],
       confirmStep: () => {
         tutorialSinkAllShips();
-        goToNextMessageObj(messageObjects.tutorials);
+        goToNextMessageObj();
       },
     },
     {
@@ -477,7 +468,7 @@ const messageObjects = {
         "If you sink all of your opponents ships before they sink yours, you win!",
       ],
       confirmStep: () => {
-        goToNextMessageObj(messageObjects.tutorials);
+        goToNextMessageObj();
       },
     },
     {
@@ -488,6 +479,24 @@ const messageObjects = {
         messageBoxHandler.closeMessage();
         beginGame();
       },
+    },
+  ],
+  replay: [
+    {
+      state: "yes-no",
+      header: "Game Over",
+      textList: ["Would you like to play again?"],
+      yesStep: () => {
+        restartGame();
+      },
+      noStep: () => {},
+    },
+  ],
+  gameOver: [
+    {
+      state: "confirm",
+      header: "Game Over",
+      textList: ["Thank you for playing! Have a nice day!"],
     },
   ],
 };

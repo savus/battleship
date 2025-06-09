@@ -24,15 +24,9 @@ import {
   messageBoxControlsHandler,
 } from "./click-functions.js";
 import { beginGame, beginIntro } from "./gameplay-chapters.js";
-import {
-  goToMessageObj,
-  readCustomMessageObj,
-  resetGame,
-  wait,
-} from "./helper-functions.js";
+
 import { MessageBoxHandler } from "./message-box-handler.js";
 import messageObjects from "./message-data-objects.js";
-import { Computer, Player } from "./player.js";
 
 // export const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 // export const active = "active";
@@ -212,7 +206,7 @@ export const active = "active";
 export const dataState = "data-state";
 export const dataStatus = "data-status";
 export const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-export const boardSize = 6;
+export const boardSize = 4;
 export const rowClass = "row";
 export const tileClass = "tile";
 export const hoveringClass = "hovering";
@@ -261,11 +255,11 @@ const promptInputSelector = "#user-input";
 export const promptInput = document.querySelector(promptInputSelector);
 
 export let currentMessageIndex = 0;
-export let currentMessageObject =
-  messageObjects.introduction[currentMessageIndex];
+export let currentMessageArray = messageObjects.introduction;
+export let currentMessageObject = currentMessageArray[currentMessageIndex];
 
 export const setCurrentMessageIndex = (num) => (currentMessageIndex = num);
-
+export const setCurrentMessageArray = (array) => (currentMessageArray = array);
 export const setCurrentMessageObj = (obj) => (currentMessageObject = obj);
 
 export const gameBoardContainerClass = "game-board-container";

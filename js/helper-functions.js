@@ -1,3 +1,4 @@
+import { beginGame } from "./gameplay-chapters.js";
 import {
   active,
   alphabet,
@@ -6,6 +7,7 @@ import {
   computer,
   computerType,
   controlButtons,
+  currentMessageArray,
   currentMessageIndex,
   currentMessageObject,
   gameBoardContainer,
@@ -13,6 +15,7 @@ import {
   messageBoxHandler,
   players,
   setComputer,
+  setCurrentMessageArray,
   setCurrentMessageIndex,
   setCurrentMessageObj,
   setUpClass,
@@ -47,21 +50,22 @@ const enableAllControlButtons = () =>
 const disableAllControlButtons = () =>
   controlButtons.forEach((btn) => btn.setAttribute("disabled", true));
 
-export const goToPrevMessageObj = (array) => {
+export const goToPrevMessageObj = () => {
   setCurrentMessageIndex(currentMessageIndex - 1);
-  setCurrentMessageObj(array[currentMessageIndex]);
+  setCurrentMessageObj(currentMessageArray[currentMessageIndex]);
   messageBoxHandler.readMessageObj(currentMessageObject);
 };
 
-export const goToNextMessageObj = (array) => {
+export const goToNextMessageObj = () => {
   setCurrentMessageIndex(currentMessageIndex + 1);
-  setCurrentMessageObj(array[currentMessageIndex]);
+  setCurrentMessageObj(currentMessageArray[currentMessageIndex]);
   messageBoxHandler.readMessageObj(currentMessageObject);
 };
 
 export const goToMessageObj = (array, index) => {
   setCurrentMessageIndex(index);
-  setCurrentMessageObj(array[currentMessageIndex]);
+  setCurrentMessageArray(array);
+  setCurrentMessageObj(currentMessageArray[currentMessageIndex]);
   messageBoxHandler.readMessageObj(currentMessageObject);
 };
 
@@ -159,7 +163,7 @@ export const findShipByCell = (player, cell) =>
     ship.occupiedCells.find((item) => item.coords === cell.coords)
   );
 
-export const resetGame = () => {
+export const resetPlayers = () => {
   gameBoardContainer.innerHTML = "";
   players.length = 0;
   setUser(new Player("player1", userType, boardSize));
@@ -167,17 +171,19 @@ export const resetGame = () => {
   players.push(user, computer);
 };
 
+export const restartGame = () => {
+  resetPlayers();
+  beginGame();
+};
+
 export const setUpDemoBoards = () => {
   user.addBoardClass(active);
 };
 
 export const setUpBoards = async () => {
-  user.addBoardClass(boardClickableClass);
   user.addBoardClass(setUpClass);
 
   computer.addBoardClass(active);
-  computer.addBoardClass(tilesClickableClass);
-  computer.addBoardClass(boardClickableClass);
   computer.addBoardClass(setUpClass);
 
   //CSS ANIMATION CONFLICT:
@@ -188,10 +194,12 @@ export const setUpBoards = async () => {
   user.removeBoardClass(setUpClass);
   computer.removeBoardClass(setUpClass);
 
+  user.addBoardClass(boardClickableClass);
   user.addBoardClass(hoveringClass);
-  computer.addBoardClass(hoveringClass);
 
-  await wait(1000);
+  computer.addBoardClass(tilesClickableClass);
+  computer.addBoardClass(boardClickableClass);
+  computer.addBoardClass(hoveringClass);
 };
 
 export const setUpShips = () => {

@@ -18,9 +18,9 @@ import {
 import { gameOver } from "./gameplay-chapters.js";
 
 export const shipData = [
-  { name: "Carrier", lives: 5, length: 5 },
-  { name: "Battleship", lives: 4, length: 4 },
-  { name: "Cruiser", lives: 3, length: 3 },
+  // { name: "Carrier", lives: 5, length: 5 },
+  // { name: "Battleship", lives: 4, length: 4 },
+  // { name: "Cruiser", lives: 3, length: 3 },
   { name: "Submarine", lives: 3, length: 3 },
   { name: "Destroyer", lives: 2, length: 2 },
 ];
@@ -203,6 +203,7 @@ export class Player {
   handleOccupiedTile = (chosenCell, currentPlayer, ship, opponent, isUser) => {
     if (currentPlayer.hasShipBeenHit(chosenCell, isUser, ship)) {
       if (currentPlayer.hasShipSunk(ship, currentPlayer, opponent)) {
+        console.log(ship);
         if (currentPlayer.isGameOver(opponent)) {
           readCustomMessageObj({
             state: "confirm",
@@ -261,7 +262,7 @@ export class Player {
   };
 
   hasShipSunk = (ship, currentPlayer, opposingPlayer) => {
-    if (ship.checkIfSunk()) {
+    if (ship.isSunk) {
       opposingPlayer.reduceLives(1);
       if (currentPlayer.type === computerType) this.lastShipHit = null;
       return true;

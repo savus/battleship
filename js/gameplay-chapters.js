@@ -27,21 +27,12 @@
 
 import {
   getRandomCell,
-  resetGame,
+  resetPlayers,
   setUpBoards,
   setUpDemoBoards,
   setUpShips,
 } from "./helper-functions.js";
-import {
-  active,
-  boardClickableClass,
-  computer,
-  currentMessageObject,
-  hoveringClass,
-  messageBoxHandler,
-  tilesClickableClass,
-  user,
-} from "./main.js";
+import { computer, currentMessageObject, messageBoxHandler } from "./main.js";
 
 // const loadingClass = ".loading-screen";
 // const loader = document.querySelector(loadingClass);
@@ -109,7 +100,7 @@ export const beginIntro = () => {
 };
 
 export const beginTutorial = () => {
-  resetGame();
+  resetPlayers();
   setUpDemoBoards();
   setUpShips();
 };
@@ -140,13 +131,11 @@ export const tutorialSinkAllShips = () => {
 };
 
 export const beginGame = () => {
-  resetGame();
+  resetPlayers();
 
   setUpBoards();
 
   setUpShips();
 };
 
-export const gameOver = () => {
-  document.body.innerHTML = "";
-};
+export const gameOver = () => {};

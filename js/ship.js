@@ -70,11 +70,9 @@ export class Ship {
     }
   };
 
-  reduceLives = (num) => (this.lives -= num);
-
-  checkIfSunk = () => {
-    if (this.lives === 0) return this.setIsSunk(true);
-    return false;
+  reduceLives = (num) => {
+    this.lives -= num;
+    if (this.lives <= 0) this.setIsSunk(true);
   };
 
   setIsSunk = (bool) => (this.isSunk = bool);
