@@ -27,12 +27,15 @@
 
 import {
   getRandomCell,
+  goToMessageObj,
+  readCustomMessageObj,
   resetPlayers,
   setUpBoards,
   setUpDemoBoards,
   setUpShips,
 } from "./helper-functions.js";
 import { computer, currentMessageObject, messageBoxHandler } from "./main.js";
+import messageObjects from "./message-data-objects.js";
 
 // const loadingClass = ".loading-screen";
 // const loader = document.querySelector(loadingClass);
@@ -138,4 +141,6 @@ export const beginGame = () => {
   setUpShips();
 };
 
-export const gameOver = () => {};
+export const gameOver = () => {
+  goToMessageObj(messageObjects.replay, 0);
+};

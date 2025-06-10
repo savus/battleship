@@ -102,6 +102,7 @@ export class Player {
     const isUser = this.type === userType;
     let chosenCell = isUser ? cell : this.chooseCell(opponent);
     const ship = findShipByCell(opponent, chosenCell);
+    console.log(ship, this.ships);
     enablePlayerBoards(false);
 
     this.handleReclickedTile(chosenCell, this, opponent, isUser);
@@ -212,7 +213,6 @@ export class Player {
             textList: [currentPlayer.gameLostMessage],
             confirmStep: async () => {
               messageBoxHandler.closeMessage();
-              await wait(1000);
               gameOver();
             },
           });

@@ -36,11 +36,13 @@ import {
   tutorialSunkShip,
 } from "./gameplay-chapters.js";
 import {
+  clearGame,
   goToMessageObj,
   goToNextMessageObj,
   goToPrevMessageObj,
   restartGame,
   swapPlayerBoards,
+  wait,
 } from "./helper-functions.js";
 import { computer, messageBoxHandler, user } from "./main.js";
 
@@ -487,9 +489,15 @@ const messageObjects = {
       header: "Game Over",
       textList: ["Would you like to play again?"],
       yesStep: () => {
+        messageBoxHandler.closeMessage();
         restartGame();
       },
-      noStep: () => {},
+      noStep: async () => {
+        goToMessageObj(messageObjects.gameOver, 0);
+        await wait(1000);
+        clearGame();
+        messageBoxHandler.closeMessage();
+      },
     },
   ],
   gameOver: [
@@ -497,6 +505,10 @@ const messageObjects = {
       state: "confirm",
       header: "Game Over",
       textList: ["Thank you for playing! Have a nice day!"],
+      confirmStep: () => {
+        clearGame();
+        messageBoxHandler.closeMessage();
+      },
     },
   ],
 };

@@ -1,4 +1,4 @@
-import { beginGame } from "./gameplay-chapters.js";
+import { beginGame, gameOver } from "./gameplay-chapters.js";
 import {
   active,
   alphabet,
@@ -72,21 +72,6 @@ export const goToMessageObj = (array, index) => {
 export const readCustomMessageObj = async (obj) => {
   setCurrentMessageObj(obj);
   return messageBoxHandler.readMessageObj(currentMessageObject);
-};
-
-export const gamePlayConfirmMessage = (text, currentPlayer, opposingPlayer) => {
-  return readCustomMessageObj({
-    state: "confirm",
-    header: "Game Play ",
-    textList: [text],
-    confirmStep: () => {
-      messageBoxHandler.closeMessage();
-      if (opposingPlayer.type === computerType) {
-        opposingPlayer.attack(currentPlayer);
-      }
-      enablePlayerBoards(true);
-    },
-  });
 };
 
 export const typeWords = async (textField, message, typeSpeed = 5) => {
@@ -174,6 +159,10 @@ export const resetPlayers = () => {
 export const restartGame = () => {
   resetPlayers();
   beginGame();
+};
+
+export const clearGame = () => {
+  gameBoardContainer.innerHTML = "";
 };
 
 export const setUpDemoBoards = () => {
