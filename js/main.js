@@ -22,9 +22,10 @@
 import {
   documentClickHandler,
   messageBoxControlsHandler,
+  startButtonClick,
 } from "./click-functions.js";
 import { beginGame, beginIntro } from "./gameplay-chapters.js";
-import { setUpShips } from "./helper-functions.js";
+import { removeActive, setActive, setUpShips } from "./helper-functions.js";
 
 import { MessageBoxHandler } from "./message-box-handler.js";
 import messageObjects from "./message-data-objects.js";
@@ -279,9 +280,16 @@ export const setComputer = (obj) => (computer = obj);
 
 export const players = [];
 
-// beginIntro();
-beginGame();
+const startScreenClass = ".start-screen";
+export const startScreen = document.querySelector(startScreenClass);
+
+const startButtonId = "start-button";
+const startButton = document.getElementById(startButtonId);
+
+setActive(startScreen);
 
 messageBoxControls.addEventListener("click", messageBoxControlsHandler);
+
+startButton.addEventListener("click", startButtonClick);
 
 document.addEventListener("click", documentClickHandler);

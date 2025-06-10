@@ -84,11 +84,21 @@ export class Player {
 
   getShipsRemaining = () => this.ships.filter((ship) => !ship.isSunk).length;
 
-  shipsRemainingMessage = () => `${this.getShipsRemaining()} ships remaining!`;
+  shipsRemainingMessage = () => {
+    const isUser = this.type === userType;
+    const isLastShip = this.getShipsRemaining() === 1;
+    const message =
+      (isUser ? "You have " : "Your opponent has ") +
+      this.getShipsRemaining() +
+      " " +
+      (isLastShip ? "ship" : "ships") +
+      " remaining!";
+    return message;
+  };
 
   checkIfLost = () => this.lives === 0;
 
-  hitMessage = (ship) => `You hit the enemy ${ship.name}`;
+  hitMessage = (ship) => `You made a hit!`;
 
   alreadyTargetedMessage = `You've already picked this!`;
 
@@ -102,7 +112,6 @@ export class Player {
     const isUser = this.type === userType;
     let chosenCell = isUser ? cell : this.chooseCell(opponent);
     const ship = findShipByCell(opponent, chosenCell);
-    console.log(ship, this.ships);
     enablePlayerBoards(false);
 
     this.handleReclickedTile(chosenCell, this, opponent, isUser);
@@ -218,11 +227,13 @@ export class Player {
           });
           return;
         } else {
+          console.log(currentPlayer.sunkMessage(ship));
           readCustomMessageObj({
             state: "confirm",
             header: "Game Play",
             textList: [currentPlayer.sunkMessage(ship)],
             confirmStep: () => {
+              console.log(opponent.shipsRemainingMessage());
               readCustomMessageObj({
                 state: "confirm",
                 header: "Game Play",

@@ -5,14 +5,17 @@ import {
   messageBoxHandler,
   promptInput,
   rowClass,
+  startScreen,
   tileClass,
   tilesClickableClass,
 } from "./main.js";
 import {
   findPlayerByOtherType,
   findPlayerByType,
+  removeActive,
   swapPlayerBoards,
 } from "./helper-functions.js";
+import { beginIntro } from "./gameplay-chapters.js";
 
 export function gameBoardClickHandler({ target }) {
   const isGameBoard = target.matches(`.${gameBoardClass}`);
@@ -68,6 +71,11 @@ export const messageBoxControlsHandler = ({ target }) => {
 //     cell.displayStatus();
 //   }
 // };
+
+export const startButtonClick = () => {
+  removeActive(startScreen);
+  beginIntro();
+};
 
 export const documentClickHandler = () => {
   if (messageBoxHandler.canBeClicked) {
