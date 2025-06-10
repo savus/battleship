@@ -2,9 +2,12 @@
 
 import GameBoard from "./game-board.js";
 import {
+  computer,
   computerThinkingDuration,
   computerType,
+  hardMode,
   messageBoxHandler,
+  user,
   userType,
 } from "./main.js";
 import { Ship } from "./ship.js";
@@ -20,7 +23,7 @@ import { gameOver } from "./gameplay-chapters.js";
 export const shipData = [
   // { name: "Carrier", lives: 5, length: 5 },
   // { name: "Battleship", lives: 4, length: 4 },
-  // { name: "Cruiser", lives: 3, length: 3 },
+  { name: "Cruiser", lives: 3, length: 3 },
   { name: "Submarine", lives: 3, length: 3 },
   { name: "Destroyer", lives: 2, length: 2 },
 ];
@@ -99,7 +102,6 @@ export class Player {
     const isUser = this.type === userType;
     let chosenCell = isUser ? cell : this.chooseCell(opponent);
     const ship = findShipByCell(opponent, chosenCell);
-
     enablePlayerBoards(false);
 
     this.handleReclickedTile(chosenCell, this, opponent, isUser);
@@ -203,7 +205,6 @@ export class Player {
   handleOccupiedTile = (chosenCell, currentPlayer, ship, opponent, isUser) => {
     if (currentPlayer.hasShipBeenHit(chosenCell, isUser, ship)) {
       if (currentPlayer.hasShipSunk(ship, currentPlayer, opponent)) {
-        console.log(ship);
         if (currentPlayer.isGameOver(opponent)) {
           readCustomMessageObj({
             state: "confirm",
@@ -225,10 +226,14 @@ export class Player {
               readCustomMessageObj({
                 state: "confirm",
                 header: "Game Play",
-                textList: [currentPlayer.shipsRemainingMessage()],
+                textList: [opponent.shipsRemainingMessage()],
                 confirmStep: () => {
                   messageBoxHandler.closeMessage();
-                  enablePlayerBoards(true);
+                  if (opponent.type === computerType) {
+                    opponent.attack(currentPlayer);
+                  } else {
+                    enablePlayerBoards(true);
+                  }
                 },
               });
             },
@@ -288,12 +293,26 @@ export class Computer extends Player {
 
   gameLostMessage = `You lost!`;
 
-  chooseCell = (opponent) =>
-    this.lastShipHit
-      ? this.lastShipHit.occupiedCells.find(
+  chooseCell = (opponent) => {
+    if (hardMode) {
+      const usersPieces = [];
+
+      opponent.ships.forEach((ship) => {
+        ship.occupiedCells.forEach((cell) => usersPieces.push(cell));
+      });
+
+      return usersPieces.find((piece) => piece.status === "occupied");
+    } else {
+      if (this.lastShipHit) {
+        this.lastShipHit.occupiedCells.find(
           (cell) => cell.status === "occupied"
-        )
-      : getRandomCell(opponent.board.grid);
+        );
+        return this.lastShipHit;
+      } else {
+        return getRandomCell(opponent.board.grid);
+      }
+    }
+  };
 
   // attack = async (opponent) => {
   //   const opponentGrid = opponent.board.grid;

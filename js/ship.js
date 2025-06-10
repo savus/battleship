@@ -7,7 +7,7 @@
 //   isCellOccupied,
 // } from "./utility-functions.js";
 
-import { userType } from "./main.js";
+import { debugMode, userType } from "./main.js";
 import {
   areCoordsWithinBoard,
   convertCoordsToNum,
@@ -66,7 +66,8 @@ export class Ship {
   occupyAllCells = () => {
     for (let i = 0; i < this.occupiedCells.length; i++) {
       this.occupiedCells[i].setStatus("occupied");
-      if (this.type === userType) this.occupiedCells[i].displayStatus();
+      if (this.type === userType || debugMode)
+        this.occupiedCells[i].displayStatus();
     }
   };
 

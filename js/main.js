@@ -24,9 +24,11 @@ import {
   messageBoxControlsHandler,
 } from "./click-functions.js";
 import { beginGame, beginIntro } from "./gameplay-chapters.js";
+import { setUpShips } from "./helper-functions.js";
 
 import { MessageBoxHandler } from "./message-box-handler.js";
 import messageObjects from "./message-data-objects.js";
+import { Computer, Player } from "./player.js";
 
 // export const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 // export const active = "active";
@@ -206,7 +208,7 @@ export const active = "active";
 export const dataState = "data-state";
 export const dataStatus = "data-status";
 export const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-export const boardSize = 4;
+export const boardSize = 5;
 export const rowClass = "row";
 export const tileClass = "tile";
 export const hoveringClass = "hovering";
@@ -216,6 +218,8 @@ export const boardClickableClass = "board-clickable";
 export const userType = "user";
 export const computerType = "computer";
 export const computerThinkingDuration = 500;
+export const debugMode = true;
+export const hardMode = true;
 
 const root = document.documentElement;
 
@@ -275,21 +279,8 @@ export const setComputer = (obj) => (computer = obj);
 
 export const players = [];
 
-beginIntro();
-
-// setUser(new Player("player1", userType, boardSize));
-// setComputer(new Computer("player2", computerType, boardSize));
-// players.push(user, computer);
-
-// user.addBoardClass(active);
-// user.addBoardClass(setUpClass);
-
-// await wait(3000);
-
-// user.removeBoardClass(setUpClass);
-// user.addBoardClass(hoveringClass);
-
-// console.log(players);
+// beginIntro();
+beginGame();
 
 messageBoxControls.addEventListener("click", messageBoxControlsHandler);
 
