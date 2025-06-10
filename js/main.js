@@ -21,8 +21,10 @@
 
 import {
   documentClickHandler,
+  exitGameClick,
   messageBoxControlsHandler,
   startButtonClick,
+  toggleDebugMode,
 } from "./click-functions.js";
 import { beginGame, beginIntro } from "./gameplay-chapters.js";
 import {
@@ -212,8 +214,8 @@ import { Computer, Player } from "./player.js";
 // });
 
 export const close = "close";
-const open = "open";
-const enabled = "enabled";
+export const open = "open";
+export const enabled = "enabled";
 export const active = "active";
 export const dataState = "data-state";
 export const dataStatus = "data-status";
@@ -299,10 +301,10 @@ export const startScreen = document.querySelector(startScreenClass);
 const startButtonId = "start-button";
 const startButton = document.getElementById(startButtonId);
 
-const optionsMenuClass = ".options-menu";
-const optionsMenu = document.querySelector(optionsMenuClass);
-const optionsTabSelector = "[data-open]";
-const optionsTab = document.querySelector(optionsTabSelector);
+export const optionsMenuClass = ".options-menu";
+export const optionsMenu = document.querySelector(optionsMenuClass);
+export const optionsTabSelector = "[data-open]";
+export const optionsTab = document.querySelector(optionsTabSelector);
 const debugSelector = ".debug-button";
 export const debugButton = document.querySelector(debugSelector);
 const hardModeSelector = ".hard-mode-button";
@@ -316,38 +318,21 @@ messageBoxControls.addEventListener("click", messageBoxControlsHandler);
 
 startButton.addEventListener("click", startButtonClick);
 
-optionsTab.addEventListener("click", ({ target }) => {
-  if (optionsMenu.classList.contains(open)) optionsMenu.classList.remove(open);
-  else optionsMenu.classList.add(open);
-});
+// optionsTab.addEventListener("click", () => {
+//   optionsMenu.classList.toggle(open);
+// });
 
 debugButton.addEventListener("click", ({ target }) => {
-  if (target.classList.contains(enabled)) target.classList.remove(enabled);
-  else target.classList.add(enabled);
-
-  if (!debugMode) {
-    setDebugMode(true);
-    if (computer) computer.displayAllShips();
-  } else {
-    setDebugMode(false);
-    if (computer) computer.hideAllShips();
-  }
+  toggleDebugMode(target);
 });
 
 hardModeButton.addEventListener("click", ({ target }) => {
-  if (target.classList.contains(enabled)) target.classList.remove(enabled);
-  else target.classList.add(enabled);
-  setHardMode(!hardMode);
-  console.log(hardMode);
+  target.classList.toggle(enabled);
+  setHardMode(!hardMode, target);
 });
 
 exitGameButton.addEventListener("click", async ({ target }) => {
-  if (target.classList.contains(enabled)) target.classList.remove(enabled);
-  else target.classList.add(enabled);
-  goToMessageObj(messageObjects.gameOver, 0);
-  await wait(1000);
-  clearGame();
-  messageBoxHandler.closeMessage();
+  exitGameClick(target);
 });
 
 document.addEventListener("click", documentClickHandler);

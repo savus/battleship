@@ -36,6 +36,7 @@
 
 .options-menu [data-open] i {
   transition: transform 0.3s ease-in-out;
+  pointer-events: none;
 }
 
 .options-menu [data-open],

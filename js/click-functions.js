@@ -1,21 +1,33 @@
 import {
   boardClickableClass,
+  computer,
   currentMessageObject,
+  debugMode,
+  enabled,
   gameBoardClass,
   messageBoxHandler,
+  open,
+  optionsMenu,
+  optionsMenuClass,
+  optionsTab,
+  optionsTabSelector,
   promptInput,
   rowClass,
+  setDebugMode,
   startScreen,
   tileClass,
-  tilesClickableClass,
 } from "./main.js";
 import {
+  clearGame,
   findPlayerByOtherType,
   findPlayerByType,
+  goToMessageObj,
   removeActive,
   swapPlayerBoards,
+  wait,
 } from "./helper-functions.js";
 import { beginIntro } from "./gameplay-chapters.js";
+import messageObjects from "./message-data-objects.js";
 
 export function gameBoardClickHandler({ target }) {
   const isGameBoard = target.matches(`.${gameBoardClass}`);
@@ -77,7 +89,37 @@ export const startButtonClick = () => {
   beginIntro();
 };
 
-export const documentClickHandler = () => {
+export const toggleDebugMode = (target) => {
+  target.classList.toggle(enabled);
+  if (!debugMode) {
+    setDebugMode(true);
+    if (computer) computer.displayAllShips();
+  } else {
+    setDebugMode(false);
+    if (computer) computer.hideAllShips();
+  }
+};
+
+export const exitGameClick = async (target) => {
+  target.classList.toggle(enabled);
+  goToMessageObj(messageObjects.gameOver, 0);
+  await wait(1000);
+  clearGame();
+  messageBoxHandler.closeMessage();
+};
+
+export const documentClickHandler = ({ target }) => {
+  const isOptionsTab = target === optionsTab;
+  const isOptionsMenu = target.closest(optionsMenuClass);
+
+  if (isOptionsTab) {
+    optionsMenu.classList.toggle(open);
+  } else {
+    if (!isOptionsMenu) {
+      optionsMenu.classList.remove(open);
+    }
+  }
+
   if (messageBoxHandler.canBeClicked) {
     switch (messageBoxHandler.state) {
       case "confirm":
