@@ -295,9 +295,12 @@ export const setComputer = (obj) => (computer = obj);
 
 export const players = [];
 
+const loadingScreenClass = ".loading-screen";
+const loadingScreen = document.querySelector(loadingScreenClass);
+const loadingDuration = 6000;
+
 const startScreenClass = ".start-screen";
 export const startScreen = document.querySelector(startScreenClass);
-
 const startButtonId = "start-button";
 const startButton = document.getElementById(startButtonId);
 
@@ -312,6 +315,12 @@ export const hardModeButton = document.querySelector(hardModeSelector);
 const exitGameSelector = ".exit-game-button";
 export const exitGameButton = document.querySelector(exitGameSelector);
 
+/* BEGIN LOADING ANIMATION */
+setActive(loadingScreen);
+
+await wait(loadingDuration);
+
+removeActive(loadingScreen);
 setActive(startScreen);
 
 messageBoxControls.addEventListener("click", messageBoxControlsHandler);
