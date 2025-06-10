@@ -78,6 +78,18 @@ export class Ship {
 
   setIsSunk = (bool) => (this.isSunk = bool);
 
+  displayAllPieces = () => {
+    this.occupiedCells.forEach((cell) => {
+      if (cell.getStatus() === "occupied") cell.displayStatus();
+    });
+  };
+
+  hideAllPieces = () => {
+    this.occupiedCells.forEach((cell) => {
+      if (cell.getStatus() === "occupied") cell.hideStatus();
+    });
+  };
+
   // recordCellData = (cell) => {
   //   this.pieceCoords.push(cell.coords);
   //   this.occupiedCells.push(cell);

@@ -25,7 +25,14 @@ import {
   startButtonClick,
 } from "./click-functions.js";
 import { beginGame, beginIntro } from "./gameplay-chapters.js";
-import { removeActive, setActive, setUpShips } from "./helper-functions.js";
+import {
+  clearGame,
+  goToMessageObj,
+  removeActive,
+  setActive,
+  setUpShips,
+  wait,
+} from "./helper-functions.js";
 
 import { MessageBoxHandler } from "./message-box-handler.js";
 import messageObjects from "./message-data-objects.js";
@@ -205,6 +212,8 @@ import { Computer, Player } from "./player.js";
 // });
 
 export const close = "close";
+const open = "open";
+const enabled = "enabled";
 export const active = "active";
 export const dataState = "data-state";
 export const dataStatus = "data-status";
@@ -219,8 +228,12 @@ export const boardClickableClass = "board-clickable";
 export const userType = "user";
 export const computerType = "computer";
 export const computerThinkingDuration = 500;
-export const debugMode = true;
-export const hardMode = true;
+
+export let debugMode = false;
+export let hardMode = false;
+
+export const setDebugMode = (bool) => (debugMode = bool);
+export const setHardMode = (bool) => (hardMode = bool);
 
 const root = document.documentElement;
 
@@ -286,10 +299,55 @@ export const startScreen = document.querySelector(startScreenClass);
 const startButtonId = "start-button";
 const startButton = document.getElementById(startButtonId);
 
+const optionsMenuClass = ".options-menu";
+const optionsMenu = document.querySelector(optionsMenuClass);
+const optionsTabSelector = "[data-open]";
+const optionsTab = document.querySelector(optionsTabSelector);
+const debugSelector = ".debug-button";
+export const debugButton = document.querySelector(debugSelector);
+const hardModeSelector = ".hard-mode-button";
+export const hardModeButton = document.querySelector(hardModeSelector);
+const exitGameSelector = ".exit-game-button";
+export const exitGameButton = document.querySelector(exitGameSelector);
+
 setActive(startScreen);
 
 messageBoxControls.addEventListener("click", messageBoxControlsHandler);
 
 startButton.addEventListener("click", startButtonClick);
+
+optionsTab.addEventListener("click", ({ target }) => {
+  if (optionsMenu.classList.contains(open)) optionsMenu.classList.remove(open);
+  else optionsMenu.classList.add(open);
+});
+
+debugButton.addEventListener("click", ({ target }) => {
+  if (target.classList.contains(enabled)) target.classList.remove(enabled);
+  else target.classList.add(enabled);
+
+  if (!debugMode) {
+    setDebugMode(true);
+    if (computer) computer.displayAllShips();
+  } else {
+    setDebugMode(false);
+    if (computer) computer.hideAllShips();
+  }
+});
+
+hardModeButton.addEventListener("click", ({ target }) => {
+  if (target.classList.contains(enabled)) target.classList.remove(enabled);
+  else target.classList.add(enabled);
+  setHardMode(!hardMode);
+  console.log(hardMode);
+});
+
+exitGameButton.addEventListener("click", async ({ target }) => {
+  if (target.classList.contains(enabled)) target.classList.remove(enabled);
+  else target.classList.add(enabled);
+  goToMessageObj(messageObjects.gameOver, 0);
+  await wait(1000);
+  clearGame();
+  messageBoxHandler.closeMessage();
+});
 
 document.addEventListener("click", documentClickHandler);

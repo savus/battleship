@@ -162,7 +162,7 @@ export const restartGame = () => {
 };
 
 export const clearGame = () => {
-  gameBoardContainer.innerHTML = "";
+  document.body.innerHTML = "";
 };
 
 export const setUpDemoBoards = () => {

@@ -78,6 +78,14 @@ export class Player {
     this.lives = this.ships.length;
   };
 
+  displayAllShips = () => {
+    this.ships.forEach((ship) => ship.displayAllPieces());
+  };
+
+  hideAllShips = () => {
+    this.ships.forEach((ship) => ship.hideAllPieces());
+  };
+
   reduceLives = (num) => (this.lives -= num);
 
   getLives = () => this.lives;
@@ -98,7 +106,7 @@ export class Player {
 
   checkIfLost = () => this.lives === 0;
 
-  hitMessage = (ship) => `You made a hit!`;
+  hitMessage = () => `You made a hit!`;
 
   alreadyTargetedMessage = `You've already picked this!`;
 
