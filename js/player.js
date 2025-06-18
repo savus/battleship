@@ -119,20 +119,46 @@ export class Player {
   attack = async (opponent, cell = null) => {
     const isUser = this.type === userType;
     let chosenCell = isUser ? cell : this.chooseCell(opponent);
-    const ship = findShipByCell(opponent, chosenCell);
+    const ship = findShipByCell(opponent, chosenCell) || {
+      name: "no ship",
+      occupiedCells: [],
+    };
 
     console.log(
       `
         Current turn: ${isUser ? "player's turn" : "computer's turn"}
         Chosen cell: ${JSON.stringify(chosenCell)}  
-        Ship: ${JSON.stringify(ship)}
-        ${!isUser ? `Last ship hit: ${JSON.stringify(this.lastShipHit)}` : ``} 
+        Ship: name: ${JSON.stringify(
+          ship.name
+        )} occupiedCells: ${JSON.stringify(ship.occupiedCells)}
+        ${
+          !isUser
+            ? `Last ship hit: Name: ${
+                !this.lastShipHit
+                  ? { name: "no ship" }
+                  : JSON.stringify(this.lastShipHit.name)
+              }`
+            : ``
+        } 
       `
     );
 
     enablePlayerBoards(false);
 
-    this.handleReclickedTile(chosenCell, this, opponent, isUser);
+    if (chosenCell.status === "miss" || chosenCell.status === "hit") {
+      //target already hit
+      if (!isUser) return this.attack(opponent);
+
+      readCustomMessageObj({
+        state: "confirm",
+        header: "Game Play",
+        textList: [this.alreadyTargetedMessage],
+        confirmStep: () => {
+          messageBoxHandler.closeMessage();
+          enablePlayerBoards(true);
+        },
+      });
+    }
 
     if (!isUser) {
       readCustomMessageObj({
@@ -144,54 +170,79 @@ export class Player {
       await wait(computerThinkingDuration);
     }
 
-    this.handleEmptyTile(chosenCell, this, opponent);
+    if (chosenCell.status === "empty") {
+      chosenCell.updateTile("miss");
+      readCustomMessageObj({
+        state: "confirm",
+        header: "Game Play",
+        textList: [this.missMessage],
+        confirmStep: () => {
+          messageBoxHandler.closeMessage();
+          if (opponent.type === computerType) {
+            opponent.attack(this);
+          } else {
+            enablePlayerBoards(true);
+          }
+        },
+      });
+    }
 
-    this.handleOccupiedTile(chosenCell, this, ship, opponent, isUser);
-
-    // if (!isUser) {
-    //   readCustomMessageObj({
-    //     state: "none",
-    //     header: "Game Play",
-    //     textList: ["Computer is thinking..."],
-    //   });
-    //   await wait(1000);
-    // }
-    // if (chosenCell.status === "miss" || chosenCell.status === "hit") {
-    //   if (!isUser) return this.attack(opponent);
-    //   else {
-    //     readCustomMessageObj({
-    //       state: "confirm",
-    //       header: "Game Play",
-    //       textList: [this.alreadyTargetedMessage],
-    //       confirmStep: () => {
-    //         messageBoxHandler.closeMessage();
-    //         enablePlayerBoards(true);
-    //       },
-    //     });
-    //     return;
-    //   }
-    // }
-    // this.handleEmptyTile(chosenCell, this, opponent);
-    // if (this.hasShipBeenHit(chosenCell, isUser, ship)) {
-    //   if (this.hasShipSunk(ship, this, opponent)) {
-    //     //check if game lost
-    //     if (this.isGameOver(opponent)) {
-    //       gamePlayConfirmMessage(this.gameLostMessage, this, opponent);
-    //       return;
-    //     } else {
-    //       gamePlayConfirmMessage(
-    //         opponent.shipsRemainingMessage(),
-    //         this,
-    //         opponent
-    //       );
-    //     }
-    //   } else {
-    //     gamePlayConfirmMessage(this.hitMessage(ship), this, opponent);
-    //   }
-    // }
-    // if (isUser) {
-    //   opponent.attack(this);
-    // }
+    if (chosenCell.status === "occupied") {
+      chosenCell.updateTile("hit");
+      if (!isUser) this.lastShipHit = ship;
+      ship.reduceLives(1);
+      if (ship.isSunk) {
+        opponent.reduceLives(1);
+        if (this.type === computerType) this.lastShipHit = null;
+        if (opponent.checkIfLost()) {
+          readCustomMessageObj({
+            state: "confirm",
+            header: "Game Play",
+            textList: [this.gameLostMessage],
+            confirmStep: async () => {
+              messageBoxHandler.closeMessage();
+              return gameOver();
+            },
+          });
+        } else {
+          readCustomMessageObj({
+            state: "confirm",
+            header: "Game Play",
+            textList: [this.sunkMessage(ship)],
+            confirmStep: () => {
+              readCustomMessageObj({
+                state: "confirm",
+                header: "Game Play",
+                textList: [opponent.shipsRemainingMessage()],
+                confirmStep: () => {
+                  messageBoxHandler.closeMessage();
+                  if (opponent.type === computerType) {
+                    opponent.attack(this);
+                  } else {
+                    enablePlayerBoards(true);
+                  }
+                },
+              });
+            },
+          });
+        }
+      } else {
+        //hit but not sunk
+        readCustomMessageObj({
+          state: "confirm",
+          header: "Game Play",
+          textList: [this.hitMessage(ship)],
+          confirmStep: () => {
+            messageBoxHandler.closeMessage();
+            if (opponent.type === computerType) {
+              opponent.attack(this);
+            } else {
+              enablePlayerBoards(true);
+            }
+          },
+        });
+      }
+    }
   };
 
   handleReclickedTile = (chosenCell, currentPlayer, opponent, isUser) => {
@@ -330,13 +381,12 @@ export class Computer extends Player {
 
       return usersPieces.find((piece) => piece.status === "occupied");
     } else {
-      if (this.lastShipHit) {
-        this.lastShipHit.occupiedCells.find(
+      if (!this.lastShipHit) {
+        return getRandomCell(opponent.board.grid);
+      } else {
+        return this.lastShipHit.occupiedCells.find(
           (cell) => cell.status === "occupied"
         );
-        return this.lastShipHit;
-      } else {
-        return getRandomCell(opponent.board.grid);
       }
     }
   };
