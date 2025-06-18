@@ -10,7 +10,6 @@ import {
   optionsMenu,
   optionsMenuClass,
   optionsTab,
-  optionsTabSelector,
   promptInput,
   rowClass,
   setDebugMode,
@@ -66,23 +65,6 @@ export const messageBoxControlsHandler = ({ target }) => {
       break;
   }
 };
-
-// export const tileClickHandler = (html, cell, cb) => {
-//   const classList = html.classList;
-//   const isClickable = classList.contains(tilesClickableClass);
-
-//   if (isClickable) {
-//     switch (cell.status) {
-//       case "empty":
-//         cell.setStatus("miss");
-//         break;
-//       case "occupied":
-//         cell.setStatus("hit");
-//         cb(1);
-//     }
-//     cell.displayStatus();
-//   }
-// };
 
 export const startButtonClick = () => {
   removeActive(startScreen);
