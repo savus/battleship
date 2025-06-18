@@ -316,11 +316,11 @@ const exitGameSelector = ".exit-game-button";
 export const exitGameButton = document.querySelector(exitGameSelector);
 
 /* BEGIN LOADING ANIMATION */
-setActive(loadingScreen);
+// setActive(loadingScreen);
 
-await wait(loadingDuration);
+// await wait(loadingDuration);
 
-removeActive(loadingScreen);
+// removeActive(loadingScreen);
 setActive(startScreen);
 
 messageBoxControls.addEventListener("click", messageBoxControlsHandler);

@@ -120,6 +120,16 @@ export class Player {
     const isUser = this.type === userType;
     let chosenCell = isUser ? cell : this.chooseCell(opponent);
     const ship = findShipByCell(opponent, chosenCell);
+
+    console.log(
+      `
+        Current turn: ${isUser ? "player's turn" : "computer's turn"}
+        Chosen cell: ${JSON.stringify(chosenCell)}  
+        Ship: ${JSON.stringify(ship)}
+        ${!isUser ? `Last ship hit: ${JSON.stringify(this.lastShipHit)}` : ``} 
+      `
+    );
+
     enablePlayerBoards(false);
 
     this.handleReclickedTile(chosenCell, this, opponent, isUser);
@@ -235,13 +245,11 @@ export class Player {
           });
           return;
         } else {
-          console.log(currentPlayer.sunkMessage(ship));
           readCustomMessageObj({
             state: "confirm",
             header: "Game Play",
             textList: [currentPlayer.sunkMessage(ship)],
             confirmStep: () => {
-              console.log(opponent.shipsRemainingMessage());
               readCustomMessageObj({
                 state: "confirm",
                 header: "Game Play",
