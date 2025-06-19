@@ -75,7 +75,7 @@
   pointer-events: none;
 }
 
-.game-board.on-hover-tiles .tile:hover {
+.game-board.tiles-clickable .tile:hover {
   --anim-name: none;
   box-shadow: 1px 12px 8px 0px rgba(0, 0, 0, 0.8),
     0px 0px 12px 1px rgba(78, 247, 210, 0.8) inset;
@@ -83,7 +83,7 @@
   cursor: pointer;
 }
 
-.game-board.on-hover-tiles .tile.active {
+.game-board.tiles-clickable .tile.active {
   z-index: 1;
 }
 
