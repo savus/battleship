@@ -75,7 +75,7 @@ export class Player {
     const isUser = this.type === userType;
     const isLastShip = this.getShipsRemaining() === 1;
     const message =
-      (isUser ? "You have " : "Your opponent has ") +
+      (isUser ? "You have " : "The Computer has ") +
       this.getShipsRemaining() +
       " " +
       (isLastShip ? "ship" : "ships") +
@@ -279,7 +279,7 @@ export class Computer extends Player {
 
   hitMessage = (ship) => `Your ${ship.name} has been hit!`;
 
-  missMessage = `The opponent missed!`;
+  missMessage = `The Computer missed!`;
 
   sunkMessage = (ship) => `Your ${ship.name} has been sunk!`;
 
