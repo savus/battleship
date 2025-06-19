@@ -54,75 +54,96 @@ const messageObjects = {
   ],
   tutorials: [
     {
-      state: "confirm",
+      state: "prev-next",
       header: "Tutorial",
       textList: [
         "You and your opponent each start with a board populated by ship pieces",
       ],
-      confirmStep: () => {
-        goToNextMessageObj(messageObjects.tutorials);
+      prevStep: () => {
+        goToMessageObj(messageObjects.introduction, 1);
+      },
+      nextStep: () => {
+        goToNextMessageObj();
         swapPlayerBoards(computer, user, true);
       },
     },
     {
-      state: "confirm",
+      state: "prev-next",
       header: "Tutorial",
       textList: [
         "Your pieces are represented by these circles, while your opponent's pieces are hidden",
       ],
-      confirmStep: () => {
+      prevStep: () => {
+        goToPrevMessageObj();
+      },
+      nextStep: () => {
         tutorialMissTile();
         goToNextMessageObj();
       },
     },
     {
-      state: "confirm",
+      state: "prev-next",
       header: "Tutorial",
       textList: [
         "If you click an unoccupied tile, it's a miss, and your opponent gets to try to find your pieces.",
       ],
-      confirmStep: () => {
+      prevStep: () => {
+        goToPrevMessageObj();
+      },
+      nextStep: () => {
         tutorialHitPiece(computer);
         goToNextMessageObj();
       },
     },
     {
-      state: "confirm",
+      state: "prev-next",
       header: "Tutorial",
       textList: [
         "If you click on a tile occupied by one of the enemy ships, you will land a hit!",
       ],
-      confirmStep: () => {
+      prevStep: () => {
+        goToPrevMessageObj();
+      },
+      nextStep: () => {
         tutorialSunkShip();
         goToNextMessageObj();
       },
     },
     {
-      state: "confirm",
+      state: "prev-next",
       header: "Tutorial",
       textList: [
         "If you click all of the pieces belonging to the same ship, you sink that ship!",
       ],
-      confirmStep: () => {
+      prevStep: () => {
+        goToPrevMessageObj();
+      },
+      nextStep: () => {
         tutorialSinkAllShips();
         goToNextMessageObj();
       },
     },
     {
-      state: "confirm",
+      state: "prev-next",
       header: "Tutorial",
       textList: [
         "If you sink all of your opponents ships before they sink yours, you win!",
       ],
-      confirmStep: () => {
+      prevStep: () => {
+        goToPrevMessageObj();
+      },
+      nextStep: () => {
         goToNextMessageObj();
       },
     },
     {
-      state: "confirm",
+      state: "prev-next",
       header: "Tutorial",
       textList: ["Alright! Let's begin!"],
-      confirmStep: () => {
+      prevStep: () => {
+        goToPrevMessageObj();
+      },
+      nextStep: () => {
         messageBoxHandler.closeMessage();
         beginGame();
       },
