@@ -1,3 +1,5 @@
+import { active } from "./constants.js";
+
 export const setActive = (target, selector = null) => {
   removePreviousActive(selector);
   target.classList.add(active);
