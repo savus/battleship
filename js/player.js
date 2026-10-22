@@ -1,22 +1,3 @@
-import { buildBoardData, gameBoardClass } from "./board-elements.js";
-
-import {
-  computerThinkingDuration,
-  hardMode,
-  reverseCurrentTurn,
-} from "./main.js";
-import { messageHandler } from "./message-box.js";
-import messageData from "./message-data-objects.js";
-import { shipData } from "./ship.js";
-import {
-  getRandomCell,
-  isCellAlreadyAttempted,
-  isCellOccupied,
-  pause,
-  populateShips,
-  setActive,
-} from "./utility-functions.js";
-
 export class Player {
   score = 0;
   board;
@@ -39,7 +20,7 @@ export class Player {
       this.boardSize,
       this.boardType,
       this.type,
-      this.isDemo
+      this.isDemo,
     );
 
     this.board = object;
@@ -74,7 +55,7 @@ export class Player {
           messageHandler.goToMessageData(
             messageData.targetSunk,
             0,
-            `${sunkMessage}${ship.name}${shipsRemainingMessage}`
+            `${sunkMessage}${ship.name}${shipsRemainingMessage}`,
           );
           if (this.hasLost()) return;
         }
@@ -123,7 +104,7 @@ export class Player {
       messageHandler.goToMessageData(
         messageData.targetHit,
         0,
-        `${playerReference} scored a hit`
+        `${playerReference} scored a hit`,
       );
       decidedCell.updateTile("hit");
       if (opponent.assessDamage(decidedCell, this)) return;
@@ -134,7 +115,7 @@ export class Player {
       messageHandler.goToMessageData(
         messageData.targetMissed,
         0,
-        `${playerReference} missed!`
+        `${playerReference} missed!`,
       );
       decidedCell.updateTile("miss");
     }
@@ -154,7 +135,7 @@ export class Player {
       messageHandler.goToMessageData(
         messageData.gameLostWon,
         0,
-        endGameMessage
+        endGameMessage,
       );
       return true;
     }

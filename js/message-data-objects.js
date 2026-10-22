@@ -1,32 +1,3 @@
-import MessageData from "./message-data-class.js";
-import { buildGameBoards, endGame } from "./gameplay-chapters.js";
-import { messageHandler } from "./message-box.js";
-import {
-  computer,
-  demoComputer,
-  demoComputerShips,
-  demoUser,
-  demoUserShips,
-  getCurrentTurn,
-  pauseBetweenAnimations,
-  user,
-  userInputField,
-  userSaidNo,
-  userSaidYes,
-} from "./main.js";
-import { pause, removeGameBoards, setActive } from "./utility-functions.js";
-import {
-  beginTutorial,
-  hideComputerShips,
-  placeDemoShips,
-  showGameLost,
-  showHitTile,
-  showMissedTile,
-  showSunkShip,
-} from "./tutorial-functions.js";
-import { shipData } from "./ship.js";
-import { gameBoardClass } from "./board-elements.js";
-
 const messageData = {
   testing: [
     new MessageData(
@@ -45,7 +16,7 @@ const messageData = {
         nextStep: () => {
           messageHandler.goToNextMessageData(messageData.testing);
         },
-      }
+      },
     ),
     new MessageData(
       "confirm",
@@ -55,7 +26,7 @@ const messageData = {
         confirmStep: () => {
           messageHandler.goToNextMessageData(messageData.testing);
         },
-      }
+      },
     ),
     new MessageData(
       "prev-next",
@@ -72,7 +43,7 @@ const messageData = {
         nextStep: () => {
           messageHandler.goToNextMessageData(messageData.testing);
         },
-      }
+      },
     ),
     new MessageData(
       "prompt",
@@ -83,7 +54,7 @@ const messageData = {
           console.log(`${userInputField.value} is what you typed`);
           messageHandler.goToNextMessageData(messageData.testing);
         },
-      }
+      },
     ),
     new MessageData(
       "yes-no",
@@ -100,7 +71,7 @@ const messageData = {
           messageHandler.clearText();
           messageHandler.closeMessageBox();
         },
-      }
+      },
     ),
   ],
   introductions: [
@@ -115,7 +86,7 @@ const messageData = {
         nextStep: () => {
           messageHandler.goToNextMessageData(messageData.introductions);
         },
-      }
+      },
     ),
     new MessageData(
       "yes-no",
@@ -129,7 +100,7 @@ const messageData = {
         noStep: () => {
           messageHandler.goToNextMessageData(messageData.introductions);
         },
-      }
+      },
     ),
     new MessageData(
       "confirm",
@@ -140,7 +111,7 @@ const messageData = {
           messageHandler.closeMessageBox();
           buildGameBoards();
         },
-      }
+      },
     ),
   ],
   tutorials: [
@@ -154,11 +125,11 @@ const messageData = {
             demoUser,
             demoComputer,
             demoUserShips,
-            demoComputerShips
+            demoComputerShips,
           );
           messageHandler.goToNextMessageData(messageData.tutorials);
         },
-      }
+      },
     ),
     new MessageData(
       "confirm",
@@ -172,7 +143,7 @@ const messageData = {
           hideComputerShips(demoComputer, demoComputerShips);
           messageHandler.goToNextMessageData(messageData.tutorials);
         },
-      }
+      },
     ),
     new MessageData(
       "prev-next",
@@ -190,7 +161,7 @@ const messageData = {
           showMissedTile(demoComputer.board, "B2");
           messageHandler.goToNextMessageData(messageData.tutorials);
         },
-      }
+      },
     ),
     new MessageData(
       "confirm",
@@ -204,7 +175,7 @@ const messageData = {
           showHitTile(demoUser.board, "B2");
           messageHandler.goToNextMessageData(messageData.tutorials);
         },
-      }
+      },
     ),
     new MessageData(
       "confirm",
@@ -216,7 +187,7 @@ const messageData = {
         confirmStep: () => {
           messageHandler.goToNextMessageData(messageData.tutorials);
         },
-      }
+      },
     ),
     new MessageData(
       "confirm",
@@ -229,7 +200,7 @@ const messageData = {
           showSunkShip(demoUser.board, ["B2", "B3", "B4", "B5"]);
           messageHandler.goToNextMessageData(messageData.tutorials);
         },
-      }
+      },
     ),
     new MessageData(
       "confirm",
@@ -243,7 +214,7 @@ const messageData = {
           showGameLost(demoComputer.board, demoComputerShips);
           messageHandler.goToNextMessageData(messageData.tutorials);
         },
-      }
+      },
     ),
     new MessageData(
       "confirm",
@@ -257,7 +228,7 @@ const messageData = {
           showGameLost(demoComputer.board, demoComputerShips);
           messageHandler.goToNextMessageData(messageData.tutorials);
         },
-      }
+      },
     ),
     new MessageData(
       "confirm",
@@ -269,7 +240,7 @@ const messageData = {
           messageHandler.closeMessageBox();
           buildGameBoards();
         },
-      }
+      },
     ),
   ],
   computerThinking: [
@@ -284,7 +255,7 @@ const messageData = {
         confirmStep: () => {
           messageHandler.closeMessageBox();
         },
-      }
+      },
     ),
   ],
   targetHit: [
@@ -330,7 +301,7 @@ const messageData = {
         confirmStep: () => {
           endGame();
         },
-      }
+      },
     ),
   ],
   gamePlay: [],
@@ -346,7 +317,7 @@ const messageData = {
           await pause(pauseBetweenAnimations);
           document.querySelector("*").style.display = "none";
         },
-      }
+      },
     ),
   ],
 };

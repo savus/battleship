@@ -1,13 +1,3 @@
-import { removeActive, setActive, typeWords } from "./utility-functions.js";
-import {
-  currentMessageObj,
-  dataButton,
-  messageObjIndex,
-  setCurrentMessageObj,
-  setMessageObjIndex,
-  textSpeed,
-} from "./main.js";
-
 const messageBoxClass = ".message-box";
 const headerClass = ".message-box-header";
 const messageControls = ".message-box-controls";
@@ -17,6 +7,9 @@ export const messageBox = document.querySelector(messageBoxClass);
 export const messageBoxHeader = document.querySelector(headerClass);
 export const messageBoxControls = document.querySelector(messageControls);
 export const messageText = document.querySelector(messageTextClass);
+
+const userInputID = "user-input";
+export const userInputField = document.getElementById(userInputID);
 
 class MessageHandler {
   messageListIndex = 0;
@@ -65,7 +58,7 @@ class MessageHandler {
     typeWords(
       this.textField,
       customMessage || messageObj.messageList[this.messageListIndex],
-      textSpeed
+      textSpeed,
     );
   };
 
@@ -119,7 +112,7 @@ class MessageHandler {
 export const messageHandler = new MessageHandler(
   messageBox,
   messageBoxControls,
-  messageText
+  messageText,
 );
 
 const disableButton = (btn) => (btn.disabled = true);

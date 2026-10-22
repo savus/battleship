@@ -1,7 +1,3 @@
-import { Cell } from "./cell.js";
-import { setActive } from "./utility-functions.js";
-import { active, alphabet, computer, getCurrentTurn, user } from "./main.js";
-
 const tileButtonClass = "tile-button";
 export const tileClassName = "tile";
 export const gameBoardClass = "game-board";
@@ -40,7 +36,7 @@ export default class GameBoard {
     values.map((row) =>
       row.map((cell) => {
         if (cell.getStatus() === "occupied") return cell.displayStatus();
-      })
+      }),
     );
   };
 
@@ -49,7 +45,7 @@ export default class GameBoard {
     values.map((row) =>
       row.map((cell) => {
         if (cell.getStatus() === "occupied") return cell.hideStatus();
-      })
+      }),
     );
   };
 }
@@ -131,7 +127,7 @@ export const buildBoardData = (size, type, controller, demo) => {
       const [cell, tile] = buildCellData(
         controller,
         tileCount,
-        `${alphabet[i]}${j}`
+        `${alphabet[i]}${j}`,
       );
       tileCount++;
       boardObj.grid[alphabet[i]][j] = cell;

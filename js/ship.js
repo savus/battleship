@@ -1,12 +1,3 @@
-import {
-  areCoordsWithinBoard,
-  convertCoordsToNumber,
-  convertCoordsToString,
-  getCell,
-  getRandomCell,
-  isCellOccupied,
-} from "./utility-functions.js";
-
 export const shipData = [
   { name: "Carrier", lives: 5, length: 5 },
   { name: "Battleship", lives: 4, length: 4 },

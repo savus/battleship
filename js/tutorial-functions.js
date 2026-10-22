@@ -1,7 +1,3 @@
-import { gameBoardClass } from "./board-elements.js";
-import { setTutorialMode } from "./main.js";
-import { appendGameBoards, getCell, setActive } from "./utility-functions.js";
-
 export const beginTutorial = (demoUser, demoComputer) => {
   setTutorialMode(true);
   appendGameBoards(demoUser, demoComputer);
@@ -12,7 +8,7 @@ export const placeDemoShips = (
   demoUser,
   demoComputer,
   demoUserShips,
-  demoComputerShips
+  demoComputerShips,
 ) => {
   demoUserShips.forEach((coord) => {
     const cell = getCell(demoUser.board, coord);

@@ -1,30 +1,3 @@
-import {
-  appendGameBoards,
-  displayBoardTilesOfPlayers,
-  endPlayersSetup,
-  pause,
-  placeShipsOfPlayers,
-  playersSetup,
-  removeActive,
-  setActive,
-  startPlayersHovering,
-} from "./utility-functions.js";
-import {
-  computer,
-  currentMessageObj,
-  hasPlayedBefore,
-  loadingScreenDuration,
-  pauseBetweenAnimations,
-  pauseBetweenSetup,
-  setCurrentTurn,
-  setTutorialMode,
-  user,
-} from "./main.js";
-import { messageHandler } from "./message-box.js";
-import messageData from "./message-data-objects.js";
-import { updateOptions } from "./options-menu.js";
-import { gameBoardClass } from "./board-elements.js";
-
 const loadingClass = ".loading-screen";
 const loader = document.querySelector(loadingClass);
 
@@ -36,7 +9,7 @@ export const playGame = () => {
 
 export const checkIfPlayedBefore = () => {
   let isLocalStorage = JSON.parse(
-    localStorage.getItem(hasPlayedBefore) || false
+    localStorage.getItem(hasPlayedBefore) || false,
   );
   return isLocalStorage;
 };

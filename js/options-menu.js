@@ -1,5 +1,3 @@
-import { debugMode, hardMode } from "./main.js";
-
 const dataOpen = "[data-open]";
 export const optionsClass = ".options-menu";
 export const optionsMenu = document.querySelector(optionsClass);

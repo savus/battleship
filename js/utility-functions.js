@@ -1,19 +1,3 @@
-import {
-  active,
-  alphabet,
-  currentMessageObj,
-  debugMode,
-  gameContainer,
-  setUserInput,
-  setUserInputField,
-} from "./main.js";
-import {
-  disableAllControlButtons,
-  enableAllControlButtons,
-  messageHandler,
-} from "./message-box.js";
-import { Ship } from "./ship.js";
-
 export const setActive = (target, selector = null) => {
   removePreviousActive(selector);
   target.classList.add(active);
