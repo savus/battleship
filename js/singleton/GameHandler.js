@@ -1,20 +1,22 @@
+import OptionsMenuUI from "./OptionsMenuUI.js";
+
 const loadingClass = ".loading-screen";
 const loader = document.querySelector(loadingClass);
 
 /* APPLICATION GAMEPLAY */
-export const playGame = () => {
-  updateOptions();
-  shouldRunLoadingScreen().then(beginIntroduction);
+const playGame = () => {
+  OptionsMenuUI.updateOptions();
+  // shouldRunLoadingScreen().then(beginIntroduction);
 };
 
-export const checkIfPlayedBefore = () => {
+const checkIfPlayedBefore = () => {
   let isLocalStorage = JSON.parse(
     localStorage.getItem(hasPlayedBefore) || false,
   );
   return isLocalStorage;
 };
 
-export const shouldRunLoadingScreen = async () => {
+const shouldRunLoadingScreen = async () => {
   if (!checkIfPlayedBefore()) {
     localStorage.setItem(hasPlayedBefore, JSON.stringify(true));
     await beginLoading();
@@ -22,7 +24,7 @@ export const shouldRunLoadingScreen = async () => {
   return;
 };
 
-export const beginLoading = async () => {
+const beginLoading = async () => {
   setActive(loader);
   await pause(loadingScreenDuration);
   removeActive(loader);
@@ -30,14 +32,14 @@ export const beginLoading = async () => {
   return;
 };
 
-export const beginIntroduction = async () => {
+const beginIntroduction = async () => {
   messageHandler.openMessageBox();
   await pause(pauseBetweenAnimations);
   messageHandler.readCurrentMessage(currentMessageObj);
   return;
 };
 
-export const buildGameBoards = async () => {
+const buildGameBoards = async () => {
   setTutorialMode(false);
   appendGameBoards(user, computer);
   placeShipsOfPlayers(user, computer);
@@ -45,7 +47,7 @@ export const buildGameBoards = async () => {
   return runBoardSetupAnimation();
 };
 
-export const runBoardSetupAnimation = async () => {
+const runBoardSetupAnimation = async () => {
   playersSetup(user, computer);
   await pause(pauseBetweenSetup);
   endPlayersSetup(user, computer);
@@ -54,8 +56,14 @@ export const runBoardSetupAnimation = async () => {
   displayBoardTilesOfPlayers(user, computer);
 };
 
-export const endGame = async () => {
+const endGame = async () => {
   setCurrentTurn("end");
   messageHandler.openMessageBox();
   messageHandler.goToMessageData(messageData.gameEnd, 0);
 };
+
+const GameHandler = {
+  playGame,
+};
+
+export default GameHandler;

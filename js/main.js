@@ -1,9 +1,10 @@
 import { hasPlayedBefore } from "./constants.js";
+import OptionsMenuUI from "./singleton/OptionsMenuUI.js";
 import StartScreenUI from "./singleton/StartScreenUI.js";
 import { setActive } from "./utility-functions.js";
 
 localStorage.removeItem(hasPlayedBefore);
-// updateOptions();
+OptionsMenuUI.updateOptions();
 setActive(StartScreenUI.startScreen);
 
 // /* ============= */
